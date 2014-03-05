@@ -32,7 +32,7 @@
         canvas = document.getElementById('asteroids');
 
         background = game.Graphics.Background({
-            image: game.images['images/pia16610-640.jpg'],
+            image: game.images['images/background1.jpg'],
             center: {
                 x: Math.floor(canvas.width / 2),
                 y: Math.floor(canvas.height / 2)

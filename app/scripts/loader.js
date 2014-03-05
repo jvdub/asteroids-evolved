@@ -17,7 +17,7 @@ window.addEventListener('load', function () {
                 'preload!scripts/input.js',
                 'preload!scripts/mainmenu.js',
                 'preload!scripts/game.js',
-                'preload!images/pia16610-640.jpg'
+                'preload!images/background1.jpg'
             ],
             complete: function () {
 
