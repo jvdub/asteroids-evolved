@@ -12,7 +12,9 @@ window.addEventListener('load', function () {
     window.Modernizr.load([
 		{
             load: [
-                'preload!Scripts/random.js'
+                'preload!Scripts/random.js',
+                'preload!Scripts/graphics.js',
+                'preload!Scripts/mainmenu.js'
             ],
             complete: function () {
 
