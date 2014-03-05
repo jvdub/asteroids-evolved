@@ -12,9 +12,12 @@ window.addEventListener('load', function () {
     window.Modernizr.load([
 		{
             load: [
-                'preload!Scripts/random.js',
-                'preload!Scripts/graphics.js',
-                'preload!Scripts/mainmenu.js'
+                'preload!scripts/random.js',
+                'preload!scripts/graphics.js',
+                'preload!scripts/input.js',
+                'preload!scripts/mainmenu.js',
+                'preload!scripts/game.js',
+                'preload!images/pia16610-640.jpg'
             ],
             complete: function () {
 
@@ -40,6 +43,7 @@ yepnope.addPrefix('preload', function (resource) {
         // When everything has finished preloading, go ahead and start the game
         if (game.status.preloadComplete === game.status.preloadRequest) {
             console.log('Preloading complete!');
+            game.game.init();
         }
     };
 
