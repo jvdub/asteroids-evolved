@@ -37,14 +37,32 @@
         function updateDirection() {
             that.directionVector.x = Math.cos(spec.rotation);
             that.directionVector.y = Math.sin(spec.rotation);
-            console.log("Dx: " + that.directionVector.x + " Dy: " + that.directionVector.y);
+            // console.log("Dx: " + that.directionVector.x + " Dy: " + that.directionVector.y);
         }
 
         that.update = function (elapsedTime) {
             spec.center.x += that.velocityVector.x;
             spec.center.y += that.velocityVector.y;
-            that.x = spec.center.x - spec.width / 2;
-            that.y = spec.center.y - spec.height / 2;
+            // that.x = spec.center.x - spec.width / 2;
+            // that.y = spec.center.y - spec.height / 2;
+            // console.log("X: " + spec.center.x + " Y: " + spec.center.y);
+            checkBorders();
+        }
+
+        function checkBorders () {
+            if (spec.center.x - spec.width/2 > 1920) {
+                spec.center.x = 0 - spec.width/2;
+            }
+            else if (spec.center.x + spec.width/2 < 0) {
+                spec.center.x = 1920 + spec.width/2;
+            }
+
+            if (spec.center.y - spec.height/2 > 1080) {
+                spec.center.y = 0 - spec.height/2;
+            }
+            else if (spec.center.y + spec.height/2 < 0) {
+                spec.center.y = 1080 + spec.height/2;
+            }
         }
 
         that.rotateRight = function (elapsedTime) {
