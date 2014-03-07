@@ -42,8 +42,12 @@ game.screens['game-play'] = (function () {
             width : 200, height : 200,
             rotation : 0,
             moveRate : 400,         // pixels per second
-            rotateRate : 3.14159    // Radians per second
+            rotateRate : Math.PI   // Radians per second
         });
+        console.log("Mx: " + spaceShip.momentumVector.x);
+        console.log("Mx: " + spaceShip.momentumVector.y);
+        console.log("Fx: " + spaceShip.directionVector.x);
+        console.log("Fx: " + spaceShip.directionVector.y);
 
         //
         // Create the keyboard input handler and register the keyboard commands
