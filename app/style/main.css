@@ -2,7 +2,6 @@
     margin: 0px;
     height: 100%;
     width: 100%;
-    background-color: black;
 }
 
 #asteroids {
@@ -90,6 +89,21 @@ ul.menu li button:active
 }
 
 #high-scores ol
+{
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#instructions ul
+{
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+#options p
 {
     text-align: center;
     padding: 0;
