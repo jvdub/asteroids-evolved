@@ -23,6 +23,7 @@ game.screens['game-play'] = (function () {
         // Update universal variables
         myKeyboard.update(elapsedTime);
         myMouse.update(elapsedTime);
+        spaceShip.update(elapsedTime);
 
         game.Graphics.clear();
         background.draw();
@@ -44,17 +45,10 @@ game.screens['game-play'] = (function () {
             moveRate : 400,         // pixels per second
             rotateRate : Math.PI   // Radians per second
         });
-        console.log("Mx: " + spaceShip.momentumVector.x);
-        console.log("Mx: " + spaceShip.momentumVector.y);
-        console.log("Fx: " + spaceShip.directionVector.x);
-        console.log("Fx: " + spaceShip.directionVector.y);
 
         //
         // Create the keyboard input handler and register the keyboard commands
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_A, spaceShip.moveLeft);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_D, spaceShip.moveRight);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_W, spaceShip.moveUp);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_S, spaceShip.moveDown);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, spaceShip.rotateLeft);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_E, spaceShip.rotateRight);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {

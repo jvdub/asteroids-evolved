@@ -26,46 +26,62 @@
         that.height = spec.height;
         that.radius = spec.width > spec.height ? spec.width / 2 : spec.height / 2;
         that.drawn = false;
-        that.momentumVector = {x : 0, y : 0};
-        that.directionVector = {x : 0, y : 0};
+        that.velocityVector = {x : 0, y : 0};
+        that.directionVector = {x : 1, y : 0};
+        that.thrustPerSecond = 10;
 
         if (spec.type) {
             that.type = spec.type;
         }
 
+        function updateDirection() {
+            that.directionVector.x = Math.cos(spec.rotation);
+            that.directionVector.y = Math.sin(spec.rotation);
+            console.log("Dx: " + that.directionVector.x + " Dy: " + that.directionVector.y);
+        }
+
+        that.update = function (elapsedTime) {
+            spec.center.x += that.velocityVector.x;
+            spec.center.y += that.velocityVector.y;
+            that.x = spec.center.x - spec.width / 2;
+            that.y = spec.center.y - spec.height / 2;
+        }
+
         that.rotateRight = function (elapsedTime) {
             spec.rotation += spec.rotateRate * (elapsedTime / 1000);
-            console.log ("Rotation: " + spec.rotation);
+            updateDirection();
+            // console.log ("Rotation: " + spec.rotation);
         };
 
         that.rotateLeft = function (elapsedTime) {
             spec.rotation -= spec.rotateRate * (elapsedTime / 1000);
-            console.log("Rotation: " + spec.rotation);
+            updateDirection();
+            // console.log("Rotation: " + spec.rotation);
         };
 
-        that.moveLeft = function (elapsedTime) {
-            spec.center.x -= spec.moveRate * (elapsedTime / 1000);
-            that.x = spec.center.x - spec.width / 2;
+        // that.moveLeft = function (elapsedTime) {
+        //     spec.center.x -= spec.moveRate * (elapsedTime / 1000);
+        //     that.x = spec.center.x - spec.width / 2;
+        // };
+
+        // that.moveRight = function (elapsedTime) {
+        //     spec.center.x += spec.moveRate * (elapsedTime / 1000);
+        //     that.x = spec.center.x - spec.width / 2;
+        // };
+
+        that.moveUp = function (elapsedTime) {   
+            that.velocityVector.x += that.directionVector.x * (that.thrustPerSecond * (elapsedTime/1000));
+            that.velocityVector.y += that.directionVector.y * (that.thrustPerSecond * (elapsedTime/1000));
         };
 
-        that.moveRight = function (elapsedTime) {
-            spec.center.x += spec.moveRate * (elapsedTime / 1000);
-            that.x = spec.center.x - spec.width / 2;
-        };
+        // that.moveDown = function (elapsedTime) {
+        //     spec.center.y += spec.moveRate * (elapsedTime / 1000);
+        //     that.y = spec.center.y - spec.height / 2;
+        // };
 
-        that.moveUp = function (elapsedTime) {
-            spec.center.y -= spec.moveRate * (elapsedTime / 1000);
-            that.y = spec.center.y - spec.height / 2;
-        };
-
-        that.moveDown = function (elapsedTime) {
-            spec.center.y += spec.moveRate * (elapsedTime / 1000);
-            that.y = spec.center.y - spec.height / 2;
-        };
-
-        that.moveTo = function (center) {
-            spec.center = center;
-        };
+        // that.moveTo = function (center) {
+        //     spec.center = center;
+        // };
 
         that.draw = function () {
             context.save();
