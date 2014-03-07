@@ -7,6 +7,59 @@
     <script src="scripts/loader.js"></script>
 </head>
 <body>
-    <canvas id="asteroids" width="1920" height="1080"></canvas>
+    
+    <div id = "game">
+		<div id = "main-menu" class = "screen">
+			<ul class = "menu">
+				<li><button id = "id-new-game">New&nbsp;Game</button></li>
+				<li><button id = "id-instructions">Instructions</button></li>
+				<li><button id = "id-high-scores">High&nbsp;Scores</button></li>
+				<li><button id = "id-options">Options</button></li>
+				<li><button id = "id-about">About</button></li>
+			</ul>
+		</div>
+		<div id = "game-play" class = "screen">
+			<canvas id="asteroids" width="1920" height="1080"></canvas>
+		</div>
+		<div id = "instructions" class = "screen">
+			<h1>How To Play</h1>
+			<ol>
+				<li>Put</li>
+				<li>Instructions</li>
+				<li>Here</li>
+			</ol>
+			<ul class = "menu">
+				<li><button id = "id-instructions-back">Back</button></li>
+			</ul>
+		</div>
+		<div id = "high-scores" class = "screen">
+			<h1>High Scores</h1>
+			<ol>
+				<li>10000</li>
+				<li>9000</li>
+				<li>8000</li>
+				<li>7000</li>
+			</ol>
+			<ul class = "menu">
+				<li><button id = "id-high-scores-back">Back</button></li>
+			</ul>
+		</div>
+		<div id = "options" class = "screen">
+			<h1>Options</h1>
+			<p>A way here to change the game controls</p>
+			<ul class = "menu">
+				<li><button id = "id-options-back">Back</button></li>
+			</ul>
+		</div>
+		<div id = "about" class = "screen">
+			<h1>About</h1>
+			<p>Developed by</p>
+			<p>John</p>
+			<p>Matt</p>			
+			<ul class = "menu">
+				<li><button id = "id-about-back">Back</button></li>
+			</ul>
+		</div>
+	</div>
 </body>
 </html>

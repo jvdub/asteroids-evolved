@@ -17,10 +17,12 @@ window.addEventListener('load', function () {
                 'preload!scripts/input.js',
                 'preload!scripts/mainmenu.js',
                 'preload!scripts/game.js',
+                'preload!scripts/screens.js',
+                'preload!scripts/gameplay.js',
                 'preload!images/background1.jpg'
             ],
             complete: function () {
-
+                
             }
 		}
     ]);

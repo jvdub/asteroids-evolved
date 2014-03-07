@@ -1,67 +1,44 @@
-﻿game.screens['mainmenu'] = (function () {
+﻿/*jslint browser: true, white: true, plusplus: true */
+/*global MYGAME */
+game.screens['main-menu'] = (function() {
     'use strict';
+    
+    function initialize() {
+        //
+        // Setup each of menu events for the screens
+        // document.getElementById('id-new-game').addEventListener(
+        //     'click',
+        //     function() { game.game.showScreen('game-play'); },
+        //     false);
 
-    var self = this,
-        lastTime = 0,
-        canvas = null,
-        background = null,
-        mouseCapture = false,
-        myMouse = null,
-        elapsedTime = 0,
-        start = 0,
-        totalTime = 0,
-        cancelNextRequest = false;
+        document.getElementById('id-instructions').addEventListener(
+            'click',
+            function() { game.game.showScreen('instructions'); },
+            false);
 
-    function gameLoop(time) {
-        // Update timers
-        elapsedTime = time - lastTime;
-        lastTime = time;
-        totalTime = time - start;
-
-        // Update universal variables
-        myMouse.update(elapsedTime);
-        game.Graphics.clear();
-        background.draw();
-
-        if (!cancelNextRequest) {
-            requestAnimationFrame(gameLoop);
-        }
+        document.getElementById('id-high-scores').addEventListener(
+            'click',
+            function() { game.game.showScreen('high-scores'); },
+            false);
+        
+        document.getElementById('id-options').addEventListener(
+            'click',
+            function() { game.game.showScreen('options'); },
+            false);
+        
+        document.getElementById('id-about').addEventListener(
+            'click',
+            function() { game.game.showScreen('about'); },
+            false);
     }
-
-    function init() {
-        canvas = document.getElementById('asteroids');
-
-        background = game.Graphics.Background({
-            image: game.images['images/background1.jpg'],
-            center: {
-                x: Math.floor(canvas.width / 2),
-                y: Math.floor(canvas.height / 2)
-            },
-            width: canvas.width,
-            height: canvas.height
-        });
-
-        myMouse = game.input.Mouse();
-        myMouse.registerCommand('mousedown', function (e, elapsedTime) {
-            mouseCapture = true;
-        });
-        myMouse.registerCommand('mouseup', function (e, elapsedTime) {
-            mouseCapture = false;
-        });
-        myMouse.registerCommand('mousemove', function (e, elapsedTime) {
-
-        });
-    }
-
+    
     function run() {
-        start = performance.now();
-        lastTime = start;
-        cancelNextRequest = false;
-        requestAnimationFrame(gameLoop);
+        //
+        // I know this is empty, there isn't anything to do.
     }
-
+    
     return {
-        init: init,
-        run: run
+        initialize : initialize,
+        run : run
     };
 }());

@@ -12,7 +12,7 @@
         }
         //
         // Tell the screen to start actively running
-        MYGAME.screens[id].run();
+        game.screens[id].run();
         //
         // Then, set the new screen to be active
         document.getElementById(id).classList.add('active');
@@ -22,11 +22,11 @@
         var screen = null;
         for (screen in game.screens) {
             if (game.screens.hasOwnProperty(screen)) {
-                game.screens[screen].init();
+                game.screens[screen].initialize();
             }
         }
 
-        showScreen('mainmenu');
+        showScreen('main-menu');
     }
 
     return {
