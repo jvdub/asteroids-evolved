@@ -68,7 +68,7 @@
 
             context.translate(spec.center.x, spec.center.y);
             context.rotate(spec.rotation);
-            context.translate(-(spec.center.x + spec.width / 2 + 12), -(spec.center.y + spec.height / 2 - 20));
+            context.translate(-spec.center.x, -spec.center.y);
 
             context.drawImage(
 				spec.image,

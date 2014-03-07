@@ -22,6 +22,7 @@
         var screen = null;
         for (screen in game.screens) {
             if (game.screens.hasOwnProperty(screen)) {
+                console.log(screen);
                 game.screens[screen].initialize();
             }
         }
