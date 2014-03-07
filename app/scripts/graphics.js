@@ -26,6 +26,8 @@
         that.height = spec.height;
         that.radius = spec.width > spec.height ? spec.width / 2 : spec.height / 2;
         that.drawn = false;
+        that.direction = 0; //we need to define a way to keep track of and update this
+        that.momentum = 0;  //we need to define a way to keep track of and update this
 
         if (spec.type) {
             that.type = spec.type;
