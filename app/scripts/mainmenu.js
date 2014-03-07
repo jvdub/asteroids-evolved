@@ -6,10 +6,10 @@ game.screens['main-menu'] = (function() {
     function initialize() {
         //
         // Setup each of menu events for the screens
-        // document.getElementById('id-new-game').addEventListener(
-        //     'click',
-        //     function() { game.game.showScreen('game-play'); },
-        //     false);
+        document.getElementById('id-new-game').addEventListener(
+            'click',
+            function() { game.game.showScreen('game-play'); },
+            false);
 
         document.getElementById('id-instructions').addEventListener(
             'click',
