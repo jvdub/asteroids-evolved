@@ -27,29 +27,21 @@
     // NOTE: This code is adapted from a wiki reference I found a long time ago.  I originally
     // wrote the code in C# and am now converting it over to JavaScript.
     function nextGaussian(mean, stdDev) {
-        if (usePrevious) {
-            usePrevious = false;
-            return mean + y2 * stdDev;
+        var u = Math.random()*2 - 1;
+        var v = Math.random()*2 - 1;
+        var s = u*u + v*v
+
+        while ( s >= 1) {
+            u = Math.random()*2 - 1;
+            v = Math.random()*2 - 1;
+            s = u*u + v*v
         }
-
-        usePrevious = true;
-
-        var x1 = 0,
-			x2 = 0,
-			y1 = 0,
-			z = 0;
-
-        do {
-            x1 = 2 * Math.random() - 1;
-            x2 = 2 * Math.random() - 1;
-            z = (x1 * x1) + (x2 * x2);
-        } while (z >= 1);
-
-        z = Math.sqrt((-2 * Math.log(z)) / z);
-        y1 = x1 * z;
-        y2 = x2 * z;
-
-        return mean + y1 * stdDev;
+        var result = mean + u * Math.sqrt( (-2*Math.log(s))/s) * stdDev;
+        //Make sure the value returned isn't negative
+        if (result < 0)
+            return nextGaussian(mean, stdDev);
+        else
+            return result;
     }
 
     return {

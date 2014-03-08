@@ -20,7 +20,8 @@ window.addEventListener('load', function () {
                 'preload!scripts/screens.js',
                 'preload!scripts/gameplay.js',
                 'preload!images/background1.jpg',
-                'preload!images/battlecruiser2.png'
+                'preload!images/battlecruiser2.png',
+                'preload!images/asteroid1.png'
             ],
             complete: function () {
 

@@ -12,7 +12,8 @@ game.screens['game-play'] = (function () {
         totalTime = 0,
         cancelNextRequest = false,
         myKeyboard = game.input.Keyboard(),
-        spaceShip = null;
+        spaceShip = null,
+        someTestAsteroids = [];
 
     function gameLoop(time) {
         // Update timers
@@ -24,10 +25,16 @@ game.screens['game-play'] = (function () {
         myKeyboard.update(elapsedTime);
         myMouse.update(elapsedTime);
         spaceShip.update(elapsedTime);
+        for(var i=0; i<10; i++) {
+            someTestAsteroids[i].update(elapsedTime);
+        }
 
         game.Graphics.clear();
         background.draw();
         spaceShip.draw();
+        for(var i=0; i<10; i++) {
+            someTestAsteroids[i].draw();
+        }
 
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
@@ -42,9 +49,22 @@ game.screens['game-play'] = (function () {
             center : { x : 500, y : 500 },
             width : 200, height : 200,
             rotation : 0,
-            moveRate : 400,         // pixels per second
-            rotateRate : Math.PI   // Radians per second
+            moveRate : 10,         // pixels per second
+            rotateRate : Math.PI,   // Radians per second
+            startVector : {x : 0, y : 0}
         });
+
+        for (var i=0; i<10; i++) {
+            someTestAsteroids[i] = game.Graphics.Texture ( {
+                image : game.images['images/asteroid1.png'],
+                center : { x : Math.random()*1920, y : Math.random()*1080},
+                width : 100, height : 100,
+                rotation : Random.nextGaussian(3, 2),
+                moveRate : Random.nextGaussian(10, 5),         // pixels per second
+                rotateRate : Math.PI,   // Radians per second
+                startVector : Random.nextCircleVector()
+            });
+        }
 
         //
         // Create the keyboard input handler and register the keyboard commands

@@ -26,9 +26,10 @@
         that.height = spec.height;
         that.radius = spec.width > spec.height ? spec.width / 2 : spec.height / 2;
         that.drawn = false;
-        that.velocityVector = {x : 0, y : 0};
+        that.velocityVector = {x : spec.startVector.x, y : spec.startVector.y};
         that.directionVector = {x : 1, y : 0};
-        that.thrustPerSecond = 10;
+        that.thrustPerSecond = spec.moveRate;
+        that.continuousRotate = spec.rotation;
 
         if (spec.type) {
             that.type = spec.type;
@@ -43,6 +44,7 @@
         that.update = function (elapsedTime) {
             spec.center.x += that.velocityVector.x;
             spec.center.y += that.velocityVector.y;
+            spec.rotation -= that.continuousRotate * (elapsedTime / 1000);
             // that.x = spec.center.x - spec.width / 2;
             // that.y = spec.center.y - spec.height / 2;
             // console.log("X: " + spec.center.x + " Y: " + spec.center.y);
