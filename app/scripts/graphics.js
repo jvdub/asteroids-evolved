@@ -44,6 +44,8 @@
         that.update = function (elapsedTime) {
             spec.center.x += that.velocityVector.x;
             spec.center.y += that.velocityVector.y;
+            that.x = spec.center.x;
+            that.y = spec.center.y;
             spec.rotation -= that.continuousRotate * (elapsedTime / 1000);
             // that.x = spec.center.x - spec.width / 2;
             // that.y = spec.center.y - spec.height / 2;
@@ -54,16 +56,20 @@
         function checkBorders () {
             if (spec.center.x - spec.width/2 > 1920) {
                 spec.center.x = 0 - spec.width/2;
+                that.x = spec.center.x;
             }
             else if (spec.center.x + spec.width/2 < 0) {
                 spec.center.x = 1920 + spec.width/2;
+                that.x = spec.center.x;
             }
 
             if (spec.center.y - spec.height/2 > 1080) {
                 spec.center.y = 0 - spec.height/2;
+                that.y = spec.center.y;
             }
             else if (spec.center.y + spec.height/2 < 0) {
                 spec.center.y = 1080 + spec.height/2;
+                that.y = spec.center.y;
             }
         }
 

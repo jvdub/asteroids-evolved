@@ -44,3 +44,10 @@ game.collided = function (a, b) {
 
     return false;
 };
+
+game.collision = function(a, b) {
+    if ( Math.sqrt( Math.pow((a.x-b.x), 2) + Math.pow((a.y-b.y), 2) ) > (a.radius+b.radius) )
+        return false;
+    else
+        return true;
+};

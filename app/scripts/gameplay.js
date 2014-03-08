@@ -13,7 +13,8 @@ game.screens['game-play'] = (function () {
         cancelNextRequest = false,
         myKeyboard = game.input.Keyboard(),
         spaceShip = null,
-        someTestAsteroids = [];
+        someTestAsteroids = {},
+        numAsteroids = 5;
 
     function gameLoop(time) {
         // Update timers
@@ -25,14 +26,24 @@ game.screens['game-play'] = (function () {
         myKeyboard.update(elapsedTime);
         myMouse.update(elapsedTime);
         spaceShip.update(elapsedTime);
-        for(var i=0; i<10; i++) {
+        for(var i=0; i<numAsteroids; i++) {
             someTestAsteroids[i].update(elapsedTime);
+        }
+        for(var i=0; i<numAsteroids; i++) {
+            for(var j=0; j<numAsteroids; j++) {
+                if (i !== j) {
+                    if (game.collision(someTestAsteroids[i], someTestAsteroids[j])) {
+                        console.log("Collided");
+                        cancelNextRequest = true;
+                    }
+                }
+            }
         }
 
         game.Graphics.clear();
         background.draw();
         spaceShip.draw();
-        for(var i=0; i<10; i++) {
+        for(var i=0; i<numAsteroids; i++) {
             someTestAsteroids[i].draw();
         }
 
@@ -54,7 +65,7 @@ game.screens['game-play'] = (function () {
             startVector : {x : 0, y : 0}
         });
 
-        for (var i=0; i<10; i++) {
+        for (var i=0; i<numAsteroids; i++) {
             someTestAsteroids[i] = game.Graphics.Texture ( {
                 image : game.images['images/asteroid1.png'],
                 center : { x : Math.random()*1920, y : Math.random()*1080},
