@@ -14,7 +14,7 @@ game.screens['game-play'] = (function () {
         myKeyboard = game.input.Keyboard(),
         spaceShip = null,
         someTestAsteroids = {},
-        numAsteroids = 100;
+        numAsteroids = 10;
 
     function gameLoop(time) {
         // Update timers
@@ -26,40 +26,32 @@ game.screens['game-play'] = (function () {
         myKeyboard.update(elapsedTime);
         myMouse.update(elapsedTime);
         spaceShip.update(elapsedTime);
-        for(var anAsteroidI in someTestAsteroids) {
-            someTestAsteroids[anAsteroidI].update(elapsedTime);
-        }
-        // for(var i=0; i<numAsteroids; i++) {
-        //     for(var j=0; j<numAsteroids; j++) {
-        //         if (game.collision(someTestAsteroids[i], someTestAsteroids[j])) {
-        //             console.log(" collided with ");
-        //         }
-        //     }
-        // }
-
-        for(var anAsteroidI in someTestAsteroids) {
-            for(var anAsteroidJ in someTestAsteroids) {  
-                if(game.detectCollision(someTestAsteroids[anAsteroidI], someTestAsteroids[anAsteroidJ]) ) {
+        game.bulletIntervalCountdown -= elapsedTime;
+        for(var obj_I in game.objectsInPlay) {
+            for(var obj_J in game.objectsInPlay) {  
+                if(game.detectCollision(game.objectsInPlay[obj_I], game.objectsInPlay[obj_J]) ) {
                     console.log(" collided with ");
-                    someTestAsteroids[anAsteroidI].toBeDeleted = true;
-                    someTestAsteroids[anAsteroidJ].toBeDeleted = true;
+                    game.objectsInPlay[obj_I].toBeDeleted = true;
+                    game.objectsInPlay[obj_J].toBeDeleted = true;
                 }
             }
         }
-        for(var anAsteroidI in someTestAsteroids) {
-            if (someTestAsteroids[anAsteroidI].toBeDeleted) {
-                delete someTestAsteroids[anAsteroidI];
+        for(var obj in game.objectsInPlay) {
+            game.objectsInPlay[obj].update(elapsedTime);
+        }
+        for(var obj in game.objectsInPlay) {
+            if (game.objectsInPlay[obj].toBeDeleted) {
+                delete game.objectsInPlay[obj];
             }
         }
 
 
         game.Graphics.clear();
         background.draw();
-        spaceShip.draw();
-
-        for(var anAsteroidI in someTestAsteroids) {
-            someTestAsteroids[anAsteroidI].draw();
+        for(var obj in game.objectsInPlay) {
+            game.objectsInPlay[obj].draw();
         }
+        spaceShip.draw();
 
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
@@ -74,28 +66,33 @@ game.screens['game-play'] = (function () {
             center : { x : 500, y : 500 },
             width : 200, height : 200,
             rotation : 0,
-            moveRate : 10,         // pixels per second
+            moveRate : 23,         // pixels per second
             rotateRate : Math.PI,   // Radians per second
-            startVector : {x : 0, y : 0}
+            startVector : {x : 0, y : 0},
+            initialRotation : 0,
+            lifetime: null
         });
 
         for (var i=0; i<numAsteroids; i++) {
-            someTestAsteroids[i] = game.Graphics.Texture ( {
+            game.objectsInPlay[game.objectNames++] = game.Graphics.Texture ( {
                 image : game.images['images/asteroid1.png'],
                 center : { x : Math.random()*1920, y : Math.random()*1080},
                 width : 100, height : 100,
                 rotation : Random.nextGaussian(3, 2),
-                moveRate : Random.nextGaussian(10, 5),         // pixels per second
+                moveRate : Random.nextGaussian(100, 5),         // pixels per second
                 rotateRate : Math.PI,   // Radians per second
-                startVector : Random.nextCircleVector()
+                startVector : Random.nextCircleVector(),
+                initialRotation : 0,
+                lifetime : null
             });
         }
 
         //
         // Create the keyboard input handler and register the keyboard commands
         myKeyboard.registerCommand(KeyEvent.DOM_VK_W, spaceShip.moveUp);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, spaceShip.rotateLeft);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_E, spaceShip.rotateRight);
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_A, spaceShip.rotateLeft);
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_D, spaceShip.rotateRight);
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, spaceShip.fireMissile);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
             //
             // Stop the game loop by canceling the request for the next animation frame

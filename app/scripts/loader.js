@@ -5,6 +5,10 @@
         preloadRequest: 0,
         preloadComplete: 0
     },
+    objectsInPlay: {},
+    objectNames: 0,
+    BULLET_INTERVAL : 500,
+    bulletIntervalCountdown : 500,
     score: 0
 };
 
@@ -21,7 +25,8 @@ window.addEventListener('load', function () {
                 'preload!scripts/gameplay.js',
                 'preload!images/background1.jpg',
                 'preload!images/battlecruiser2.png',
-                'preload!images/asteroid1.png'
+                'preload!images/asteroid1.png',
+                'preload!images/missile.png'
             ],
             complete: function () {
 

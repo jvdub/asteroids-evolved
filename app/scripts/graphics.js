@@ -31,6 +31,8 @@
         that.thrustPerSecond = spec.moveRate;
         that.continuousRotate = spec.rotation;
         that.toBeDeleted = false;
+        that.lifetime = spec.lifetime;
+        spec.rotation = spec.initialRotation;
 
         if (spec.type) {
             that.type = spec.type;
@@ -43,8 +45,13 @@
         }
 
         that.update = function (elapsedTime) {
-            spec.center.x += that.velocityVector.x;
-            spec.center.y += that.velocityVector.y;
+            if (spec.lifetime != null) { //check if this is an object with a lifetime
+                spec.lifetime -= elapsedTime; //decrement it's lifetime
+                if (spec.lifetime < 0)
+                    that.toBeDeleted = true;
+            }
+            spec.center.x += that.velocityVector.x * (that.thrustPerSecond * (elapsedTime/1000));
+            spec.center.y += that.velocityVector.y * (that.thrustPerSecond * (elapsedTime/1000));
             that.x = spec.center.x;
             that.y = spec.center.y;
             spec.rotation -= that.continuousRotate * (elapsedTime / 1000);
@@ -86,29 +93,29 @@
             // console.log("Rotation: " + spec.rotation);
         };
 
-        // that.moveLeft = function (elapsedTime) {
-        //     spec.center.x -= spec.moveRate * (elapsedTime / 1000);
-        //     that.x = spec.center.x - spec.width / 2;
-        // };
-
-        // that.moveRight = function (elapsedTime) {
-        //     spec.center.x += spec.moveRate * (elapsedTime / 1000);
-        //     that.x = spec.center.x - spec.width / 2;
-        // };
-
         that.moveUp = function (elapsedTime) {   
             that.velocityVector.x += that.directionVector.x * (that.thrustPerSecond * (elapsedTime/1000));
             that.velocityVector.y += that.directionVector.y * (that.thrustPerSecond * (elapsedTime/1000));
         };
 
-        // that.moveDown = function (elapsedTime) {
-        //     spec.center.y += spec.moveRate * (elapsedTime / 1000);
-        //     that.y = spec.center.y - spec.height / 2;
-        // };
+        that.fireMissile = function() {
+            console.log("missle fired");
 
-        // that.moveTo = function (center) {
-        //     spec.center = center;
-        // };
+            if(game.bulletIntervalCountdown < 0) {
+                game.bulletIntervalCountdown = game.BULLET_INTERVAL;
+                game.objectsInPlay[game.objectNames++] = game.Graphics.Texture( {
+                    image : game.images['images/missile.png'],
+                    center : { x : that.x, y : that.y },
+                    width : 50, height : 50,
+                    rotation : 0,
+                    moveRate : 500,         // pixels per second
+                    rotateRate : Math.PI,   // Radians per second
+                    startVector : {x : that.directionVector.x, y : that.directionVector.y},
+                    initialRotation : spec.rotation,
+                    lifetime : 3000
+                });
+            }
+        }
 
         that.draw = function () {
             context.save();

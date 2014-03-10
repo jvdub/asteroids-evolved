@@ -50,7 +50,8 @@ game.detectCollision = function(a, b) {
         return false;
 
     //check if the two objects are within eachother's radius
-    //This will only work perfectly if the two objects are circular
+    //This is not a perfect solution cause most of the objects
+    //are not perfectly circular
     if ( Math.sqrt( Math.pow((a.x-b.x), 2) + Math.pow((a.y-b.y), 2) ) > (a.radius+b.radius) )
         return false;
     else
