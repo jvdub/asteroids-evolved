@@ -30,6 +30,7 @@
         that.directionVector = {x : 1, y : 0};
         that.thrustPerSecond = spec.moveRate;
         that.continuousRotate = spec.rotation;
+        that.toBeDeleted = false;
 
         if (spec.type) {
             that.type = spec.type;

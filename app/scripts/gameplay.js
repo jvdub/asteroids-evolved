@@ -14,7 +14,7 @@ game.screens['game-play'] = (function () {
         myKeyboard = game.input.Keyboard(),
         spaceShip = null,
         someTestAsteroids = {},
-        numAsteroids = 5;
+        numAsteroids = 100;
 
     function gameLoop(time) {
         // Update timers
@@ -26,25 +26,39 @@ game.screens['game-play'] = (function () {
         myKeyboard.update(elapsedTime);
         myMouse.update(elapsedTime);
         spaceShip.update(elapsedTime);
-        for(var i=0; i<numAsteroids; i++) {
-            someTestAsteroids[i].update(elapsedTime);
+        for(var anAsteroidI in someTestAsteroids) {
+            someTestAsteroids[anAsteroidI].update(elapsedTime);
         }
-        for(var i=0; i<numAsteroids; i++) {
-            for(var j=0; j<numAsteroids; j++) {
-                if (i !== j) {
-                    if (game.collision(someTestAsteroids[i], someTestAsteroids[j])) {
-                        console.log("Collided");
-                        cancelNextRequest = true;
-                    }
+        // for(var i=0; i<numAsteroids; i++) {
+        //     for(var j=0; j<numAsteroids; j++) {
+        //         if (game.collision(someTestAsteroids[i], someTestAsteroids[j])) {
+        //             console.log(" collided with ");
+        //         }
+        //     }
+        // }
+
+        for(var anAsteroidI in someTestAsteroids) {
+            for(var anAsteroidJ in someTestAsteroids) {  
+                if(game.detectCollision(someTestAsteroids[anAsteroidI], someTestAsteroids[anAsteroidJ]) ) {
+                    console.log(" collided with ");
+                    someTestAsteroids[anAsteroidI].toBeDeleted = true;
+                    someTestAsteroids[anAsteroidJ].toBeDeleted = true;
                 }
             }
         }
+        for(var anAsteroidI in someTestAsteroids) {
+            if (someTestAsteroids[anAsteroidI].toBeDeleted) {
+                delete someTestAsteroids[anAsteroidI];
+            }
+        }
+
 
         game.Graphics.clear();
         background.draw();
         spaceShip.draw();
-        for(var i=0; i<numAsteroids; i++) {
-            someTestAsteroids[i].draw();
+
+        for(var anAsteroidI in someTestAsteroids) {
+            someTestAsteroids[anAsteroidI].draw();
         }
 
         if (!cancelNextRequest) {
