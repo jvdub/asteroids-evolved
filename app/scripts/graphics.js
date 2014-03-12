@@ -105,8 +105,8 @@
                 game.bulletIntervalCountdown = game.BULLET_INTERVAL;
                 game.objectsInPlay[game.objectNames++] = game.Graphics.Texture( {
                     image : game.images['images/missile.png'],
-                    center : { x : that.x, y : that.y },
-                    width : 50, height : 50,
+                    center : { x : that.x + that.directionVector.x*50, y : that.y + that.directionVector.y*50},
+                    width : 40, height : 25,
                     rotation : 0,
                     moveRate : 500,         // pixels per second
                     rotateRate : Math.PI,   // Radians per second

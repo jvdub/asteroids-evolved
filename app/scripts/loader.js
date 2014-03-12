@@ -7,8 +7,8 @@
     },
     objectsInPlay: {},
     objectNames: 0,
-    BULLET_INTERVAL : 500,
-    bulletIntervalCountdown : 500,
+    BULLET_INTERVAL : 200,
+    bulletIntervalCountdown : 200,
     score: 0
 };
 

@@ -64,7 +64,7 @@ game.screens['game-play'] = (function () {
         spaceShip = game.Graphics.Texture( {
             image : game.images['images/battlecruiser2.png'],
             center : { x : 500, y : 500 },
-            width : 200, height : 200,
+            width : 127, height : 100,
             rotation : 0,
             moveRate : 23,         // pixels per second
             rotateRate : Math.PI,   // Radians per second
@@ -77,7 +77,7 @@ game.screens['game-play'] = (function () {
             game.objectsInPlay[game.objectNames++] = game.Graphics.Texture ( {
                 image : game.images['images/asteroid1.png'],
                 center : { x : Math.random()*1920, y : Math.random()*1080},
-                width : 100, height : 100,
+                width : 50, height : 50,
                 rotation : Random.nextGaussian(3, 2),
                 moveRate : Random.nextGaussian(100, 5),         // pixels per second
                 rotateRate : Math.PI,   // Radians per second
