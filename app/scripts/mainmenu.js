@@ -1,5 +1,5 @@
 ﻿/*jslint browser: true, white: true, plusplus: true */
-/*global MYGAME */
+/*global game */
 game.screens['main-menu'] = (function() {
     'use strict';
     
