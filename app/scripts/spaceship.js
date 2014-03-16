@@ -2,6 +2,18 @@
     var spaceship = null,
         particles = [];
 
+    function moveUp() {
+        spaceship.moveUp();
+    }
+
+    function rotateLeft() {
+        spaceship.rotateLeft();
+    }
+
+    function rotateRight() {
+        spaceship.rotateRight();
+    }
+
     // Fires a missle from the front of the ship
     function fireMissile() {
         // Prevent a missile from firing if one has just been fired.
@@ -55,6 +67,9 @@
         init: init,
         update: update,
         draw: draw,
-        fireMissile: fireMissile
+        fireMissile: fireMissile,
+        moveUp: moveUp,
+        rotateLeft: rotateLeft,
+        rotateRight: rotateRight
     };
 }());

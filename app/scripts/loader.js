@@ -19,6 +19,7 @@ window.addEventListener('load', function () {
                 'preload!scripts/random.js',
                 'preload!scripts/graphics.js',
                 'preload!scripts/input.js',
+                'preload!scripts/spaceship.js',
                 'preload!scripts/mainmenu.js',
                 'preload!scripts/game.js',
                 'preload!scripts/screens.js',
