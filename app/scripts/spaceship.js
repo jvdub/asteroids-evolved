@@ -26,12 +26,18 @@
 
     // Updates the ship's position and angle
     function update(time) {
-
+        spaceship.update(time);
+        for (var i = 0, l = particles.length; i < l; ++i) {
+            particles[i].update(time);
+        }
     }
 
     // Renders the ship to the canvas
     function draw() {
-
+        spaceship.draw();
+        for (var i = 0, l = particles.length; i < l; ++i) {
+            particles[i].render();
+        }
     }
 
     // Create the ship and the particle systems
