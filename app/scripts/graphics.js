@@ -32,15 +32,15 @@
         that.continuousRotate = spec.rotation;
         that.toBeDeleted = false;
         that.lifetime = spec.lifetime;
-        spec.rotation = spec.initialRotation;
+        that.rotation = spec.initialRotation;
 
         if (spec.type) {
             that.type = spec.type;
         }
 
         function updateDirection() {
-            that.directionVector.x = Math.cos(spec.rotation);
-            that.directionVector.y = Math.sin(spec.rotation);
+            that.directionVector.x = Math.cos(that.rotation);
+            that.directionVector.y = Math.sin(that.rotation);
             // console.log("Dx: " + that.directionVector.x + " Dy: " + that.directionVector.y);
         }
 
@@ -54,7 +54,7 @@
             spec.center.y += that.velocityVector.y * (that.thrustPerSecond * (elapsedTime/1000));
             that.x = spec.center.x;
             that.y = spec.center.y;
-            spec.rotation -= that.continuousRotate * (elapsedTime / 1000);
+            that.rotation -= that.continuousRotate * (elapsedTime / 1000);
             // that.x = spec.center.x - spec.width / 2;
             // that.y = spec.center.y - spec.height / 2;
             // console.log("X: " + spec.center.x + " Y: " + spec.center.y);
@@ -82,15 +82,15 @@
         }
 
         that.rotateRight = function (elapsedTime) {
-            spec.rotation += spec.rotateRate * (elapsedTime / 1000);
+            that.rotation += spec.rotateRate * (elapsedTime / 1000);
             updateDirection();
-            // console.log ("Rotation: " + spec.rotation);
+            // console.log ("Rotation: " + that.rotation);
         };
 
         that.rotateLeft = function (elapsedTime) {
-            spec.rotation -= spec.rotateRate * (elapsedTime / 1000);
+            that.rotation -= spec.rotateRate * (elapsedTime / 1000);
             updateDirection();
-            // console.log("Rotation: " + spec.rotation);
+            // console.log("Rotation: " + that.rotation);
         };
 
         that.moveUp = function (elapsedTime) {   
@@ -111,7 +111,7 @@
                     moveRate : 500,         // pixels per second
                     rotateRate : Math.PI,   // Radians per second
                     startVector : {x : that.directionVector.x, y : that.directionVector.y},
-                    initialRotation : spec.rotation,
+                    initialRotation : that.rotation,
                     lifetime : 3000
                 });
             }
@@ -121,7 +121,7 @@
             context.save();
 
             context.translate(spec.center.x, spec.center.y);
-            context.rotate(spec.rotation);
+            context.rotate(that.rotation);
             context.translate(-spec.center.x, -spec.center.y);
 
             context.drawImage(

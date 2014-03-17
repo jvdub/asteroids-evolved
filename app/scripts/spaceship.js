@@ -19,6 +19,7 @@
         // Prevent a missile from firing if one has just been fired.
         if (game.bulletIntervalCountdown < 0) {
             console.log("missle fired");
+            console.log("spaceshipRotation: " + spaceship.rotation);
             // Reset the countdown
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
