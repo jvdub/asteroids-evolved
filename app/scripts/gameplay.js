@@ -26,19 +26,19 @@ game.screens['game-play'] = (function () {
         myMouse.update(elapsedTime);
         game.spaceship.update(elapsedTime);
         game.bulletIntervalCountdown -= elapsedTime;
-        for(var obj_I in game.objectsInPlay) {
-            for(var obj_J in game.objectsInPlay) {  
-                if(game.detectCollision(game.objectsInPlay[obj_I], game.objectsInPlay[obj_J]) ) {
+        for (var obj_I in game.objectsInPlay) {
+            for (var obj_J in game.objectsInPlay) {
+                if (game.detectCollision(game.objectsInPlay[obj_I], game.objectsInPlay[obj_J])) {
                     console.log(" collided with ");
                     game.objectsInPlay[obj_I].toBeDeleted = true;
                     game.objectsInPlay[obj_J].toBeDeleted = true;
                 }
             }
         }
-        for(var obj in game.objectsInPlay) {
+        for (var obj in game.objectsInPlay) {
             game.objectsInPlay[obj].update(elapsedTime);
         }
-        for(var obj in game.objectsInPlay) {
+        for (var obj in game.objectsInPlay) {
             if (game.objectsInPlay[obj].toBeDeleted) {
                 delete game.objectsInPlay[obj];
             }
@@ -47,7 +47,7 @@ game.screens['game-play'] = (function () {
 
         game.Graphics.clear();
         background.draw();
-        for(var obj in game.objectsInPlay) {
+        for (var obj in game.objectsInPlay) {
             game.objectsInPlay[obj].draw();
         }
         game.spaceship.draw();
@@ -61,38 +61,41 @@ game.screens['game-play'] = (function () {
         canvas = document.getElementById('asteroids');
 
         game.spaceship.init({
-            image : game.images['images/battlecruiser2.png'],
-            center : { x : 500, y : 500 },
-            width : 127, height : 100,
-            rotation : 0,
-            moveRate : 23,         // pixels per second
-            rotateRate : Math.PI,   // Radians per second
-            startVector : {x : 0, y : 0},
-            initialRotation : 0,
+            image: game.images['images/battlecruiser2.png'],
+            center: { x: 500, y: 500 },
+            width: 127, height: 100,
+            rotation: 0,
+            moveRate: 23,         // pixels per second
+            rotateRate: Math.PI,   // Radians per second
+            startVector: { x: 0, y: 0 },
+            initialRotation: 0,
             lifetime: null
-        }, []);
+        });
 
-        for (var i=0; i<numAsteroids; i++) {
-            game.objectsInPlay[game.objectNames++] = game.Graphics.Texture ( {
-                image : game.images['images/asteroid1.png'],
-                center : { x : Math.random()*1920, y : Math.random()*1080},
-                width : 50, height : 50,
-                rotation : Random.nextGaussian(3, 2),
-                moveRate : Random.nextGaussian(100, 5),         // pixels per second
-                rotateRate : Math.PI,   // Radians per second
-                startVector : Random.nextCircleVector(),
-                initialRotation : 0,
-                lifetime : null
+        for (var i = 0; i < numAsteroids; i++) {
+            game.objectsInPlay[game.objectNames++] = game.Graphics.Texture({
+                image: game.images['images/asteroid1.png'],
+                center: { x: Math.random() * 1920, y: Math.random() * 1080 },
+                width: 50, height: 50,
+                rotation: Random.nextGaussian(3, 2),
+                moveRate: Random.nextGaussian(100, 5),         // pixels per second
+                rotateRate: Math.PI,   // Radians per second
+                startVector: Random.nextCircleVector(),
+                initialRotation: 0,
+                lifetime: null
             });
         }
 
         //
         // Create the keyboard input handler and register the keyboard commands
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_W, game.spaceship.moveUp);
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function (time) {
+            game.spaceship.moveUp(time);
+            game.spaceship.generateParticles();
+        });
         myKeyboard.registerCommand(KeyEvent.DOM_VK_A, game.spaceship.rotateLeft);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_D, game.spaceship.rotateRight);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, game.spaceship.fireMissile);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function() {
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function () {
             //
             // Stop the game loop by canceling the request for the next animation frame
             cancelNextRequest = true;

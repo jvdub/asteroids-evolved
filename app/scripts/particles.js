@@ -20,7 +20,7 @@
             image: spec.image,
             size: Random.nextGaussian(100, 25),
             center: { x: spec.center.x, y: spec.center.y },
-            direction: Random.nextCircleVector(),
+            direction: spec.direction,
             speed: Random.nextGaussian(spec.speed.mean, spec.speed.stdev), // pixels per second
             rotation: 0,
             lifetime: Random.nextGaussian(spec.lifetime.mean, spec.lifetime.stdev),	// How long the particle should live, in seconds

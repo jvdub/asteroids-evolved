@@ -14,6 +14,14 @@
         spaceship.rotateRight(time);
     }
 
+    function generateParticles() {
+        for (var i = 0; i < 25; ++i) {
+            for (var j = 0, l = particles.length; j < l; ++j) {
+                particles[j].create();
+            }
+        }
+    }
+
     // Fires a missle from the front of the ship
     function fireMissile() {
         // Prevent a missile from firing if one has just been fired.
@@ -54,14 +62,31 @@
     }
 
     // Create the ship and the particle systems
-    function init(ship, parts) {
+    function init(ship) {
         // Create the ship image
         spaceship = game.Graphics.Texture(ship);
 
-        // Loop through the particle systems given and create a new system for each one
-        for (var i = 0, l = parts.length; i < l; ++i) {
-            particles.push(particleSystem(parts[i], game.Graphics));
-        }
+        particles.push(particleSystem({
+            image: game.images['images/smoke.png'],
+            center: { x: spaceship.x - 79, y: spaceship.y },
+            speed: { mean: 50, stdev: 25 },
+            lifetime: { mean: 10, stdev: 1 },
+            direction: Random.nextGaussian(-spaceship.rotation, Math.PI / 36)
+        }, game.Graphics));
+        particles.push(particleSystem({
+            image: game.images['images/smoke.png'],
+            center: { x: spaceship.x - 71, y: spaceship.y - 18 },
+            speed: { mean: 50, stdev: 25 },
+            lifetime: { mean: 10, stdev: 1 },
+            direction: Random.nextGaussian(-spaceship.rotation, Math.PI / 36)
+        }, game.Graphics));
+        particles.push(particleSystem({
+            image: game.images['images/smoke.png'],
+            center: { x: spaceship.x - 71, y: spaceship.y + 18 },
+            speed: { mean: 50, stdev: 25 },
+            lifetime: { mean: 10, stdev: 1 },
+            direction: Random.nextGaussian(-spaceship.rotation, Math.PI / 36)
+        }, game.Graphics));
     }
 
     return {
@@ -71,6 +96,7 @@
         fireMissile: fireMissile,
         moveUp: moveUp,
         rotateLeft: rotateLeft,
-        rotateRight: rotateRight
+        rotateRight: rotateRight,
+        generateParticles: generateParticles
     };
 }());

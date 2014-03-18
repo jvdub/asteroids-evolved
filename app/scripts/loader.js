@@ -19,6 +19,7 @@ window.addEventListener('load', function () {
                 'preload!scripts/random.js',
                 'preload!scripts/graphics.js',
                 'preload!scripts/input.js',
+                'preload!scripts/particles.js',
                 'preload!scripts/spaceship.js',
                 'preload!scripts/mainmenu.js',
                 'preload!scripts/game.js',
@@ -27,7 +28,8 @@ window.addEventListener('load', function () {
                 'preload!images/background1.jpg',
                 'preload!images/battlecruiser2.png',
                 'preload!images/asteroid1.png',
-                'preload!images/missile.png'
+                'preload!images/missile.png',
+                'preload!images/smoke.png'
             ],
             complete: function () {
 

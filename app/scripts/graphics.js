@@ -98,25 +98,6 @@
             that.velocityVector.y += that.directionVector.y * (that.thrustPerSecond * (elapsedTime/1000));
         };
 
-        that.fireMissile = function() {
-            console.log("missle fired");
-
-            if(game.bulletIntervalCountdown < 0) {
-                game.bulletIntervalCountdown = game.BULLET_INTERVAL;
-                game.objectsInPlay[game.objectNames++] = game.Graphics.Texture( {
-                    image : game.images['images/missile.png'],
-                    center : { x : that.x + that.directionVector.x*50, y : that.y + that.directionVector.y*50},
-                    width : 40, height : 25,
-                    rotation : 0,
-                    moveRate : 500,         // pixels per second
-                    rotateRate : Math.PI,   // Radians per second
-                    startVector : {x : that.directionVector.x, y : that.directionVector.y},
-                    initialRotation : that.rotation,
-                    lifetime : 3000
-                });
-            }
-        }
-
         that.draw = function () {
             context.save();
 
