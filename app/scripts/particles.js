@@ -27,10 +27,6 @@
             alive: 0	// How long the particle has been alive, in seconds
         };
 
-        // Ensure we have a valid size - gaussian numbers can be negative
-        p.size = Math.max(1, p.size);
-        // Same thing with lifetime
-        p.lifetime = Math.max(0.01, p.lifetime);
         // Assign a unique name to each particle
         particles[nextName++] = p;
     };
@@ -49,8 +45,8 @@
                 particle.alive += elapsedTime;
 
                 // Update its position
-                particle.center.x += (elapsedTime * particle.speed * particle.direction.x);
-                particle.center.y += (elapsedTime * particle.speed * particle.direction.y);
+                particle.center.x += (elapsedTime * particle.speed * Math.cos(particle.direction));
+                particle.center.y += (elapsedTime * particle.speed * Math.sin(particle.direction));
 
                 // Rotate proportional to its speed
                 particle.rotation += particle.speed / 500;
