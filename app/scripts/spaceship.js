@@ -15,10 +15,22 @@
     }
 
     function generateParticles() {
-        for (var i = 0; i < 10; ++i) {
-            for (var j = 0, l = particles.length; j < l; ++j) {
-                particles[j].create();
-            }
+        for (var i = 0; i < 5; ++i) {
+            particles[0].create(
+                spaceship.x - spaceship.directionVector.x,
+                spaceship.y,
+                Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
+                );
+            particles[1].create(
+                spaceship.x - spaceship.directionVector.x * 71,
+                spaceship.y - spaceship.directionVector.y * 18,
+                Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
+                );
+            particles[2].create(
+                spaceship.x - spaceship.directionVector.x * 71,
+                spaceship.y + spaceship.directionVector.y * 18,
+                Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
+                );
         }
     }
 
@@ -69,22 +81,22 @@
         particles.push(particleSystem({
             image: game.images['images/smoke.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 79, y: spaceship.y },
-            speed: { mean: 50, stdev: 25 },
-            lifetime: { mean: 10000, stdev: 1 },
+            speed: { mean: 2, stdev: 1 },
+            lifetime: { mean: 200, stdev: 100 },
             direction: Random.nextGaussian(spaceship.rotation + Math.PI, Math.PI / 36)
         }, game.Graphics));
         particles.push(particleSystem({
             image: game.images['images/smoke.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 71, y: spaceship.y - spaceship.directionVector.y * 18 },
-            speed: { mean: 50, stdev: 25 },
-            lifetime: { mean: 10000, stdev: 1 },
+            speed: { mean: 2, stdev: 1 },
+            lifetime: { mean: 100, stdev: 50 },
             direction: Random.nextGaussian(spaceship.rotation + Math.PI, Math.PI / 36)
         }, game.Graphics));
         particles.push(particleSystem({
             image: game.images['images/smoke.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 71, y: spaceship.y + spaceship.directionVector.y * 18 },
-            speed: { mean: 50, stdev: 25 },
-            lifetime: { mean: 10000, stdev: 1 },
+            speed: { mean: 2, stdev: 1 },
+            lifetime: { mean: 100, stdev: 50 },
             direction: Random.nextGaussian(spaceship.rotation + Math.PI, Math.PI / 36)
         }, game.Graphics));
     }

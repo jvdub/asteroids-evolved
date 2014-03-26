@@ -15,12 +15,12 @@
     };
 
     // This creates one new particle
-    that.create = function () {
+    that.create = function (x, y, direction) {
         var p = {
             image: spec.image,
             size: Random.nextGaussian(100, 25),
-            center: { x: spec.center.x, y: spec.center.y },
-            direction: spec.direction,
+            center: { x: x, y: y },
+            direction: direction,
             speed: Random.nextGaussian(spec.speed.mean, spec.speed.stdev), // pixels per second
             rotation: 0,
             lifetime: Random.nextGaussian(spec.lifetime.mean, spec.lifetime.stdev),	// How long the particle should live, in seconds
