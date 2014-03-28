@@ -20,8 +20,8 @@
     function Texture(spec) {
         var that = {};
 
-        that.x = spec.center.x - (spec.width / 2);
-        that.y = spec.center.y - (spec.height / 2);
+        that.x = spec.center.x;
+        that.y = spec.center.y;
         that.width = spec.width;
         that.height = spec.height;
         that.radius = spec.width > spec.height ? spec.width / 2 : spec.height / 2;

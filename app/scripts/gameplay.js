@@ -36,7 +36,7 @@ game.screens['game-play'] = (function () {
             }
             //check if ship collided with any asteroid
             if (game.detectCollision(game.spaceship.coordinates, game.asteroidsInPlay[i])) {
-                game.spaceship.coordinates.toBeDeleted = true;
+                //game.spaceship.coordinates.toBeDeleted = true;
             }
         }
 
@@ -94,7 +94,7 @@ game.screens['game-play'] = (function () {
         game.spaceship.init({
             image: game.images['images/battlecruiser2.png'],
             center: { x: 960, y: 540 },
-            width: 127, height: 100,
+            width: 100, height: 100,
             rotation: 0,
             moveRate: 23,         // pixels per second
             rotateRate: Math.PI,   // Radians per second

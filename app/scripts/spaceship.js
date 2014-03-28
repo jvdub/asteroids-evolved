@@ -16,20 +16,36 @@
     }
 
     function generateParticles() {
+        console.log("x: " + spaceship.x + " y: " + spaceship.y + " xd: " + spaceship.directionVector.x + " yd: " + spaceship.directionVector.y);
         for (var i = 0; i < 5; ++i) {
+            // particles[1].create(
+            //     spaceship.x - spaceship.directionVector.x * 71,
+            //     spaceship.y - spaceship.directionVector.y * 18,
+            //     Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
+            //     );
+            // particles[2].create(
+            //     spaceship.x - spaceship.directionVector.x * 71,
+            //     spaceship.y + spaceship.directionVector.y * 18,
+            //     Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
+            //     );
+            // particles[0].create(
+            //     spaceship.x - spaceship.directionVector.x * 79,
+            //     spaceship.y,
+            //     Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
+            //     );
             particles[1].create(
-                spaceship.x - spaceship.directionVector.x * 71,
-                spaceship.y - spaceship.directionVector.y * 18,
+                (spaceship.x - spaceship.directionVector.x * 71) + (100 * -spaceship.directionVector.y) ,
+                (spaceship.y - spaceship.directionVector.y * 71) + (100 * spaceship.directionVector.x) ,
                 Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
                 );
             particles[2].create(
-                spaceship.x - spaceship.directionVector.x * 71,
-                spaceship.y + spaceship.directionVector.y * 18,
+                (spaceship.x - spaceship.directionVector.x * 71) - (100 * -spaceship.directionVector.y) ,
+                (spaceship.y - spaceship.directionVector.y * 71) - (100 * spaceship.directionVector.x) ,
                 Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
                 );
             particles[0].create(
-                spaceship.x - spaceship.directionVector.x * 79,
-                spaceship.y,
+                (spaceship.x - spaceship.directionVector.x * 79) ,
+                (spaceship.y - spaceship.directionVector.y * 79) ,
                 Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
                 );
         }
@@ -55,7 +71,7 @@
                 initialRotation: spaceship.rotation,
                 lifetime: 3000
             }));
-        }
+        } 
     }
 
     // Updates the ship's position and angle
