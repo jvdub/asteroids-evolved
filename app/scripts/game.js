@@ -46,13 +46,11 @@ game.collided = function (a, b) {
 };
 
 game.detectCollision = function(a, b) {
-    if(a === b)  //Check if a and b are the same object
-        return false;
 
     //check if the two objects are within eachother's radius
     //This is not a perfect solution cause most of the objects
     //are not perfectly circular
-    if ( Math.sqrt( Math.pow((a.x-b.x), 2) + Math.pow((a.y-b.y), 2) ) > (a.radius+b.radius) )
+    if ( Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y)) > (a.radius+b.radius) )
         return false;
     else
         return true;

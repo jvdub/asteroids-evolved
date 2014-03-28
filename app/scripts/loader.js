@@ -5,7 +5,8 @@
         preloadRequest: 0,
         preloadComplete: 0
     },
-    objectsInPlay: {},
+    asteroidsInPlay: [],
+    bulletsInPlay: [],
     objectNames: 0,
     BULLET_INTERVAL : 200,
     bulletIntervalCountdown : 200,

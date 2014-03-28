@@ -26,31 +26,62 @@ game.screens['game-play'] = (function () {
         myMouse.update(elapsedTime);
         game.spaceship.update(elapsedTime);
         game.bulletIntervalCountdown -= elapsedTime;
-        for (var obj_I in game.objectsInPlay) {
-            for (var obj_J in game.objectsInPlay) {
-                if (game.detectCollision(game.objectsInPlay[obj_I], game.objectsInPlay[obj_J])) {
-                    console.log(" collided with ");
-                    game.objectsInPlay[obj_I].toBeDeleted = true;
-                    game.objectsInPlay[obj_J].toBeDeleted = true;
+        //collisions
+        for (var i=0; i<game.asteroidsInPlay.length; i++) {
+            for (var j=0; j<game.bulletsInPlay.length; j++) {
+                if (game.detectCollision(game.asteroidsInPlay[i], game.bulletsInPlay[j])) {
+                    game.asteroidsInPlay[i].toBeDeleted = true;
+                    game.bulletsInPlay[j].toBeDeleted = true;
                 }
             }
-        }
-        for (var obj in game.objectsInPlay) {
-            game.objectsInPlay[obj].update(elapsedTime);
-        }
-        for (var obj in game.objectsInPlay) {
-            if (game.objectsInPlay[obj].toBeDeleted) {
-                delete game.objectsInPlay[obj];
+            //check if ship collided with any asteroid
+            if (game.detectCollision(game.spaceship.coordinates, game.asteroidsInPlay[i])) {
+                game.spaceship.coordinates.toBeDeleted = true;
             }
         }
+
+        //deleting items from arrays
+        var k = 0;
+        for (var i=0; i<game.asteroidsInPlay.length; i++) {
+            if (!game.asteroidsInPlay[i].toBeDeleted) {
+                game.asteroidsInPlay[k] = game.asteroidsInPlay[i];
+                k++;
+            }
+        }
+        game.asteroidsInPlay.length = k;
+        k = 0;
+        for (var i=0; i<game.bulletsInPlay.length; i++) {
+            if (!game.bulletsInPlay[i].toBeDeleted) {
+                game.bulletsInPlay[k] = game.bulletsInPlay[i];
+                k++;
+            }
+        }
+        game.bulletsInPlay.length = k;
+        if(game.spaceship.toBeDeleted) {
+            //delete game.spaceship;
+        }
+        //updating objects
+        for (var i=0; i<game.asteroidsInPlay.length; i++) {
+            game.asteroidsInPlay[i].update(elapsedTime);
+        }
+        
+        for (var i=0; i<game.bulletsInPlay.length; i++) {
+            game.bulletsInPlay[i].update(elapsedTime);
+        }
+
+        
 
 
         game.Graphics.clear();
         background.draw();
-        for (var obj in game.objectsInPlay) {
-            game.objectsInPlay[obj].draw();
+        for (var i=0; i<game.asteroidsInPlay.length; i++) {
+            game.asteroidsInPlay[i].draw();
         }
-        game.spaceship.draw();
+        for (var i=0; i<game.bulletsInPlay.length; i++) {
+            game.bulletsInPlay[i].draw();
+        }
+        if(!game.spaceship.coordinates.toBeDeleted)
+            game.spaceship.draw();
 
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
@@ -62,7 +93,7 @@ game.screens['game-play'] = (function () {
 
         game.spaceship.init({
             image: game.images['images/battlecruiser2.png'],
-            center: { x: 500, y: 500 },
+            center: { x: 960, y: 540 },
             width: 127, height: 100,
             rotation: 0,
             moveRate: 23,         // pixels per second
@@ -73,7 +104,7 @@ game.screens['game-play'] = (function () {
         });
 
         for (var i = 0; i < numAsteroids; i++) {
-            game.objectsInPlay[game.objectNames++] = game.Graphics.Texture({
+            game.asteroidsInPlay.push( game.Graphics.Texture({
                 image: game.images['images/asteroid1.png'],
                 center: { x: Math.random() * 1920, y: Math.random() * 1080 },
                 width: 50, height: 50,
@@ -83,7 +114,7 @@ game.screens['game-play'] = (function () {
                 startVector: Random.nextCircleVector(),
                 initialRotation: 0,
                 lifetime: null
-            });
+            }));
         }
 
         //

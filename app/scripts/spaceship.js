@@ -1,6 +1,7 @@
 ﻿game.spaceship = (function () {
     var spaceship = null,
-        particles = [];
+        particles = [],
+        coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false};
 
     function moveUp(time) {
         spaceship.moveUp(time);
@@ -43,7 +44,7 @@
             // Reset the countdown
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
-            game.objectsInPlay[game.objectNames++] = game.Graphics.Texture({
+            game.bulletsInPlay.push( game.Graphics.Texture({
                 image: game.images['images/missile.png'],
                 center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
                 width: 40, height: 25,
@@ -53,7 +54,7 @@
                 startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y },
                 initialRotation: spaceship.rotation,
                 lifetime: 3000
-            });
+            }));
         }
     }
 
@@ -63,6 +64,9 @@
         for (var i = 0, l = particles.length; i < l; ++i) {
             particles[i].update(time);
         }
+        coordinates.x = spaceship.x;
+        coordinates.y = spaceship.y;
+        coordinates.radius = spaceship.radius;
     }
 
     // Renders the ship to the canvas
@@ -109,6 +113,7 @@
         moveUp: moveUp,
         rotateLeft: rotateLeft,
         rotateRight: rotateRight,
-        generateParticles: generateParticles
+        generateParticles: generateParticles,
+        coordinates : coordinates
     };
 }());
