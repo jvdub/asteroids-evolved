@@ -34,13 +34,13 @@
             //     Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
             //     );
             particles[1].create(
-                (spaceship.x - spaceship.directionVector.x * 71) + (100 * -spaceship.directionVector.y) ,
-                (spaceship.y - spaceship.directionVector.y * 71) + (100 * spaceship.directionVector.x) ,
+                (spaceship.x - spaceship.directionVector.x * 71) + (18 * -spaceship.directionVector.y) ,
+                (spaceship.y - spaceship.directionVector.y * 71) + (18 * spaceship.directionVector.x) ,
                 Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
                 );
             particles[2].create(
-                (spaceship.x - spaceship.directionVector.x * 71) - (100 * -spaceship.directionVector.y) ,
-                (spaceship.y - spaceship.directionVector.y * 71) - (100 * spaceship.directionVector.x) ,
+                (spaceship.x - spaceship.directionVector.x * 71) - (18 * -spaceship.directionVector.y) ,
+                (spaceship.y - spaceship.directionVector.y * 71) - (18 * spaceship.directionVector.x) ,
                 Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
                 );
             particles[0].create(
