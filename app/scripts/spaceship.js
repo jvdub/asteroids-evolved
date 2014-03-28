@@ -16,11 +16,6 @@
 
     function generateParticles() {
         for (var i = 0; i < 5; ++i) {
-            particles[0].create(
-                spaceship.x - spaceship.directionVector.x,
-                spaceship.y,
-                Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
-                );
             particles[1].create(
                 spaceship.x - spaceship.directionVector.x * 71,
                 spaceship.y - spaceship.directionVector.y * 18,
@@ -29,6 +24,11 @@
             particles[2].create(
                 spaceship.x - spaceship.directionVector.x * 71,
                 spaceship.y + spaceship.directionVector.y * 18,
+                Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
+                );
+            particles[0].create(
+                spaceship.x - spaceship.directionVector.x * 79,
+                spaceship.y,
                 Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
                 );
         }
@@ -67,7 +67,7 @@
 
     // Renders the ship to the canvas
     function draw() {
-        for (var i = 0, l = particles.length; i < l; ++i) {
+        for (var i = particles.length - 1; i >= 0; --i) {
             particles[i].render();
         }
         spaceship.draw();
@@ -81,23 +81,23 @@
         particles.push(particleSystem({
             image: game.images['images/smoke.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 79, y: spaceship.y },
-            speed: { mean: 2, stdev: 1 },
-            lifetime: { mean: 200, stdev: 100 },
-            direction: Random.nextGaussian(spaceship.rotation + Math.PI, Math.PI / 36)
+            speed: { mean: 0.5, stdev: 0.25 },
+            lifetime: { mean: 100, stdev: 50 },
+            direction: Random.nextGaussian(spaceship.rotation + Math.PI, 2 * Math.PI)
         }, game.Graphics));
         particles.push(particleSystem({
-            image: game.images['images/smoke.png'],
+            image: game.images['images/fire.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 71, y: spaceship.y - spaceship.directionVector.y * 18 },
-            speed: { mean: 2, stdev: 1 },
-            lifetime: { mean: 100, stdev: 50 },
-            direction: Random.nextGaussian(spaceship.rotation + Math.PI, Math.PI / 36)
+            speed: { mean: 0.5, stdev: 0.25 },
+            lifetime: { mean: 75, stdev: 25 },
+            direction: Random.nextGaussian(spaceship.rotation + Math.PI, 2 * Math.PI)
         }, game.Graphics));
         particles.push(particleSystem({
-            image: game.images['images/smoke.png'],
+            image: game.images['images/fire.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 71, y: spaceship.y + spaceship.directionVector.y * 18 },
-            speed: { mean: 2, stdev: 1 },
-            lifetime: { mean: 100, stdev: 50 },
-            direction: Random.nextGaussian(spaceship.rotation + Math.PI, Math.PI / 36)
+            speed: { mean: 0.5, stdev: 0.25 },
+            lifetime: { mean: 75, stdev: 25 },
+            direction: Random.nextGaussian(spaceship.rotation + Math.PI, 2 * Math.PI)
         }, game.Graphics));
     }
 

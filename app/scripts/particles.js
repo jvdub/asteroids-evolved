@@ -18,7 +18,7 @@
     that.create = function (x, y, direction) {
         var p = {
             image: spec.image,
-            size: Random.nextGaussian(100, 25),
+            size: Random.nextGaussian(50, 25),
             center: { x: x, y: y },
             direction: direction,
             speed: Random.nextGaussian(spec.speed.mean, spec.speed.stdev), // pixels per second
