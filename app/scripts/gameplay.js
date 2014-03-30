@@ -86,6 +86,7 @@ game.screens['game-play'] = (function () {
         if(game.displayDistances)
             game.findSafeLocation();
 
+
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
         }
