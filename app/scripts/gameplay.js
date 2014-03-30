@@ -72,23 +72,23 @@ game.screens['game-play'] = (function () {
 
 
         game.Graphics.clear();
-        game.findSafeLocation();
         background.draw();
-        
+    
         for (var i=0; i<game.asteroidsInPlay.length; i++) {
             game.asteroidsInPlay[i].draw();
         }
         for (var i=0; i<game.bulletsInPlay.length; i++) {
             game.bulletsInPlay[i].draw();
         }
-        if(!game.spaceship.coordinates.toBeDeleted)
-            game.spaceship.draw();
+            if(!game.spaceship.coordinates.toBeDeleted)
+                game.spaceship.draw();
+
+        if(game.displayDistances)
+            game.findSafeLocation();
 
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
         }
-        game.findSafeLocation();
-
     }
 
     function initialize() {
@@ -127,6 +127,7 @@ game.screens['game-play'] = (function () {
             game.spaceship.moveUp(time);
             game.spaceship.generateParticles();
         });
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_P, game.toggleGraph);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_A, game.spaceship.rotateLeft);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_D, game.spaceship.rotateRight);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, game.spaceship.fireMissile);

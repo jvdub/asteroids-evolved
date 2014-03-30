@@ -10,7 +10,8 @@
     objectNames: 0,
     BULLET_INTERVAL : 200,
     bulletIntervalCountdown : 200,
-    score: 0
+    score: 0,
+    displayDistances: false
 };
 
 window.addEventListener('load', function () {
