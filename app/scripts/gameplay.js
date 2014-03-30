@@ -58,6 +58,7 @@ game.screens['game-play'] = (function () {
         }
         game.bulletsInPlay.length = k;
 
+        game.findSafeLocation();
         //updating objects
         for (var i=0; i<game.asteroidsInPlay.length; i++) {
             game.asteroidsInPlay[i].update(elapsedTime);
@@ -72,6 +73,7 @@ game.screens['game-play'] = (function () {
 
         game.Graphics.clear();
         background.draw();
+        game.findSafeLocation();
         for (var i=0; i<game.asteroidsInPlay.length; i++) {
             game.asteroidsInPlay[i].draw();
         }
@@ -84,6 +86,7 @@ game.screens['game-play'] = (function () {
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
         }
+
     }
 
     function initialize() {
@@ -104,7 +107,8 @@ game.screens['game-play'] = (function () {
         for (var i = 0; i < numAsteroids; i++) {
             game.asteroidsInPlay.push( game.Graphics.Texture({
                 image: game.images['images/asteroid1.png'],
-                center: { x: Math.random() * 1920, y: Math.random() * 1080 },
+                // center: { x: Math.random() * 1920, y: Math.random() * 1080 },
+                center: game.generateAsteroidLocation(),
                 width: 50, height: 50,
                 rotation: Random.nextGaussian(3, 2),
                 moveRate: Random.nextGaussian(100, 5),         // pixels per second

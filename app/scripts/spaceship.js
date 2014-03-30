@@ -16,23 +16,8 @@
     }
 
     function generateParticles() {
-        console.log("x: " + spaceship.x + " y: " + spaceship.y + " xd: " + spaceship.directionVector.x + " yd: " + spaceship.directionVector.y);
+        
         for (var i = 0; i < 5; ++i) {
-            // particles[1].create(
-            //     spaceship.x - spaceship.directionVector.x * 71,
-            //     spaceship.y - spaceship.directionVector.y * 18,
-            //     Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
-            //     );
-            // particles[2].create(
-            //     spaceship.x - spaceship.directionVector.x * 71,
-            //     spaceship.y + spaceship.directionVector.y * 18,
-            //     Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
-            //     );
-            // particles[0].create(
-            //     spaceship.x - spaceship.directionVector.x * 79,
-            //     spaceship.y,
-            //     Math.PI + Math.atan2(spaceship.directionVector.y, spaceship.directionVector.x)
-            //     );
             particles[1].create(
                 (spaceship.x - spaceship.directionVector.x * 71) + (18 * -spaceship.directionVector.y) ,
                 (spaceship.y - spaceship.directionVector.y * 71) + (18 * spaceship.directionVector.x) ,
@@ -55,8 +40,6 @@
     function fireMissile() {
         // Prevent a missile from firing if one has just been fired.
         if (game.bulletIntervalCountdown < 0) {
-            console.log("missle fired");
-            console.log("spaceshipRotation: " + spaceship.rotation);
             // Reset the countdown
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
