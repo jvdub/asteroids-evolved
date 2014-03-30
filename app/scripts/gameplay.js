@@ -58,7 +58,7 @@ game.screens['game-play'] = (function () {
         }
         game.bulletsInPlay.length = k;
 
-        game.findSafeLocation();
+        
         //updating objects
         for (var i=0; i<game.asteroidsInPlay.length; i++) {
             game.asteroidsInPlay[i].update(elapsedTime);
@@ -72,8 +72,9 @@ game.screens['game-play'] = (function () {
 
 
         game.Graphics.clear();
-        background.draw();
         game.findSafeLocation();
+        background.draw();
+        
         for (var i=0; i<game.asteroidsInPlay.length; i++) {
             game.asteroidsInPlay[i].draw();
         }
@@ -86,6 +87,7 @@ game.screens['game-play'] = (function () {
         if (!cancelNextRequest) {
             requestAnimationFrame(gameLoop);
         }
+        game.findSafeLocation();
 
     }
 

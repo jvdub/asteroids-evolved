@@ -56,30 +56,95 @@ game.detectCollision = function(a, b) {
         return true;
 };
 
-game.findSafeLocation = function() {
+game.findSafeLocation = function(asteroids) {
     ///////////////////////////////////////////////////////////////////
     // divide the gamearea into a grid and give the squares a score based
     // on how many asteroids are nearby it.
 
     
-    var boxSize = 40;
-    var vSplit = 1920/boxSize;
-    var hSplit = 1080/boxSize;
-    var cellScores = [];
+    var boxSize = 40,
+        vSplit = 1920/boxSize,
+        hSplit = 1080/boxSize,
+        cellScores = [],
+        asteroidLocations = [],
+        x, y,
+        safeLocation = {x: 0, y: 0};
 
     
     //horizontal
-    for (var i = 0; i < hSplit; i++) {
+    for (var i = 0; i < vSplit; i++) {
         cellScores[i] = [];
-        for (var j = 0; j < vSplit; j++) {
+        asteroidLocations[i] = [];
+        for (var j = 0; j < hSplit; j++) {
             cellScores[i].push(0);
+            asteroidLocations[i].push(0);
         }
     }
+    // for (var i = 0; i < game.asteroidsInPlay.length + 1; i++) {
+    //     if(i == game.asteroidsInPlay.length) {
+    //         x = Math.floor(game.spaceship.coordinates.x/boxSize);
+    //         y = Math.floor(game.spaceship.coordinates.y/boxSize);
+    //     }
+    //     else {
+    //         x = Math.floor(game.asteroidsInPlay[i].x/boxSize);
+    //         y = Math.floor(game.asteroidsInPlay[i].y/boxSize);
+    //     }
+
+    //     if(x<0)
+    //         x = vSplit + x;
+    //     else if (x >vSplit-1)
+    //         x = x - vSplit;
+    //     if(y<0)
+    //         y = hSplit + y;
+    //     else if (y>hSplit-1)
+    //         y = y - hSplit;
+
+    //     // console.log("x: " + x + " y: " + y);
+    //     asteroidLocations[x][y]++;
+    // }
+
+    for (var i = 0; i < vSplit; i++) {
+        for (var j = 0; j < hSplit; j++) {
+            for (var k = 0; k < game.asteroidsInPlay.length; k++) {
+                cellScores[i][j] += game.distance(
+                                        i*boxSize + boxSize/2, j*boxSize + boxSize/2,
+                                        game.asteroidsInPlay[k].x, game.asteroidsInPlay[k].y );
+            }
+            //count ship as an asteroid as well
+            //may weight its influence as well
+            cellScores[i][j] += game.distance(
+                                        i*boxSize + boxSize/2, j*boxSize + boxSize/2,
+                                        game.spaceship.coordinates.x, game.spaceship.coordinates.y ) * 1;
+        }
+    }
+    //find min
+    var max = cellScores[0][0],
+        maxCount = 0;
+    for (var i = 0; i < vSplit; i++) {
+        for (var j = 0; j < hSplit; j++) {
+            if (cellScores[i][j]>max) {
+                max = cellScores[i][j];
+                safeLocation.x = i;
+                safeLocation.y = j;
+            }
+        }
+    }
+    for (var i = 0; i < vSplit; i++) {
+        for (var j = 0; j < hSplit; j++) {
+            if (cellScores[i][j]==max) {
+                maxCount++;
+            }
+        }
+    }
+    // console.log("max: " + max + " Occurances: " + maxCount);
+    console.log("X: " + safeLocation.x + " Y: " + safeLocation.y);
 
     //draw grid
     var canvas = document.getElementById('asteroids'),
         context = canvas.getContext('2d');
 
+    context.font = "20px Arial"
+    context.fillStyle = "white";
     context.beginPath();
     //Vertical Lines
     for (var i = 0; i < vSplit; i++) {
@@ -91,7 +156,16 @@ game.findSafeLocation = function() {
         context.moveTo(0, (i*boxSize));
         context.lineTo(1920, (i*boxSize));
     }
+    for (var i = 0; i < vSplit; i++) {
+        for (var j = 0; j < hSplit; j++) {
+            context.fillText( Math.floor(cellScores[i][j]/100), i*boxSize, j*boxSize+20);
+        }
+    }
+    context.fillStyle = "white";
+    context.fillRect(safeLocation.x * boxSize, safeLocation.y*boxSize, boxSize, boxSize);
     context.stroke();
+
+    // game.timeDelay(100);
 };
 
 game.generateAsteroidLocation = function() {
@@ -110,3 +184,31 @@ game.generateAsteroidLocation = function() {
 
     return coordinates;
 };
+
+game.distance = function (x0, y0, x1, y1) {
+    var shiftedX, shiftedY;
+
+    if(x1 > x0)
+        shiftedX = x1 - 1920;
+    else
+        shiftedX = x1 + 1920;
+    if(y1 > y0)
+        shiftedY = y1 - 1080;
+    else 
+        shiftedY = y1 + 1080;
+
+    var one = Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1)); //normal
+    var two = Math.sqrt((x0-shiftedX)*(x0-shiftedX) + (y0-y1)*(y0-y1)); //shifted x
+    var three = Math.sqrt((x0-x1)*(x0-x1) + (y0-shiftedY)*(y0-shiftedY)); //shifted y
+    var four = Math.sqrt((x0-shiftedX)*(x0-shiftedX) + (y0-shiftedY)*(y0-shiftedY)); //shifted x and y
+
+    return Math.min(one, two, three, four);
+};
+game.simpleDistance = function (x0, y0, x1, y1) {
+
+    return Math.sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
+};
+game.timeDelay = function(milliseconds) { //A time delay that can be used to slow down the program to debug it.
+    var t = new Date().getTime(); 
+    while (new Date().getTime() < t + milliseconds);
+}
