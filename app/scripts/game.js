@@ -81,15 +81,15 @@ game.findSafeLocation = function(asteroids) {
     for (var i = 0; i < vSplit; i++) {
         for (var j = 0; j < hSplit; j++) {
             for (var k = 0; k < game.asteroidsInPlay.length; k++) {
-                cellScores[i][j] += game.distance(
+                cellScores[i][j] += game.modifiedDistance(
                                         i*boxSize + boxSize/2, j*boxSize + boxSize/2,
                                         game.asteroidsInPlay[k].x, game.asteroidsInPlay[k].y );
             }
             //count ship as an asteroid as well
             //may weight its influence as well
-            cellScores[i][j] += game.distance(
+            cellScores[i][j] += game.modifiedDistance(
                                         i*boxSize + boxSize/2, j*boxSize + boxSize/2,
-                                        game.spaceship.coordinates.x, game.spaceship.coordinates.y ) ;
+                                        game.spaceship.coordinates.x, game.spaceship.coordinates.y ) * 2;
         }
     }
     //find max
@@ -183,7 +183,15 @@ game.generateAsteroidLocation = function() {
     return coordinates;
 };
 
-game.distance = function (x0, y0, x1, y1) {
+game.modifiedDistance = function (x0, y0, x1, y1) {
+    var minDist = game.wrapAroundDistance(x0, y0, x1, y1);
+
+    if(minDist < 350) 
+        return -10000 * ((350-minDist)/350);    
+    
+    return minDist;
+};
+game.wrapAroundDistance = function (x0, y0, x1, y1) { //returns the shortest distance between two points,  accounts for wrap around at edges.
     var shiftedX, shiftedY;
 
     if(x1 > x0)
@@ -200,19 +208,12 @@ game.distance = function (x0, y0, x1, y1) {
     var three = Math.sqrt((x0-x1)*(x0-x1) + (y0-shiftedY)*(y0-shiftedY)); //shifted y
     var four = Math.sqrt((x0-shiftedX)*(x0-shiftedX) + (y0-shiftedY)*(y0-shiftedY)); //shifted x and y
 
-    var minDist = Math.min(one, two, three, four);
-
-
-    if(minDist < 350) 
-        return -10000 * ((350-minDist)/350);
-    
-    
-    return minDist;
+    return Math.min(one, two, three, four);
 };
 game.timeDelay = function(milliseconds) { //A time delay that can be used to slow down the program to debug it.
     var t = new Date().getTime(); 
     while (new Date().getTime() < t + milliseconds);
-}
+};
 game.toggleGraph = function () {
     if(game.displayDistances)
         game.displayDistances = false;
