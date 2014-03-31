@@ -225,7 +225,6 @@ game.generateAnAsteroid = function (asteroidClass, coordinates) {
     var newWidth,
         newHeight,
         newPointValue;
-    console.log("asteroid class: " + asteroidClass);
 
     switch (asteroidClass)
     {
