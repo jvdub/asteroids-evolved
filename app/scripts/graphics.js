@@ -45,6 +45,20 @@
         that.pointValue = spec.pointValue;
         that.asteroidClass = spec.asteroidClass;
 
+        that.dyingFunction = function () {
+            if (that.asteroidClass == 3) {
+                game.generateAnAsteroid(2, {x: that.x, y: that.y});
+                game.generateAnAsteroid(2, {x: that.x, y: that.y});
+                game.generateAnAsteroid(2, {x: that.x, y: that.y});
+            }
+            else if (that.asteroidClass == 2) {
+                game.generateAnAsteroid(1, {x: that.x, y: that.y});
+                game.generateAnAsteroid(1, {x: that.x, y: that.y});
+                game.generateAnAsteroid(1, {x: that.x, y: that.y});
+                game.generateAnAsteroid(1, {x: that.x, y: that.y});
+            }
+        }
+
         if (spec.type) {
             that.type = spec.type;
         }

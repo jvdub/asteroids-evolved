@@ -13,8 +13,7 @@ game.screens['game-play'] = (function () {
         cancelNextRequest = false,
         myKeyboard = game.input.Keyboard(),
         someTestAsteroids = {},
-        numAsteroids = 10,
-        k = 0;
+        numAsteroids = 10;
 
     function gameLoop(time) {
         // Update timers
@@ -27,40 +26,12 @@ game.screens['game-play'] = (function () {
         myMouse.update(elapsedTime);
         game.spaceship.update(elapsedTime);
         game.bulletIntervalCountdown -= elapsedTime;
+
         //collisions
-        for (var i=0; i<game.asteroidsInPlay.length; i++) {
-            for (var j=0; j<game.bulletsInPlay.length; j++) {
-                if (game.detectCollision(game.asteroidsInPlay[i], game.bulletsInPlay[j])) {
-                    game.asteroidsInPlay[i].toBeDeleted = true;
-                    game.bulletsInPlay[j].toBeDeleted = true;
-                }
-            }
-            //check if ship collided with any asteroid
-            if (game.detectCollision(game.spaceship.coordinates, game.asteroidsInPlay[i])) {
-                game.spaceship.coordinates.toBeDeleted = true;
-            }
-        }
-        console.log("# of asteroids" + game.asteroidsInPlay.length);
+        game.checkAllCollisions();
 
         //deleting items from arrays
-        k = 0;
-        for (var i=0; i<game.asteroidsInPlay.length; i++) {
-            if (!game.asteroidsInPlay[i].toBeDeleted) {
-                game.asteroidsInPlay[k] = game.asteroidsInPlay[i];
-                k++;
-            }
-            else
-                game.score += game.asteroidsInPlay[i].pointValue;
-        }
-        game.asteroidsInPlay.length = k;
-        k = 0;
-        for (var i=0; i<game.bulletsInPlay.length; i++) {
-            if (!game.bulletsInPlay[i].toBeDeleted) {
-                game.bulletsInPlay[k] = game.bulletsInPlay[i];
-                k++;
-            }
-        }
-        game.bulletsInPlay.length = k;
+        game.deleteDeadObjects();
 
         
         //updating objects
@@ -115,7 +86,6 @@ game.screens['game-play'] = (function () {
         });
 
         for (var i = 0; i < numAsteroids; i++) {
-            console.log("asteroidCreationLoop");
             game.generateAnAsteroid( Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
         }
 

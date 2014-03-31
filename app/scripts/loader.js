@@ -28,6 +28,7 @@ window.addEventListener('load', function () {
                 'preload!scripts/game.js',
                 'preload!scripts/screens.js',
                 'preload!scripts/gameplay.js',
+                'preload!scripts/loopFunctions.js',
                 'preload!images/background1.jpg',
                 'preload!images/battlecruiser2.png',
                 'preload!images/asteroid1.png',
