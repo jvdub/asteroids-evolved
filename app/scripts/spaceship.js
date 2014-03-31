@@ -1,7 +1,8 @@
 ﻿game.spaceship = (function () {
     var spaceship = null,
         particles = [],
-        coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false};
+        coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false},
+        teleportTimer = 1500;
 
     function moveUp(time) {
         spaceship.moveUp(time);
@@ -56,6 +57,12 @@
             }));
         } 
     }
+    function teleport() {
+        if (teleportTimer < 0) {
+            spaceship.teleport(game.findSafeLocation(false));
+            teleportTimer = 2000;
+        }
+    }
 
     // Updates the ship's position and angle
     function update(time) {
@@ -66,6 +73,7 @@
         coordinates.x = spaceship.x;
         coordinates.y = spaceship.y;
         coordinates.radius = spaceship.radius;
+        teleportTimer -= time;
     }
 
     // Renders the ship to the canvas
@@ -113,6 +121,7 @@
         rotateLeft: rotateLeft,
         rotateRight: rotateRight,
         generateParticles: generateParticles,
-        coordinates : coordinates
+        coordinates : coordinates,
+        teleport : teleport
     };
 }());

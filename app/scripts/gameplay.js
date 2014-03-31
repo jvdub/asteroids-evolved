@@ -13,7 +13,8 @@ game.screens['game-play'] = (function () {
         cancelNextRequest = false,
         myKeyboard = game.input.Keyboard(),
         someTestAsteroids = {},
-        numAsteroids = 10;
+        numAsteroids = 10,
+        k = 0;
 
     function gameLoop(time) {
         // Update timers
@@ -39,14 +40,17 @@ game.screens['game-play'] = (function () {
                 game.spaceship.coordinates.toBeDeleted = true;
             }
         }
+        console.log("# of asteroids" + game.asteroidsInPlay.length);
 
         //deleting items from arrays
-        var k = 0;
+        k = 0;
         for (var i=0; i<game.asteroidsInPlay.length; i++) {
             if (!game.asteroidsInPlay[i].toBeDeleted) {
                 game.asteroidsInPlay[k] = game.asteroidsInPlay[i];
                 k++;
             }
+            else
+                game.score += game.asteroidsInPlay[i].pointValue;
         }
         game.asteroidsInPlay.length = k;
         k = 0;
@@ -80,11 +84,14 @@ game.screens['game-play'] = (function () {
         for (var i=0; i<game.bulletsInPlay.length; i++) {
             game.bulletsInPlay[i].draw();
         }
-            if(!game.spaceship.coordinates.toBeDeleted)
-                game.spaceship.draw();
+        if(!game.spaceship.coordinates.toBeDeleted)
+            game.spaceship.draw();
+
+        game.Graphics.renderScore();
+
 
         if(game.displayDistances)
-            game.findSafeLocation();
+            game.findSafeLocation(true);
 
 
         if (!cancelNextRequest) {
@@ -108,18 +115,8 @@ game.screens['game-play'] = (function () {
         });
 
         for (var i = 0; i < numAsteroids; i++) {
-            game.asteroidsInPlay.push( game.Graphics.Texture({
-                image: game.images['images/asteroid1.png'],
-                // center: { x: Math.random() * 1920, y: Math.random() * 1080 },
-                center: game.generateAsteroidLocation(),
-                width: 50, height: 50,
-                rotation: Random.nextGaussian(3, 2),
-                moveRate: Random.nextGaussian(100, 5),         // pixels per second
-                rotateRate: Math.PI,   // Radians per second
-                startVector: Random.nextCircleVector(),
-                initialRotation: 0,
-                lifetime: null
-            }));
+            console.log("asteroidCreationLoop");
+            game.generateAnAsteroid( Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
         }
 
         //
@@ -129,6 +126,7 @@ game.screens['game-play'] = (function () {
             game.spaceship.generateParticles();
         });
         myKeyboard.registerCommand(KeyEvent.DOM_VK_P, game.toggleGraph);
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_T, game.spaceship.teleport);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_A, game.spaceship.rotateLeft);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_D, game.spaceship.rotateRight);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, game.spaceship.fireMissile);

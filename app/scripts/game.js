@@ -56,7 +56,7 @@ game.detectCollision = function(a, b) {
         return true;
 };
 
-game.findSafeLocation = function(asteroids) {
+game.findSafeLocation = function(draw) {
     ///////////////////////////////////////////////////////////////////
     // divide the gamearea into a grid and give the squares a score based
     // on how many asteroids are nearby it.
@@ -66,8 +66,8 @@ game.findSafeLocation = function(asteroids) {
         vSplit = 1920/boxSize,
         hSplit = 1080/boxSize,
         cellScores = [],
-        x, y,
-        safeLocation = {x: 0, y: 0};
+        safeLocation = {x: 0, y: 0},
+        max = -1000000;
 
     
     //horizontal
@@ -90,12 +90,7 @@ game.findSafeLocation = function(asteroids) {
             cellScores[i][j] += game.modifiedDistance(
                                         i*boxSize + boxSize/2, j*boxSize + boxSize/2,
                                         game.spaceship.coordinates.x, game.spaceship.coordinates.y ) * 2;
-        }
-    }
-    //find max
-    var max = cellScores[0][0];
-    for (var i = 0; i < vSplit; i++) {
-        for (var j = 0; j < hSplit; j++) {
+            //keep track of max value as we go through the game
             if (cellScores[i][j]>max) {
                 max = cellScores[i][j];
                 safeLocation.x = i;
@@ -107,7 +102,8 @@ game.findSafeLocation = function(asteroids) {
     safeLocation.y *= boxSize;
 
     //draw ing safelevels
-    
+            if(draw)
+            {
                 var canvas = document.getElementById('asteroids'),
                     context = canvas.getContext('2d');
 
@@ -130,6 +126,7 @@ game.findSafeLocation = function(asteroids) {
                     }
                     min = 0;
                 }
+                //scale values from 0-255
                 for (var i = 0; i < vSplit; i++) {
                     for (var j = 0; j < hSplit; j++) {
                         cellScores[i][j] = Math.round((cellScores[i][j] / max) * 255);
@@ -160,13 +157,13 @@ game.findSafeLocation = function(asteroids) {
                 context.fillStyle = "red";
                 context.fillRect(safeLocation.x, safeLocation.y, boxSize, boxSize);
                 context.stroke();
-    
+            }
 
     // game.timeDelay(100);
     return safeLocation;
 };
 
-game.generateAsteroidLocation = function() {
+game.generateRandomAsteroidLocation = function() {
     var coordinates = {
         x: Math.random() * 1920,
         y: Math.random() * 1080
@@ -174,7 +171,10 @@ game.generateAsteroidLocation = function() {
 
     var radius = 500;
 
-    while(((coordinates.x - 960)*(coordinates.x - 960) + (coordinates.y - 540)*(coordinates.y - 540)) < (radius*radius))
+    while(((coordinates.x - game.spaceship.coordinates.x) *
+           (coordinates.x - game.spaceship.coordinates.x) + 
+           (coordinates.y - game.spaceship.coordinates.y) *
+           (coordinates.y - game.spaceship.coordinates.y)) < (radius*radius))
     {
         coordinates.x = Math.random() * 1920;
         coordinates.y = Math.random() * 1080;
@@ -219,4 +219,46 @@ game.toggleGraph = function () {
         game.displayDistances = false;
     else
         game.displayDistances = true;
+};
+
+game.generateAnAsteroid = function (asteroidClass, coordinates) {
+    var newWidth,
+        newHeight,
+        newPointValue;
+    console.log("asteroid class: " + asteroidClass);
+
+    switch (asteroidClass)
+    {
+        case 1:
+            newWidth = 40;
+            newHeight = 40;
+            newPointValue = 10
+            break;
+        case 2:
+            newWidth = 75;
+            newHeight = 75;
+            newPointValue = 15
+            break;
+        case 3:
+            newWidth = 100;
+            newHeight = 100;
+            newPointValue = 20
+            break;
+        default:
+    }
+
+    game.asteroidsInPlay.push( game.Graphics.Texture({
+                image: game.images['images/asteroid1.png'],
+                // center: { x: Math.random() * 1920, y: Math.random() * 1080 },
+                center: coordinates,
+                width: newWidth, height: newHeight,
+                rotation: Random.nextGaussian(3, 2),
+                moveRate: Random.nextGaussian(100, 25),         // pixels per second
+                rotateRate: Math.PI,   // Radians per second
+                startVector: Random.nextCircleVector(),
+                initialRotation: 0,
+                lifetime: null,
+                pointValue: newPointValue,
+                asteroidClass : asteroidClass
+            }));
 };

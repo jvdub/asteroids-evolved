@@ -17,6 +17,15 @@
         context.clear();
     }
 
+    function renderScore () {
+        context.font = "50px Arial Bold";
+        context.fillStyle = "white";
+        // context.strokeStyle = "black";
+        context.fillText(game.score, 10, 1060);
+        // context.strokeText(game.score, 10, 1060);
+
+    }
+
     function Texture(spec) {
         var that = {};
 
@@ -33,6 +42,8 @@
         that.toBeDeleted = false;
         that.lifetime = spec.lifetime;
         that.rotation = spec.initialRotation;
+        that.pointValue = spec.pointValue;
+        that.asteroidClass = spec.asteroidClass;
 
         if (spec.type) {
             that.type = spec.type;
@@ -79,6 +90,13 @@
                 spec.center.y = 1080 + spec.height/2;
                 that.y = spec.center.y;
             }
+        };
+
+        that.teleport = function (coordinates) {
+            that.x = coordinates.x;
+            that.y = coordinates.y;
+            spec.center.x = coordinates.x;
+            spec.center.y = coordinates.y;
         }
 
         that.rotateRight = function (elapsedTime) {
@@ -199,6 +217,7 @@
         Texture: Texture,
         Background: Background,
         Text: Text,
-        drawImage: drawImage
+        drawImage: drawImage,
+        renderScore : renderScore
     };
 }());

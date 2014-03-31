@@ -11,7 +11,8 @@
     BULLET_INTERVAL : 200,
     bulletIntervalCountdown : 200,
     score: 0,
-    displayDistances: false
+    displayDistances: false, //toggled when p is pressed.  Remove later
+    score : 0
 };
 
 window.addEventListener('load', function () {
