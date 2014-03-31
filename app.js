@@ -24,11 +24,7 @@ if ('development' === app.get('env')) {
     app.use(express.errorHandler());
 }
 
-//------------------------------------------------------------------
-//
 // Define the different routes we support
-//
-//------------------------------------------------------------------
 app.get('/', function (request, response) {
     response.render('index.html');
 });
@@ -36,11 +32,7 @@ app.get('/', function (request, response) {
 app.get('/v1/high-scores', scores.all);
 app.post('/v1/high-scores', scores.add);
 
-//------------------------------------------------------------------
-//
 // Indicate any other api requests are not implemented
-//
-//------------------------------------------------------------------
 app.all('/v1/*', function (request, response) {
     response.writeHead(501);
     response.end();
