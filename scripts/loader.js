@@ -12,7 +12,8 @@
     bulletIntervalCountdown : 200,
     score: 0,
     displayDistances: false, //toggled when p is pressed.  Remove later
-    score : 0
+    score : 0,
+    level : 1
 };
 
 window.addEventListener('load', function () {
@@ -34,7 +35,8 @@ window.addEventListener('load', function () {
                 'preload!images/asteroid1.png',
                 'preload!images/missile.png',
                 'preload!images/smoke.png',
-                'preload!images/fire.png'
+                'preload!images/fire.png',
+                'preload!images/laser.png'
             ],
             complete: function () {
 

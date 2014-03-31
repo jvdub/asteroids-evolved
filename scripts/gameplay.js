@@ -115,7 +115,7 @@ game.screens['game-play'] = (function () {
             lifetime: null
         });
 
-        for (var i = 0; i < numAsteroids; i++) {
+        for (var i = 0; i < 3; i++) {
             game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
         }
 

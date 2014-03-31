@@ -16,7 +16,6 @@ game.checkAllCollisions = function () {
 
 game.deleteDeadObjects = function () {
     var k = 0;
-
     for (var i = 0; i < game.asteroidsInPlay.length; i++) {
         if (!game.asteroidsInPlay[i].toBeDeleted) {
             game.asteroidsInPlay[k] = game.asteroidsInPlay[i];
@@ -28,10 +27,16 @@ game.deleteDeadObjects = function () {
         }
 
     }
-
     game.asteroidsInPlay.length = k;
-    k = 0;
 
+    if (game.asteroidsInPlay.length == 0) {
+        game.level++;
+        for (var i = 0; i < 5 + game.level*2 ; i++) {
+            game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
+        }
+    }
+
+    k = 0;
     for (var i = 0; i < game.bulletsInPlay.length; i++) {
         if (!game.bulletsInPlay[i].toBeDeleted) {
             game.bulletsInPlay[k] = game.bulletsInPlay[i];
