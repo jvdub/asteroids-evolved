@@ -80,24 +80,8 @@ game.screens['game-play'] = (function () {
                 game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
             }
 
-            game.screens['high-scores'].run();
-
-            $.ajax({
-                url: '/v1/high-scores',
-                type: 'POST',
-                data: {
-                    name: 'test',
-                    score: +game.score
-                },
-                dataType: 'json'
-            });
-
-            game.score = 0;
-
-            // Show the high scores page
-            // Possibly replace this with an intermediary page or something
-            // to say game over and enter player name to add to high scores?
-            game.game.showScreen('high-scores');
+            // Show the game over page
+            game.game.showScreen('game-over');
 
             // Stop the game loop
             cancelNextRequest = true;

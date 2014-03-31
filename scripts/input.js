@@ -80,7 +80,8 @@ game.input = (function () {
             keys: {},
             handlers: []
         },
-			key;
+			key,
+            l = 0;
 
         function keyPress(e) {
             that.keys[e.keyCode] = e.timeStamp;
@@ -95,9 +96,13 @@ game.input = (function () {
             that.handlers.push({ key: key, handler: handler });
         };
 
+        that.unregisterCommand = function (key) {
+            that.handlers[key].handler = null;
+        };
+
         // Allows the client to invoke all the handlers for the registered key/handlers.
         that.update = function (elapsedTime) {
-            for (key = 0; key < that.handlers.length; key++) {
+            for (key = 0, l = that.handlers.length; key < l; key++) {
                 if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
                     that.handlers[key].handler(elapsedTime);
                 }

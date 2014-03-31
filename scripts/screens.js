@@ -112,8 +112,55 @@ game.screens['about'] = (function() {
 	}
 
 	return {
-		initialize : initialize,
-		run : run
+		initialize: initialize,
+		run: run
+	};
+}());
+
+game.screens['game-over'] = (function() {
+	'use strict';
+
+	var myKeyboard = game.input.Keyboard(),
+		eles = {
+			score: null,
+			name: null
+		};
+
+	function initialize() {
+		eles.score = document.getElementById('playerScore');
+		eles.name = document.getElementById('playerName');
+
+		document.getElementById('addScore').addEventListener('click', function() {
+			if (eles.name.value != '') {
+				game.screens['high-scores'].run();
+
+				$.ajax({
+	                url: '/v1/high-scores',
+	                type: 'POST',
+	                data: {
+	                    name: eles.name.value,
+	                    score: +game.score
+	                },
+	                dataType: 'json'
+	            });
+
+	            game.score = 0;
+
+	            // Show the high scores page
+	            // Possibly replace this with an intermediary page or something
+	            // to say game over and enter player name to add to high scores?
+	            game.game.showScreen('high-scores');
+	        }
+		}, false);
 	}
 
+	function run() {
+		myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, function (e) { e.stopPropagation(); e.preventDefault(); });
+		eles.score.innerHTML = game.score;
+	}
+
+	return {
+		initialize: initialize,
+		run: run
+	};
 }());
