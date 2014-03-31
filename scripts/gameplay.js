@@ -76,9 +76,23 @@ game.screens['game-play'] = (function () {
                 lifetime: null
             });
 
-            for (var i = 0; i < numAsteroids; i++) {
+            for (i = 0; i < numAsteroids; i++) {
                 game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
             }
+
+            game.screens['high-scores'].run();
+
+            $.ajax({
+                url: '/v1/high-scores',
+                type: 'POST',
+                data: {
+                    name: 'test',
+                    score: +game.score
+                },
+                dataType: 'json'
+            });
+
+            game.score = 0;
 
             // Show the high scores page
             // Possibly replace this with an intermediary page or something

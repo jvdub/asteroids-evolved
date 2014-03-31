@@ -52,25 +52,19 @@ game.screens['high-scores'] = (function() {
 
 	function run() {
 	    // Make request to get high scores
-	    var request = new XMLHttpRequest();
-	    request.open('GET', '/v1/high-scores', true);
-
-	    request.onload = function () {
-	        if (this.status >= 200 && this.status < 400) {
-	            // Success!
-	            showScores(JSON.parse(this.response));
-	        } else {
-	            // We reached our target server, but it returned an error
-	            console.log(this.status + this.statusText + ': ' + this.response);
-	        }
-	    };
-
-	    request.onerror = function () {
-	        // There was a connection error of some sort
-	        console.log(this.status + this.statusText);
-	    };
-
-	    request.send();
+	    $.ajax({
+	    	url: '/v1/high-scores',
+	    	type: 'GET',
+	    	success: function (rslt) {
+	    		console.log(rslt);
+	            showScores(rslt);
+	    	},
+	    	error: function () {
+		        // There was a connection error of some sort
+		        console.log(this.status + this.statusText);
+	    	},
+	    	dataType: 'json'
+	    });
 	}
 
 	return {
