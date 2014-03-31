@@ -1,12 +1,9 @@
 ﻿var fs = require('fs'),
-    scores = [],
-    nextId = 0;
+    scores = [];
 
 // Report all scores back to the requester.
 exports.all = function (request, response) {
-    var temp = JSON.parse(fs.readFileSync('./game/scores.json', 'utf-8'));
-    scores = temp.scores;
-    nextId = temp.nextId;
+    scores = JSON.parse(fs.readFileSync('./game/scores.json', 'utf-8'));
 
     console.log('find all scores called');
     response.writeHead(200, { 'content-type': 'application/json' });
@@ -22,17 +19,15 @@ exports.add = function (request, response) {
 
     var now = new Date();
     scores.push({
-        id: nextId,
         name: request.body.name,
         score: request.body.score,
         date: now.toLocaleDateString(),
         time: now.toLocaleTimeString()
     });
-    nextId++;
 
     console.log(scores);
 
-    fs.writeFileSync('./game/scores.json', JSON.stringify({ scores: scores, nextId: nextId }), { encoding: 'utf-8' });
+    fs.writeFileSync('./game/scores.json', JSON.stringify(scores), { encoding: 'utf-8' });
 
     response.writeHead(200);
     response.end();
