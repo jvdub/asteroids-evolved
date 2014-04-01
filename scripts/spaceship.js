@@ -58,7 +58,8 @@
         } 
     }
     function teleport() {
-        if (teleportTimer < 0) {
+        if (teleportTimer < 0 && game.teleports > 0) {
+            game.teleports--;
             spaceship.teleport(game.findSafeLocation(false));
             teleportTimer = 2000;
         }

@@ -38,7 +38,8 @@ window.addEventListener('load', function () {
                 'preload!images/smoke.png',
                 'preload!images/fire.png',
                 'preload!images/livesDisplay.png',
-                'preload!images/fireball.png'
+                'preload!images/fireball.png',
+                'preload!images/hyperspace.png'
             ],
             complete: function () {
 

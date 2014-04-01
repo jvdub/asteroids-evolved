@@ -28,6 +28,10 @@
         for (var i = 0; i < game.lives; i++) {
             context.drawImage(game.images['images/livesDisplay.png'], startX + i*50, 1025, 42, 49);
         }
+        startX = 1920 - game.teleports * 41;
+        for (var i = 0; i < game.teleports; i++) {
+            context.drawImage(game.images['images/hyperspace.png'], startX + i*41, 5, 40, 40);
+        }
 
     }
 
