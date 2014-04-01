@@ -140,7 +140,7 @@ game.screens['game-play'] = (function () {
             cancelNextRequest = true;
         }
 
-        game.Graphics.renderScore();
+        game.Graphics.renderStats();
 
         if (game.displayDistances) {
             game.findSafeLocation(true);

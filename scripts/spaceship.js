@@ -45,9 +45,9 @@
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
             game.bulletsInPlay.push( game.Graphics.Texture({
-                image: game.images['images/missile.png'],
+                image: game.images['images/fireball.png'],
                 center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
-                width: 40, height: 25,
+                width: 25, height: 25,
                 rotation: 0,
                 moveRate: 500,         // pixels per second
                 rotateRate: Math.PI,   // Radians per second
@@ -58,7 +58,8 @@
         } 
     }
     function teleport() {
-        if (teleportTimer < 0) {
+        if (teleportTimer < 0 && game.teleports > 0) {
+            game.teleports--;
             spaceship.teleport(game.findSafeLocation(false));
             teleportTimer = 2000;
         }

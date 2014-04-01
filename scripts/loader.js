@@ -13,7 +13,9 @@
     bulletIntervalCountdown: 200,
     score: 0,
     displayDistances: false, //toggled when p is pressed.  Remove later
-    level: 1
+    level: 1,
+    lives: 3,
+    teleports : 3
 };
 
 window.addEventListener('load', function () {
@@ -38,7 +40,10 @@ window.addEventListener('load', function () {
                 'preload!images/fire.png',
                 'preload!images/laser.png',
                 'preload!images/smoke1.png',
-                'preload!images/wizard-fire.png'
+                'preload!images/wizard-fire.png',
+                'preload!images/livesDisplay.png',
+                'preload!images/fireball.png',
+                'preload!images/hyperspace.png'
             ],
             complete: function () {
 
