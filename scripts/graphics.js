@@ -17,12 +17,17 @@
         context.clear();
     }
 
-    function renderScore () {
+    function renderStats () {
         context.font = "50px Arial Bold";
         context.fillStyle = "white";
-        // context.strokeStyle = "black";
         context.fillText(game.score, 10, 1060);
-        // context.strokeText(game.score, 10, 1060);
+        context.fillText("Level: " + game.level, 10, 40);
+
+
+        var startX = 1920 - game.lives * 50;
+        for (var i = 0; i < game.lives; i++) {
+            context.drawImage(game.images['images/livesDisplay.png'], startX + i*50, 1025, 42, 49);
+        }
 
     }
 
@@ -232,6 +237,6 @@
         Background: Background,
         Text: Text,
         drawImage: drawImage,
-        renderScore : renderScore
+        renderStats : renderStats
     };
 }());
