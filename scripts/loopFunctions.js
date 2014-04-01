@@ -25,9 +25,19 @@ game.deleteDeadObjects = function () {
             game.score += game.asteroidsInPlay[i].pointValue;
             game.asteroidsInPlay[i].dyingFunction();
         }
-
     }
     game.asteroidsInPlay.length = k;
+
+    k = 0;
+
+    for (var i = 0; i < game.particles.length; i++) {
+        if (game.particles[i].plength() > 0) {
+            game.particles[k] = game.particles[i];
+            k++;
+        }
+    }
+
+    game.particles.length = k;
 
     if (game.asteroidsInPlay.length == 0) {
         game.level++;

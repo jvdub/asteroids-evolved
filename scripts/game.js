@@ -80,7 +80,7 @@ game.findSafeLocation = function (draw) {
 
     for (var i = 0; i < vSplit; i++) {
         for (var j = 0; j < hSplit; j++) {
-            for (var k = 0; k < game.asteroidsInPlay.length; k++) {
+            for (var k = 0, l = game.asteroidsInPlay.length; k < l; k++) {
                 cellScores[i][j] += game.modifiedDistance(
                                         i * boxSize + boxSize / 2, j * boxSize + boxSize / 2,
                                         game.asteroidsInPlay[k].x, game.asteroidsInPlay[k].y);

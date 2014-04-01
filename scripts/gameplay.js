@@ -33,6 +33,34 @@ game.screens['game-play'] = (function () {
         // collisions
         game.checkAllCollisions();
 
+        for (i = 0, l = game.asteroidsInPlay.length; i < l; ++i) {
+            if (game.asteroidsInPlay[i].toBeDeleted === true) {
+                game.particles.push(
+                    particleSystem({
+                        image: game.images['images/wizard-fire.png'],
+                        center: { x: game.asteroidsInPlay[i].x, y: game.asteroidsInPlay[i].y },
+                        speed: { mean: 1.25, stdev: 0.25 },
+                        lifetime: { mean: 1000, stdev: 50 },
+                        direction: Random.nextDouble()
+                    }, game.Graphics));
+                for (var j = 0; j < (7 * game.asteroidsInPlay[i].asteroidClass); ++j) {
+                    game.particles[game.particles.length - 1].create(false, false, Random.nextRange(-Math.PI, Math.PI));
+                }
+                game.particles.push(
+                    particleSystem({
+                        image: game.images['images/smoke1.png'],
+                        center: { x: game.asteroidsInPlay[i].x, y: game.asteroidsInPlay[i].y },
+                        speed: { mean: 1.25, stdev: 0.25 },
+                        lifetime: { mean: 1000, stdev: 50 },
+                        direction: Random.nextDouble()
+                    }, game.Graphics)
+                );
+                for (var j = 0; j < (4 * game.asteroidsInPlay[i].asteroidClass); ++j) {
+                    game.particles[game.particles.length - 1].create(false, false, Random.nextDouble(-Math.PI, Math.PI));
+                }
+            }
+        }
+
         // deleting items from arrays
         game.deleteDeadObjects();
 
@@ -45,8 +73,16 @@ game.screens['game-play'] = (function () {
             game.bulletsInPlay[i].update(elapsedTime);
         }
 
+        for (i = 0, l = game.particles.length; i < l; ++i) {
+            game.particles[i].update(elapsedTime);
+        }
+
         game.Graphics.clear();
         background.draw();
+
+        for (i = 0, l = game.particles.length; i < l; ++i) {
+            game.particles[i].render();
+        }
 
         for (i = 0, l = game.asteroidsInPlay.length; i < l; i++) {
             game.asteroidsInPlay[i].draw();
@@ -58,7 +94,8 @@ game.screens['game-play'] = (function () {
 
         if (!game.spaceship.coordinates.toBeDeleted) {
             game.spaceship.draw();
-        } else {
+        }
+        else {
             // Clear the board (reset game)
             game.bulletsInPlay.length = 0;
             game.asteroidsInPlay.length = 0;
@@ -69,7 +106,7 @@ game.screens['game-play'] = (function () {
                 center: { x: 960, y: 540 },
                 width: 127, height: 100,
                 rotation: 0,
-                moveRate: 23,         // pixels per second
+                moveRate: 23,          // pixels per second
                 rotateRate: Math.PI,   // Radians per second
                 startVector: { x: 0, y: 0 },
                 initialRotation: 0,

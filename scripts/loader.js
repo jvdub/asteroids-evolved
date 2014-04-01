@@ -7,6 +7,7 @@
     },
     asteroidsInPlay: [],
     bulletsInPlay: [],
+    particles: [],
     objectNames: 0,
     BULLET_INTERVAL: 200,
     bulletIntervalCountdown: 200,
@@ -35,7 +36,9 @@ window.addEventListener('load', function () {
                 'preload!images/missile.png',
                 'preload!images/smoke.png',
                 'preload!images/fire.png',
-                'preload!images/laser.png'
+                'preload!images/laser.png',
+                'preload!images/smoke1.png',
+                'preload!images/wizard-fire.png'
             ],
             complete: function () {
 
