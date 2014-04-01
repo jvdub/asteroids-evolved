@@ -34,8 +34,7 @@ window.addEventListener('load', function () {
                 'preload!images/asteroid1.png',
                 'preload!images/missile.png',
                 'preload!images/smoke.png',
-                'preload!images/fire.png',
-                'preload!images/laser.png'
+                'preload!images/fire.png'
             ],
             complete: function () {
 
