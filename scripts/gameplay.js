@@ -80,8 +80,24 @@ game.screens['game-play'] = (function () {
                 game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
             }
 
-            // Show the game over page
-            game.game.showScreen('game-over');
+            var name = prompt('GAME OVER!!!\nScore: ' + game.score + '\nPlease enter your name:');
+        
+            game.screens['high-scores'].run();
+
+            $.ajax({
+                url: '/v1/high-scores',
+                type: 'POST',
+                data: {
+                    name: name,
+                    score: +game.score
+                },
+                dataType: 'json'
+            });
+
+            game.score = 0;
+            game.level = 1;
+
+            game.game.showScreen('high-scores');
 
             // Stop the game loop
             cancelNextRequest = true;

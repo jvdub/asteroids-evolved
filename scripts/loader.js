@@ -8,12 +8,11 @@
     asteroidsInPlay: [],
     bulletsInPlay: [],
     objectNames: 0,
-    BULLET_INTERVAL : 200,
-    bulletIntervalCountdown : 200,
+    BULLET_INTERVAL: 200,
+    bulletIntervalCountdown: 200,
     score: 0,
     displayDistances: false, //toggled when p is pressed.  Remove later
-    score : 0,
-    level : 1
+    level: 1
 };
 
 window.addEventListener('load', function () {

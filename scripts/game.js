@@ -5,7 +5,7 @@
         var screen = 0,
             screens = null;
 
-        // Remove the active state from all screens.  There should only be one...
+        // Remove the active state from all screens. There should only be one...
         screens = document.getElementsByClassName('active');
 
         for (screen = 0; screen < screens.length; screen++) {
