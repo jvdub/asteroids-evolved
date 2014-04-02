@@ -48,9 +48,9 @@ window.addEventListener('load', function () {
                 'preload!images/hyperspace.png',
                 'preload!images/energyBallBlue.png',
                 'preload!images/energyBallYellowFlash.png',
+                'preload!images/explosion.png',
                 'preload!sounds/laserGun.mp3',
-                'preload!sounds/blast.mp3',
-                'preload!images/explosion.png'
+                'preload!sounds/blast.mp3'
             ],
             complete: function () {
             }

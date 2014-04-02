@@ -2,7 +2,8 @@
     'use strict';
 
     var canvas = document.getElementById('asteroids'),
-        context = canvas.getContext('2d');
+        context = canvas.getContext('2d'),
+        blast = new Audio('sounds/blast.mp3');
 
     // Place a 'clear' function on the Canvas prototype, this makes it a part
     // of the canvas, rather than making a function that calls and does it.
@@ -56,6 +57,8 @@
         that.asteroidClass = spec.asteroidClass;
 
         that.dyingFunction = function () {
+            blast.currentTime = 0;
+            blast.play();
             if (that.asteroidClass == 3) {
                 game.generateAnAsteroid(2, {x: that.x, y: that.y});
                 game.generateAnAsteroid(2, {x: that.x, y: that.y});

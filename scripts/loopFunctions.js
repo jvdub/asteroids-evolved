@@ -16,12 +16,14 @@ game.checkAllCollisions = function () {
 
 game.deleteDeadObjects = function () {
     var k = 0;
+    // shift array down over dead asteroids
     for (var i = 0; i < game.asteroidsInPlay.length; i++) {
         if (!game.asteroidsInPlay[i].toBeDeleted) {
             game.asteroidsInPlay[k] = game.asteroidsInPlay[i];
             k++;
         }
         else {
+            //delete an asteroid, get its point value, play a sound
             game.score += game.asteroidsInPlay[i].pointValue;
             game.lifeBonusCounter -= game.asteroidsInPlay[i].pointValue;
             if (game.lifeBonusCounter < 0) {
