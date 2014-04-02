@@ -5,7 +5,7 @@
     background: #90908F;
 }
 
-#asteroids {
+#asteroids, #attract-asteroids {
     position: absolute;
     top: 0;
     left: 0;

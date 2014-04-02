@@ -3,8 +3,30 @@
 game.screens['main-menu'] = (function() {
     'use strict';
     
+    var self = this,
+        lastTime = 0,
+        canvas = null,
+        background = null,
+        elapsedTime = 0,
+        start = 0,
+        totalTime = 0,
+        cancelNextRequest = false;
+
+    function gameLoop(time) {
+        var i = 0,
+            l = 0;
+
+        // Update timers
+        elapsedTime = time - lastTime;
+        lastTime = time;
+        totalTime = time - start;
+
+        if (totalTime > 10000) {
+            game.game.showScreen('attract-mode');
+        }
+    }
+
     function initialize() {
-        //
         // Setup each of menu events for the screens
         document.getElementById('id-new-game').addEventListener(
             'click',
@@ -33,12 +55,14 @@ game.screens['main-menu'] = (function() {
     }
     
     function run() {
-        //
-        // I know this is empty, there isn't anything to do.
+        start = performance.now();
+        lastTime = start;
+        cancelNextRequest = false;
+        requestAnimationFrame(gameLoop);
     }
     
     return {
-        initialize : initialize,
-        run : run
+        initialize: initialize,
+        run: run
     };
 }());
