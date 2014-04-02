@@ -50,7 +50,8 @@ window.addEventListener('load', function () {
                 'preload!images/energyBallYellowFlash.png',
                 'preload!images/explosion.png',
                 'preload!sounds/laserGun.mp3',
-                'preload!sounds/blast.mp3'
+                'preload!sounds/blast.mp3',
+                'preload!images/spinning-asteroid-8.png'
             ],
             complete: function () {
             }

@@ -130,7 +130,8 @@ game.screens['game-play'] = (function () {
                 rotateRate: Math.PI,   // Radians per second
                 startVector: { x: 0, y: 0 },
                 initialRotation: 0,
-                lifetime: null
+                lifetime: null,
+                asteroidClass: null
             });
 
             for (i = 0; i < numAsteroids; i++) {
@@ -187,7 +188,8 @@ game.screens['game-play'] = (function () {
             rotateRate: Math.PI,   // Radians per second
             startVector: { x: 0, y: 0 },
             initialRotation: 0,
-            lifetime: null
+            lifetime: null,
+            asteroidClass: null
         });
 
         for (var i = 0; i < numAsteroids; i++) {

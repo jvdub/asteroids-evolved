@@ -56,7 +56,8 @@
                 rotateRate: Math.PI,   // Radians per second
                 startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y },
                 initialRotation: spaceship.rotation,
-                lifetime: 3000
+                lifetime: 3000, 
+                asteroidClass : null
             }));
         } 
     }

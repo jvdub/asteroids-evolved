@@ -38,7 +38,10 @@
     }
 
     function Texture(spec) {
-        var that = {};
+        var that = {},
+            i = 0, j = 0, renderSlowdown = 0,
+            slowDownFactor = Math.floor(Math.random()*2+2);
+            console.log("Slow " + slowDownFactor);
 
         that.x = spec.center.x;
         that.y = spec.center.y;
@@ -150,11 +153,36 @@
             context.rotate(that.rotation);
             context.translate(-spec.center.x, -spec.center.y);
 
-            context.drawImage(
-				spec.image,
-				spec.center.x - spec.width / 2,
-				spec.center.y - spec.height / 2,
-				spec.width, spec.height);
+            if (that.asteroidClass != null) {
+                context.drawImage(
+    				spec.image,
+                    j*245,
+                    i*245,
+                    245,
+                    245,
+    				spec.center.x - spec.width / 2,
+    				spec.center.y - spec.height / 2,
+    				spec.width, spec.height);
+
+                if (renderSlowdown % slowDownFactor == 0) {
+                    j++;
+                    if(j == 5) {
+                        j = 0;
+                        i++;
+                        if(i == 5) {
+                            i = 0;
+                        }
+                    }
+                }
+                renderSlowdown++;
+            }
+            else {
+                context.drawImage(
+                    spec.image,
+                    spec.center.x - spec.width / 2,
+                    spec.center.y - spec.height / 2,
+                    spec.width, spec.height);
+            }
 
             context.restore();
 
