@@ -71,7 +71,7 @@
                 }, game.Graphics));
 
             for (var j = 0; j < 25; ++j) {
-                game.particles[game.particles.length - 1].create(false, false, Random.nextRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
+                game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
             }
 
             spaceship.teleport(game.findSafeLocation(false));
@@ -86,7 +86,7 @@
                 }, game.Graphics));
 
             for (var j = 0; j < 50; ++j) {
-                game.particles[game.particles.length - 1].create(false, false, Random.nextRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
+                game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
             }
         }
     }

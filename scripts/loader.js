@@ -15,7 +15,7 @@
     displayDistances: false, //toggled when p is pressed.  Remove later
     level: 1,
     lives: 3,
-    teleports : 3
+    teleports: 3
 };
 
 window.addEventListener('load', function () {
@@ -45,7 +45,8 @@ window.addEventListener('load', function () {
                 'preload!images/fireball.png',
                 'preload!images/hyperspace.png',
                 'preload!images/energyBallBlue.png',
-                'preload!images/energyBallYellowFlash.png'
+                'preload!images/energyBallYellowFlash.png',
+                'preload!images/explosion.png'
             ],
             complete: function () {
 

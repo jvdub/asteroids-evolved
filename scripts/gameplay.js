@@ -44,7 +44,7 @@ game.screens['game-play'] = (function () {
                         direction: Random.nextDouble()
                     }, game.Graphics));
                 for (var j = 0; j < (10 * game.asteroidsInPlay[i].asteroidClass); ++j) {
-                    game.particles[game.particles.length - 1].create(false, false, Random.nextRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
+                    game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
                 }
                 game.particles.push(
                     particleSystem({
@@ -56,7 +56,7 @@ game.screens['game-play'] = (function () {
                     }, game.Graphics)
                 );
                 for (var j = 0; j < (5 * game.asteroidsInPlay[i].asteroidClass); ++j) {
-                    game.particles[game.particles.length - 1].create(false, false, Random.nextDouble(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
+                    game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
                 }
             }
         }
@@ -97,7 +97,21 @@ game.screens['game-play'] = (function () {
             game.spaceship.draw();
         }
         else {
-            if (game.lives > 0 ) {
+            if (game.lives > 0) {
+                game.particles.push(
+                        particleSystem({
+                            image: game.images['images/explosion.png'],
+                            center: { x: game.spaceship.coordinates.x, y: game.spaceship.coordinates.y },
+                            speed: { mean: 1.25, stdev: 0.25 },
+                            lifetime: { mean: 1000, stdev: 50 },
+                            direction: Random.nextDouble()
+                        }, game.Graphics)
+                    );
+
+                for (i = 0; i < 20; ++i) {
+                    game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
+                }
+
                 game.spaceship.respawn(elapsedTime);
             }
             else {// Clear the board (reset game)
