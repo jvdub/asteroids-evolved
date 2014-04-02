@@ -84,19 +84,23 @@ game.screens['game-play'] = (function () {
             game.particles[i].render();
         }
 
+        //drawing asteroids
         for (i = 0, l = game.asteroidsInPlay.length; i < l; i++) {
             game.asteroidsInPlay[i].draw();
         }
-
+        //drawing missiles
         for (i = 0, l = game.bulletsInPlay.length; i < l; i++) {
             game.bulletsInPlay[i].draw();
         }
-
+        //draw spaceship
         if (!game.spaceship.coordinates.toBeDeleted) {
             game.spaceship.draw();
         }
         else {
-            // Clear the board (reset game)
+            if (game.lives > 0 ) {
+                game.spaceship.respawn(elapsedTime);
+            }
+            else {// Clear the board (reset game)
             game.bulletsInPlay.length = 0;
             game.asteroidsInPlay.length = 0;
             game.spaceship.coordinates.toBeDeleted = false;
@@ -119,7 +123,7 @@ game.screens['game-play'] = (function () {
             }
 
             var name = prompt('GAME OVER!!!\nScore: ' + game.score + '\nPlease enter your name:');
-        
+
             game.screens['high-scores'].run();
 
             $.ajax({
@@ -134,11 +138,14 @@ game.screens['game-play'] = (function () {
 
             game.score = 0;
             game.level = 1;
+            game.teleports = 3;
+            game.lives = 3;
 
             game.game.showScreen('high-scores');
 
             // Stop the game loop
             cancelNextRequest = true;
+            }
         }
 
         game.Graphics.renderStats();
@@ -167,7 +174,7 @@ game.screens['game-play'] = (function () {
             lifetime: null
         });
 
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < numAsteroids; i++) {
             game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
         }
 

@@ -28,20 +28,9 @@ game.deleteDeadObjects = function () {
     }
     game.asteroidsInPlay.length = k;
 
-    k = 0;
-
-    for (var i = 0; i < game.particles.length; i++) {
-        if (game.particles[i].plength() > 0) {
-            game.particles[k] = game.particles[i];
-            k++;
-        }
-    }
-
-    game.particles.length = k;
-
     if (game.asteroidsInPlay.length == 0) {
         game.level++;
-        for (var i = 0; i < 5 + game.level*2 ; i++) {
+        for (var i = 0; i < 10 + game.level*2 ; i++) {
             game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
         }
     }

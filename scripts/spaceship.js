@@ -2,7 +2,8 @@
     var spaceship = null,
         particles = [],
         coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false},
-        teleportTimer = 1500;
+        teleportTimer = 1500,
+        respawnTimer = 1000;
 
     function moveUp(time) {
         spaceship.moveUp(time);
@@ -40,15 +41,15 @@
     // Fires a missle from the front of the ship
     function fireMissile() {
         // Prevent a missile from firing if one has just been fired.
-        if (game.bulletIntervalCountdown < 0) {
+        if (game.bulletIntervalCountdown < 0 && !coordinates.toBeDeleted) {
             // Reset the countdown
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
             game.bulletsInPlay.push( game.Graphics.Texture({
                 image: game.images['images/fireball.png'],
                 center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
-                width: 25, height: 25,
-                rotation: 0,
+                width: 40, height: 40,
+                rotation: 100,
                 moveRate: 500,         // pixels per second
                 rotateRate: Math.PI,   // Radians per second
                 startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y },
@@ -113,6 +114,18 @@
         }, game.Graphics));
     }
 
+    function respawn(elapsedTime) {
+        respawnTimer -= elapsedTime;
+        if(respawnTimer <= 0) {
+            coordinates.toBeDeleted = false;
+            spaceship.teleport(game.findSafeLocation(false));
+            spaceship.velocityVector = {x : 0, y : 0};
+            game.lives--
+            respawnTimer = 1000;
+            console.log("setting up next life");
+        }
+    }
+
     return {
         init: init,
         update: update,
@@ -123,6 +136,7 @@
         rotateRight: rotateRight,
         generateParticles: generateParticles,
         coordinates : coordinates,
-        teleport : teleport
+        teleport : teleport,
+        respawn : respawn
     };
 }());
