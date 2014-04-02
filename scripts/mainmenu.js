@@ -61,10 +61,10 @@ game.screens['main-menu'] = (function() {
     }
     
     function run() {
-        // start = performance.now();
-        // lastTime = start;
-        // cancelNextRequest = false;
-        // requestAnimationFrame(gameLoop);
+        start = performance.now();
+        lastTime = start;
+        cancelNextRequest = false;
+        requestAnimationFrame(gameLoop);
     }
     
     return {
