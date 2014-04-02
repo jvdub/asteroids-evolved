@@ -13,7 +13,7 @@ game.screens['game-play'] = (function () {
         cancelNextRequest = false,
         myKeyboard = game.input.Keyboard(),
         someTestAsteroids = {},
-        numAsteroids = 10;
+        numAsteroids = 5;
 
     function gameLoop(time) {
         var i = 0,
