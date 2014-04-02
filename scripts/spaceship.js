@@ -1,11 +1,11 @@
-﻿game.spaceship = (function () {
+﻿game.spaceship = function () {
     var spaceship = null,
         particles = [],
         coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false},
         teleportTimer = 1500,
         respawnTimer = 1000,
         laser = new Audio('sounds/laserGun.mp3'),
-        graphics = game.attractMode === true ? game.Graphics('attract-asteroids') : game.Graphics('asteroids');
+        graphics = null;
 
     function moveUp(time) {
         spaceship.moveUp(time);
@@ -40,7 +40,7 @@
     }
 
     // Fires a missle from the front of the ship
-    function fireMissile() {
+    function fireMissile(bulletsInPlay) {
         // Prevent a missile from firing if one has just been fired.
         if (game.bulletIntervalCountdown < 0 && !coordinates.toBeDeleted) {
             // laser = new Audio('sounds/laserGun.mp3');
@@ -48,7 +48,7 @@
             laser.play();
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
-            game.bulletsInPlay.push( graphics.Texture({
+            bulletsInPlay.push( graphics.Texture({
                 image: game.images['images/fireball.png'],
                 center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
                 width: 40, height: 40,
@@ -63,7 +63,7 @@
         } 
     }
 
-    function teleport() {
+    function teleport(asteroidsInPlay) {
         if (teleportTimer < 0 && game.teleports > 0) {
             game.teleports--;
 
@@ -79,7 +79,7 @@
                 game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
             }
 
-            spaceship.teleport(game.findSafeLocation(false));
+            spaceship.teleport(game.findSafeLocation(false, { coordinates: coordinates }, asteroidsInPlay));
             spaceship.velocityVector = {x : 0, y : 0};
             teleportTimer = 2000;
 
@@ -118,7 +118,9 @@
     }
 
     // Create the ship and the particle systems
-    function init(ship) {
+    function init(ship, isAttractMode) {
+        graphics = isAttractMode === true ? game.Graphics('attract-asteroids') : game.Graphics('asteroids');
+
         // Create the ship image
         spaceship = graphics.Texture(ship);
 
@@ -147,12 +149,12 @@
         }, graphics));
     }
 
-    function respawn(elapsedTime) {
+    function respawn(elapsedTime, asteroidsInPlay, hasRespawned) {
         respawnTimer -= elapsedTime;
         spaceship.velocityVector = {x : 0, y : 0};
         if (respawnTimer <= 0) {
             coordinates.toBeDeleted = false;
-            spaceship.teleport(game.findSafeLocation(false));
+            spaceship.teleport(game.findSafeLocation(false, { coordinates: coordinates }, asteroidsInPlay));
             game.lives--
             respawnTimer = 1000;
             console.log("setting up next life");
@@ -183,4 +185,4 @@
         teleport : teleport,
         respawn : respawn
     };
-}());
+};

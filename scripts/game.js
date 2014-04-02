@@ -71,7 +71,7 @@ game.detectCollision = function (a, b) {
     }
 };
 
-game.findSafeLocation = function (draw) {
+game.findSafeLocation = function (draw, spaceship, asteroidsInPlay) {
     // divide the gamearea into a grid and give the squares a score based
     // on how many asteroids are nearby it.
 
@@ -92,17 +92,17 @@ game.findSafeLocation = function (draw) {
 
     for (var i = 0; i < vSplit; i++) {
         for (var j = 0; j < hSplit; j++) {
-            for (var k = 0, l = game.asteroidsInPlay.length; k < l; k++) {
+            for (var k = 0, l = asteroidsInPlay.length; k < l; k++) {
                 cellScores[i][j] += game.modifiedDistance(
                                         i * boxSize + boxSize / 2, j * boxSize + boxSize / 2,
-                                        game.asteroidsInPlay[k].x, game.asteroidsInPlay[k].y);
+                                        asteroidsInPlay[k].x, asteroidsInPlay[k].y);
             }
 
             //count ship as an asteroid as well
             //may weight its influence as well
             cellScores[i][j] += game.modifiedDistance(
                                         i * boxSize + boxSize / 2, j * boxSize + boxSize / 2,
-                                        game.spaceship.coordinates.x, game.spaceship.coordinates.y) * 2;
+                                        spaceship.coordinates.x, spaceship.coordinates.y) * 2;
 
             //keep track of max value as we go through the game
             if (cellScores[i][j] > max) {
@@ -179,7 +179,7 @@ game.findSafeLocation = function (draw) {
     return safeLocation;
 };
 
-game.generateRandomAsteroidLocation = function () {
+game.generateRandomAsteroidLocation = function (spaceship) {
     var coordinates = {
         x: Math.random() * 1920,
         y: Math.random() * 1080
@@ -187,10 +187,10 @@ game.generateRandomAsteroidLocation = function () {
 
     var radius = 500;
 
-    while (((coordinates.x - game.spaceship.coordinates.x) *
-           (coordinates.x - game.spaceship.coordinates.x) +
-           (coordinates.y - game.spaceship.coordinates.y) *
-           (coordinates.y - game.spaceship.coordinates.y)) < (radius * radius)) {
+    while (((coordinates.x - spaceship.coordinates.x) *
+           (coordinates.x - spaceship.coordinates.x) +
+           (coordinates.y - spaceship.coordinates.y) *
+           (coordinates.y - spaceship.coordinates.y)) < (radius * radius)) {
         coordinates.x = Math.random() * 1920;
         coordinates.y = Math.random() * 1080;
     }
@@ -247,11 +247,11 @@ game.toggleGraph = function () {
     }
 };
 
-game.generateAnAsteroid = function (asteroidClass, coordinates) {
+game.generateAnAsteroid = function (asteroidClass, coordinates, isAttractMode, asteroidsInPlay) {
     var newWidth, newHeight, newPointValue, speed,
         imageSelection = Math.floor(Math.random()*2),
         imagePicked, spriteDepth,
-        graphics = game.attractMode === true ? game.Graphics('attract-asteroids') : game.Graphics('asteroids');
+        graphics = isAttractMode === true ? game.Graphics('attract-asteroids') : game.Graphics('asteroids');
 
     switch (imageSelection) {
         case 0:
@@ -288,7 +288,8 @@ game.generateAnAsteroid = function (asteroidClass, coordinates) {
             break;
         default:
     }
-    game.asteroidsInPlay.push(graphics.Texture({
+
+    asteroidsInPlay.push(graphics.Texture({
         image: imagePicked,
         center: coordinates,
         width: newWidth, height: newHeight,

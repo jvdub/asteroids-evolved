@@ -2,8 +2,7 @@
     'use strict';
 
     var canvas = document.getElementById(id),
-        context = canvas.getContext('2d'),
-        blast = new Audio('sounds/blast.mp3');
+        context = canvas.getContext('2d');
 
     // Place a 'clear' function on the Canvas prototype, this makes it a part
     // of the canvas, rather than making a function that calls and does it.
@@ -41,6 +40,7 @@
         var that = {},
             i = 0, j = 0, renderSlowdown = 0,
             slowDownFactor = Math.floor(Math.random()*2+3);
+            // blast = new Audio('sounds/blast.mp3');
 
         that.x = spec.center.x;
         that.y = spec.center.y;
@@ -58,19 +58,20 @@
         that.pointValue = spec.pointValue;
         that.asteroidClass = spec.asteroidClass;
 
-        that.dyingFunction = function () {
-            blast.currentTime = 0;
+        that.dyingFunction = function (asteroidsInPlay, isAttractMode) {
+            var blast = new Audio('sounds/blast.mp3');
+            // blast.currentTime = 0;
             blast.play();
             if (that.asteroidClass == 3) {
-                game.generateAnAsteroid(2, {x: that.x, y: that.y});
-                game.generateAnAsteroid(2, {x: that.x, y: that.y});
-                game.generateAnAsteroid(2, {x: that.x, y: that.y});
+                game.generateAnAsteroid(2, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
+                game.generateAnAsteroid(2, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
+                game.generateAnAsteroid(2, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
             }
             else if (that.asteroidClass == 2) {
-                game.generateAnAsteroid(1, {x: that.x, y: that.y});
-                game.generateAnAsteroid(1, {x: that.x, y: that.y});
-                game.generateAnAsteroid(1, {x: that.x, y: that.y});
-                game.generateAnAsteroid(1, {x: that.x, y: that.y});
+                game.generateAnAsteroid(1, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
+                game.generateAnAsteroid(1, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
+                game.generateAnAsteroid(1, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
+                game.generateAnAsteroid(1, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
             }
         }
 

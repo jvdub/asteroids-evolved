@@ -24,6 +24,7 @@ game.screens['main-menu'] = (function() {
         if (totalTime > 10000) {
             game.game.showScreen('attract-mode');
             cancelNextRequest = true;
+            game.attractMode = true;
         }
 
         if (cancelNextRequest === false) {
@@ -60,10 +61,10 @@ game.screens['main-menu'] = (function() {
     }
     
     function run() {
-        start = performance.now();
-        lastTime = start;
-        cancelNextRequest = false;
-        requestAnimationFrame(gameLoop);
+        // start = performance.now();
+        // lastTime = start;
+        // cancelNextRequest = false;
+        // requestAnimationFrame(gameLoop);
     }
     
     return {

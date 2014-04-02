@@ -14,7 +14,11 @@ game.screens['game-play'] = (function () {
         myKeyboard = game.input.Keyboard(),
         someTestAsteroids = {},
         numAsteroids = 5,
-        graphics = game.Graphics('asteroids');
+        graphics = game.Graphics('asteroids'),
+        spaceship = game.spaceship(),
+        asteroidsInPlay = [],
+        bulletsInPlay = [],
+        hasRespawned = true;
 
     function gameLoop(time) {
         var i = 0,
@@ -28,50 +32,50 @@ game.screens['game-play'] = (function () {
         // Update universal variables
         myKeyboard.update(elapsedTime);
         myMouse.update(elapsedTime);
-        game.spaceship.update(elapsedTime);
+        spaceship.update(elapsedTime);
         game.bulletIntervalCountdown -= elapsedTime;
 
         // collisions
-        game.checkAllCollisions();
+        game.checkAllCollisions(spaceship, asteroidsInPlay, bulletsInPlay);
 
-        for (i = 0, l = game.asteroidsInPlay.length; i < l; ++i) {
-            if (game.asteroidsInPlay[i].toBeDeleted === true) {
+        for (i = 0, l = asteroidsInPlay.length; i < l; ++i) {
+            if (asteroidsInPlay[i].toBeDeleted === true) {
                 game.particles.push(
                     particleSystem({
                         image: game.images['images/wizard-fire.png'],
-                        center: { x: game.asteroidsInPlay[i].x, y: game.asteroidsInPlay[i].y },
+                        center: { x: asteroidsInPlay[i].x, y: asteroidsInPlay[i].y },
                         speed: { mean: 1.25, stdev: 0.25 },
                         lifetime: { mean: 1000, stdev: 50 },
                         direction: Random.nextDouble()
                     }, graphics));
-                for (var j = 0; j < (10 * game.asteroidsInPlay[i].asteroidClass); ++j) {
+                for (var j = 0; j < (10 * asteroidsInPlay[i].asteroidClass); ++j) {
                     game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
                 }
                 game.particles.push(
                     particleSystem({
                         image: game.images['images/smoke1.png'],
-                        center: { x: game.asteroidsInPlay[i].x, y: game.asteroidsInPlay[i].y },
+                        center: { x: asteroidsInPlay[i].x, y: asteroidsInPlay[i].y },
                         speed: { mean: 1.25, stdev: 0.25 },
                         lifetime: { mean: 1000, stdev: 50 },
                         direction: Random.nextDouble()
                     }, graphics)
                 );
-                for (var j = 0; j < (5 * game.asteroidsInPlay[i].asteroidClass); ++j) {
+                for (var j = 0; j < (5 * asteroidsInPlay[i].asteroidClass); ++j) {
                     game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 10));
                 }
             }
         }
 
         // deleting items from arrays
-        game.deleteDeadObjects();
+        game.deleteDeadObjects(spaceship, asteroidsInPlay, bulletsInPlay, false);
 
         // updating objects
-        for (i = 0, l = game.asteroidsInPlay.length; i < l; i++) {
-            game.asteroidsInPlay[i].update(elapsedTime);
+        for (i = 0, l = asteroidsInPlay.length; i < l; i++) {
+            asteroidsInPlay[i].update(elapsedTime);
         }
 
-        for (i = 0, l = game.bulletsInPlay.length; i < l; i++) {
-            game.bulletsInPlay[i].update(elapsedTime);
+        for (i = 0, l = bulletsInPlay.length; i < l; i++) {
+            bulletsInPlay[i].update(elapsedTime);
         }
 
         for (i = 0, l = game.particles.length; i < l; ++i) {
@@ -86,42 +90,47 @@ game.screens['game-play'] = (function () {
         }
 
         //drawing asteroids
-        for (i = 0, l = game.asteroidsInPlay.length; i < l; i++) {
-            game.asteroidsInPlay[i].draw();
+        for (i = 0, l = asteroidsInPlay.length; i < l; i++) {
+            asteroidsInPlay[i].draw();
         }
         //drawing missiles
-        for (i = 0, l = game.bulletsInPlay.length; i < l; i++) {
-            game.bulletsInPlay[i].draw();
+        for (i = 0, l = bulletsInPlay.length; i < l; i++) {
+            bulletsInPlay[i].draw();
         }
         //draw spaceship
-        if (!game.spaceship.coordinates.toBeDeleted) {
-            game.spaceship.draw();
+        if (!spaceship.coordinates.toBeDeleted) {
+            spaceship.draw();
+            hasRespawned = true;
         }
         else {
             if (game.lives > 0) {
-                game.spaceship.respawn(elapsedTime);
+                spaceship.respawn(elapsedTime, asteroidsInPlay, hasRespawned);
                 game.particles.push(
                         particleSystem({
                             image: game.images['images/explosion.png'],
-                            center: { x: game.spaceship.coordinates.x, y: game.spaceship.coordinates.y },
+                            center: { x: spaceship.coordinates.x, y: spaceship.coordinates.y },
                             speed: { mean: 1.25, stdev: 0.25 },
                             lifetime: { mean: 1000, stdev: 50 },
                             direction: Random.nextDouble()
                         }, graphics)
                     );
 
-                for (i = 0; i < 20; ++i) {
-                    game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
+                if (hasRespawned) {
+                    hasRespawned = false;
+
+                    for (i = 0; i < 100; ++i) {
+                        game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
+                    }
                 }
             }
             else {// Clear the board (reset game)
-                game.bulletsInPlay.length = 0;
-                game.asteroidsInPlay.length = 0;
+                bulletsInPlay.length = 0;
+                asteroidsInPlay.length = 0;
                 game.particles.length = 0;
-                game.spaceship.coordinates.toBeDeleted = false;
+                spaceship.coordinates.toBeDeleted = false;
                 myKeyboard.clearQueue();
 
-                game.spaceship.init({
+                spaceship.init({
                     image: game.images['images/battlecruiser2.png'],
                     center: { x: 960, y: 540 },
                     width: 127, height: 100,
@@ -135,7 +144,7 @@ game.screens['game-play'] = (function () {
                 });
 
                 for (i = 0; i < numAsteroids; i++) {
-                    game.generateAnAsteroid(3, game.generateRandomAsteroidLocation());
+                    game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), false, asteroidsInPlay);
                 }
 
                 var name = prompt('GAME OVER!!!\nScore: ' + game.score + '\nPlease enter your name:');
@@ -167,7 +176,7 @@ game.screens['game-play'] = (function () {
         graphics.renderStats();
 
         if (game.displayDistances) {
-            game.findSafeLocation(true);
+            game.findSafeLocation(true, spaceship, asteroidsInPlay);
         }
 
         if (!cancelNextRequest) {
@@ -175,19 +184,27 @@ game.screens['game-play'] = (function () {
         }
     }
 
+    function teleport() {
+        spaceship.teleport(asteroidsInPlay);
+    }
+
+    function fire() {
+        spaceship.fireMissile(bulletsInPlay);
+    }
+
     function attachHandlers() {
         myKeyboard.clearHandlers();
 
         // Create the keyboard input handler and register the keyboard commands
         myKeyboard.registerCommand(game.controls.accel, function (time) {
-            game.spaceship.moveUp(time);
-            game.spaceship.generateParticles();
+            spaceship.moveUp(time);
+            spaceship.generateParticles();
         });
         myKeyboard.registerCommand(game.controls.safe, game.toggleGraph);
-        myKeyboard.registerCommand(game.controls.tele, game.spaceship.teleport);
-        myKeyboard.registerCommand(game.controls.left, game.spaceship.rotateLeft);
-        myKeyboard.registerCommand(game.controls.right, game.spaceship.rotateRight);
-        myKeyboard.registerCommand(game.controls.fire, game.spaceship.fireMissile);
+        myKeyboard.registerCommand(game.controls.tele, teleport);
+        myKeyboard.registerCommand(game.controls.left, spaceship.rotateLeft);
+        myKeyboard.registerCommand(game.controls.right, spaceship.rotateRight);
+        myKeyboard.registerCommand(game.controls.fire, fire);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function () {
             // Stop the game loop by canceling the request for the next animation frame
             cancelNextRequest = true;
@@ -200,7 +217,7 @@ game.screens['game-play'] = (function () {
     function initialize() {
         canvas = document.getElementById('asteroids');
 
-        game.spaceship.init({
+        spaceship.init({
             image: game.images['images/battlecruiser2.png'],
             center: { x: 960, y: 540 },
             width: 127, height: 100,
@@ -214,7 +231,7 @@ game.screens['game-play'] = (function () {
         });
 
         for (var i = 0; i < numAsteroids; i++) {
-            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation());
+            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), false, asteroidsInPlay);
         }
 
         background = graphics.Background({
