@@ -1,7 +1,7 @@
-﻿game.Graphics = (function () {
+﻿game.Graphics = function (id) {
     'use strict';
 
-    var canvas = document.getElementById('asteroids'),
+    var canvas = document.getElementById(id),
         context = canvas.getContext('2d'),
         blast = new Audio('sounds/blast.mp3');
 
@@ -274,4 +274,4 @@
         drawImage: drawImage,
         renderStats : renderStats
     };
-}());
+};

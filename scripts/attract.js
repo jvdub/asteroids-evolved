@@ -13,7 +13,8 @@ game.screens['attract-mode'] = (function () {
         cancelNextRequest = false,
         myKeyboard = game.input.Keyboard(),
         someTestAsteroids = {},
-        numAsteroids = 5;
+        numAsteroids = 5,
+        graphics = game.Graphics('attract-asteroids');
 
     function gameLoop(time) {
         var i = 0,
@@ -25,7 +26,7 @@ game.screens['attract-mode'] = (function () {
         totalTime = time - start;
 
         // Update universal variables
-        myKeyboard.update(elapsedTime);
+        // myKeyboard.update(elapsedTime);
         myMouse.update(elapsedTime);
         game.spaceship.update(elapsedTime);
         game.bulletIntervalCountdown -= elapsedTime;
@@ -42,7 +43,7 @@ game.screens['attract-mode'] = (function () {
                         speed: { mean: 1.25, stdev: 0.25 },
                         lifetime: { mean: 1000, stdev: 50 },
                         direction: Random.nextDouble()
-                    }, game.Graphics));
+                    }, graphics));
                 for (var j = 0; j < (10 * game.asteroidsInPlay[i].asteroidClass); ++j) {
                     game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
                 }
@@ -53,7 +54,7 @@ game.screens['attract-mode'] = (function () {
                         speed: { mean: 1.25, stdev: 0.25 },
                         lifetime: { mean: 1000, stdev: 50 },
                         direction: Random.nextDouble()
-                    }, game.Graphics)
+                    }, graphics)
                 );
                 for (var j = 0; j < (5 * game.asteroidsInPlay[i].asteroidClass); ++j) {
                     game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 10));
@@ -77,7 +78,7 @@ game.screens['attract-mode'] = (function () {
             game.particles[i].update(elapsedTime);
         }
 
-        game.Graphics.clear();
+        graphics.clear();
         background.draw();
 
         for (i = 0, l = game.particles.length; i < l; ++i) {
@@ -105,7 +106,7 @@ game.screens['attract-mode'] = (function () {
                         speed: { mean: 1.25, stdev: 0.25 },
                         lifetime: { mean: 1000, stdev: 50 },
                         direction: Random.nextDouble()
-                    }, game.Graphics)
+                    }, graphics)
                 );
 
             for (i = 0; i < 20; ++i) {
@@ -113,7 +114,7 @@ game.screens['attract-mode'] = (function () {
             }
         }
 
-        game.Graphics.renderStats();
+        // graphics.renderStats();
 
         if (game.displayDistances) {
             game.findSafeLocation(true);
@@ -132,14 +133,14 @@ game.screens['attract-mode'] = (function () {
     }
 
     function initialize() {
-        canvas = document.getElementById('asteroids');
+        canvas = document.getElementById('attract-asteroids');
 
         game.spaceship.init({
             image: game.images['images/battlecruiser2.png'],
             center: { x: 960, y: 540 },
             width: 127, height: 100,
             rotation: 0,
-            moveRate: 23,         // pixels per second
+            moveRate: 23,          // pixels per second
             rotateRate: Math.PI,   // Radians per second
             startVector: { x: 0, y: 0 },
             initialRotation: 0,
@@ -151,7 +152,7 @@ game.screens['attract-mode'] = (function () {
             game.generateAnAsteroid(3, game.generateRandomAsteroidLocation());
         }
 
-        background = game.Graphics.Background({
+        background = graphics.Background({
             image: game.images['images/background1.jpg'],
             center: {
                 x: Math.floor(canvas.width / 2),
@@ -161,16 +162,16 @@ game.screens['attract-mode'] = (function () {
             height: canvas.height
         });
 
-        // myMouse = game.input.Mouse();
-        // myMouse.registerCommand('mousedown', function (e, elapsedTime) {
-        //     game.game.showScreen('main-menu');
-        // });
-        // myMouse.registerCommand('mouseup', function (e, elapsedTime) {
-        //     game.game.showScreen('main-menu');
-        // });
-        // myMouse.registerCommand('mousemove', function (e, elapsedTime) {
-        // 	game.game.showScreen('main-menu');
-        // });
+        myMouse = game.input.Mouse();
+        myMouse.registerCommand('mousedown', function (e, elapsedTime) {
+            // game.game.showScreen('main-menu');
+        });
+        myMouse.registerCommand('mouseup', function (e, elapsedTime) {
+            // game.game.showScreen('main-menu');
+        });
+        myMouse.registerCommand('mousemove', function (e, elapsedTime) {
+        	// game.game.showScreen('main-menu');
+        });
     }
 
     function run() {

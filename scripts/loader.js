@@ -19,7 +19,8 @@
     lifeBonusCounter: 10000,
     teleports: 3,
     hasExploded: 1,
-    controls: {}
+    controls: {},
+    isAttractMode: false
 };
 
 window.addEventListener('load', function () {

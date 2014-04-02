@@ -23,6 +23,11 @@ game.screens['main-menu'] = (function() {
 
         if (totalTime > 10000) {
             game.game.showScreen('attract-mode');
+            cancelNextRequest = true;
+        }
+
+        if (cancelNextRequest === false) {
+            requestAnimationFrame(gameLoop);
         }
     }
 
@@ -30,27 +35,27 @@ game.screens['main-menu'] = (function() {
         // Setup each of menu events for the screens
         document.getElementById('id-new-game').addEventListener(
             'click',
-            function() { game.game.showScreen('game-play'); },
+            function() { cancelNextRequest = true; game.game.showScreen('game-play'); },
             false);
 
         document.getElementById('id-instructions').addEventListener(
             'click',
-            function() { game.game.showScreen('instructions'); },
+            function() { cancelNextRequest = true; game.game.showScreen('instructions'); },
             false);
 
         document.getElementById('id-high-scores').addEventListener(
             'click',
-            function() { game.game.showScreen('high-scores'); },
+            function() { cancelNextRequest = true; game.game.showScreen('high-scores'); },
             false);
         
         document.getElementById('id-options').addEventListener(
             'click',
-            function() { game.game.showScreen('options'); },
+            function() { cancelNextRequest = true; game.game.showScreen('options'); },
             false);
         
         document.getElementById('id-about').addEventListener(
             'click',
-            function() { game.game.showScreen('about'); },
+            function() { cancelNextRequest = true; game.game.showScreen('about'); },
             false);
     }
     

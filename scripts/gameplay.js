@@ -13,7 +13,8 @@ game.screens['game-play'] = (function () {
         cancelNextRequest = false,
         myKeyboard = game.input.Keyboard(),
         someTestAsteroids = {},
-        numAsteroids = 5;
+        numAsteroids = 5,
+        graphics = game.Graphics('asteroids');
 
     function gameLoop(time) {
         var i = 0,
@@ -42,7 +43,7 @@ game.screens['game-play'] = (function () {
                         speed: { mean: 1.25, stdev: 0.25 },
                         lifetime: { mean: 1000, stdev: 50 },
                         direction: Random.nextDouble()
-                    }, game.Graphics));
+                    }, graphics));
                 for (var j = 0; j < (10 * game.asteroidsInPlay[i].asteroidClass); ++j) {
                     game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
                 }
@@ -53,7 +54,7 @@ game.screens['game-play'] = (function () {
                         speed: { mean: 1.25, stdev: 0.25 },
                         lifetime: { mean: 1000, stdev: 50 },
                         direction: Random.nextDouble()
-                    }, game.Graphics)
+                    }, graphics)
                 );
                 for (var j = 0; j < (5 * game.asteroidsInPlay[i].asteroidClass); ++j) {
                     game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 10));
@@ -77,7 +78,7 @@ game.screens['game-play'] = (function () {
             game.particles[i].update(elapsedTime);
         }
 
-        game.Graphics.clear();
+        graphics.clear();
         background.draw();
 
         for (i = 0, l = game.particles.length; i < l; ++i) {
@@ -106,7 +107,7 @@ game.screens['game-play'] = (function () {
                             speed: { mean: 1.25, stdev: 0.25 },
                             lifetime: { mean: 1000, stdev: 50 },
                             direction: Random.nextDouble()
-                        }, game.Graphics)
+                        }, graphics)
                     );
 
                 for (i = 0; i < 20; ++i) {
@@ -163,7 +164,7 @@ game.screens['game-play'] = (function () {
             }
         }
 
-        game.Graphics.renderStats();
+        graphics.renderStats();
 
         if (game.displayDistances) {
             game.findSafeLocation(true);
@@ -216,7 +217,7 @@ game.screens['game-play'] = (function () {
             game.generateAnAsteroid(3, game.generateRandomAsteroidLocation());
         }
 
-        background = game.Graphics.Background({
+        background = graphics.Background({
             image: game.images['images/background1.jpg'],
             center: {
                 x: Math.floor(canvas.width / 2),

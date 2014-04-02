@@ -4,7 +4,8 @@
         coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false},
         teleportTimer = 1500,
         respawnTimer = 1000,
-        laser = new Audio('sounds/laserGun.mp3');
+        laser = new Audio('sounds/laserGun.mp3'),
+        graphics = game.attractMode === true ? game.Graphics('attract-asteroids') : game.Graphics('asteroids');
 
     function moveUp(time) {
         spaceship.moveUp(time);
@@ -47,7 +48,7 @@
             laser.play();
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
-            game.bulletsInPlay.push( game.Graphics.Texture({
+            game.bulletsInPlay.push( graphics.Texture({
                 image: game.images['images/fireball.png'],
                 center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
                 width: 40, height: 40,
@@ -72,7 +73,7 @@
                     speed: { mean: 0.5, stdev: 0.25 },
                     lifetime: { mean: 1000, stdev: 50 },
                     direction: Random.nextDouble()
-                }, game.Graphics));
+                }, graphics));
 
             for (var j = 0; j < 25; ++j) {
                 game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
@@ -88,7 +89,7 @@
                     speed: { mean: 0.5, stdev: 0.25 },
                     lifetime: { mean: 1000, stdev: 50 },
                     direction: Random.nextDouble()
-                }, game.Graphics));
+                }, graphics));
 
             for (var j = 0; j < 50; ++j) {
                 game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
@@ -119,7 +120,7 @@
     // Create the ship and the particle systems
     function init(ship) {
         // Create the ship image
-        spaceship = game.Graphics.Texture(ship);
+        spaceship = graphics.Texture(ship);
 
         particles.length = 0;
 
@@ -129,21 +130,21 @@
             speed: { mean: 0.5, stdev: 0.25 },
             lifetime: { mean: 100, stdev: 50 },
             direction: Random.nextGaussian(spaceship.rotation + Math.PI, 2 * Math.PI)
-        }, game.Graphics));
+        }, graphics));
         particles.push(particleSystem({
             image: game.images['images/fire.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 71, y: spaceship.y - spaceship.directionVector.y * 18 },
             speed: { mean: 0.5, stdev: 0.25 },
             lifetime: { mean: 75, stdev: 25 },
             direction: Random.nextGaussian(spaceship.rotation + Math.PI, 2 * Math.PI)
-        }, game.Graphics));
+        }, graphics));
         particles.push(particleSystem({
             image: game.images['images/fire.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 71, y: spaceship.y + spaceship.directionVector.y * 18 },
             speed: { mean: 0.5, stdev: 0.25 },
             lifetime: { mean: 75, stdev: 25 },
             direction: Random.nextGaussian(spaceship.rotation + Math.PI, 2 * Math.PI)
-        }, game.Graphics));
+        }, graphics));
     }
 
     function respawn(elapsedTime) {
@@ -161,7 +162,7 @@
                     speed: { mean: 0.5, stdev: 0.25 },
                     lifetime: { mean: 1000, stdev: 50 },
                     direction: Random.nextDouble()
-                }, game.Graphics));
+                }, graphics));
 
             for (var j = 0; j < 50; ++j) {
                 game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));

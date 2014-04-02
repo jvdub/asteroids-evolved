@@ -250,7 +250,9 @@ game.toggleGraph = function () {
 game.generateAnAsteroid = function (asteroidClass, coordinates) {
     var newWidth, newHeight, newPointValue, speed,
         imageSelection = Math.floor(Math.random()*2),
-        imagePicked, spriteDepth;
+        imagePicked, spriteDepth,
+        graphics = game.attractMode === true ? game.Graphics('attract-asteroids') : game.Graphics('asteroids');
+
     switch (imageSelection) {
         case 0:
             imagePicked = game.images['images/spinning-asteroid-3.png'];
@@ -286,7 +288,7 @@ game.generateAnAsteroid = function (asteroidClass, coordinates) {
             break;
         default:
     }
-    game.asteroidsInPlay.push(game.Graphics.Texture({
+    game.asteroidsInPlay.push(graphics.Texture({
         image: imagePicked,
         center: coordinates,
         width: newWidth, height: newHeight,
