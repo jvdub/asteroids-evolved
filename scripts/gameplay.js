@@ -98,6 +98,7 @@ game.screens['game-play'] = (function () {
         }
         else {
             if (game.lives > 0) {
+                game.spaceship.respawn(elapsedTime);
                 game.particles.push(
                         particleSystem({
                             image: game.images['images/explosion.png'],
@@ -112,7 +113,7 @@ game.screens['game-play'] = (function () {
                     game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
                 }
 
-                game.spaceship.respawn(elapsedTime);
+                // game.spaceship.respawn(elapsedTime);
             }
             else {// Clear the board (reset game)
             game.bulletsInPlay.length = 0;

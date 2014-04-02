@@ -144,10 +144,10 @@
 
     function respawn(elapsedTime) {
         respawnTimer -= elapsedTime;
+        spaceship.velocityVector = {x : 0, y : 0};
         if(respawnTimer <= 0) {
             coordinates.toBeDeleted = false;
             spaceship.teleport(game.findSafeLocation(false));
-            spaceship.velocityVector = {x : 0, y : 0};
             game.lives--
             respawnTimer = 1000;
             console.log("setting up next life");
