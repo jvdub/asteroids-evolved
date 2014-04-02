@@ -20,7 +20,7 @@
     teleports: 3,
     hasExploded: 1,
     controls: {},
-    isAttractMode: false
+    attractMode: false
 };
 
 window.addEventListener('load', function () {
