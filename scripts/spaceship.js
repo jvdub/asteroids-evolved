@@ -151,6 +151,17 @@
             game.lives--
             respawnTimer = 1000;
             console.log("setting up next life");
+            game.particles.push(particleSystem({
+                    image: game.images['images/energyBallBlue.png'],
+                    center: { x: spaceship.x, y: spaceship.y },
+                    speed: { mean: 0.5, stdev: 0.25 },
+                    lifetime: { mean: 1000, stdev: 50 },
+                    direction: Random.nextDouble()
+                }, game.Graphics));
+
+            for (var j = 0; j < 50; ++j) {
+                game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
+            }
         }
     }
 

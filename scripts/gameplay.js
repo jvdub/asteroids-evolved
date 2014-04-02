@@ -134,7 +134,8 @@ game.screens['game-play'] = (function () {
             });
 
             for (i = 0; i < numAsteroids; i++) {
-                game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
+                game.generateAnAsteroid(3, game.generateRandomAsteroidLocation());
+                // game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
             }
 
             var name = prompt('GAME OVER!!!\nScore: ' + game.score + '\nPlease enter your name:');
@@ -190,7 +191,8 @@ game.screens['game-play'] = (function () {
         });
 
         for (var i = 0; i < numAsteroids; i++) {
-            game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
+            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation());
+            // game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
         }
 
         // Create the keyboard input handler and register the keyboard commands

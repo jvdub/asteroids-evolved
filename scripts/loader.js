@@ -16,7 +16,7 @@
     level: 1,
     lives: 3,
     teleports : 3,
-    lifeBonusCounter : 7000,
+    lifeBonusCounter : 10000,
     teleports: 3
 };
 

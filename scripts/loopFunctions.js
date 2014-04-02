@@ -38,7 +38,8 @@ game.deleteDeadObjects = function () {
     if (game.asteroidsInPlay.length == 0) {
         game.level++;
         for (var i = 0; i < 10 + game.level*2 ; i++) {
-            game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
+            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation());
+            // game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
         }
     }
 

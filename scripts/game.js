@@ -238,23 +238,27 @@ game.toggleGraph = function () {
 game.generateAnAsteroid = function (asteroidClass, coordinates) {
     var newWidth,
         newHeight,
-        newPointValue;
+        newPointValue,
+        speed;
 
     switch (asteroidClass) {
         case 1:
             newWidth = 40;
             newHeight = 40;
-            newPointValue = 10
+            newPointValue = 100;
+            speed = Random.nextGaussian(150, 25);
             break;
         case 2:
             newWidth = 75;
             newHeight = 75;
-            newPointValue = 15
+            newPointValue = 150;
+            speed = Random.nextGaussian(100, 25);
             break;
         case 3:
             newWidth = 100;
             newHeight = 100;
-            newPointValue = 20
+            newPointValue = 200;
+            speed = Random.nextGaussian(50, 25);
             break;
         default:
     }
@@ -265,7 +269,7 @@ game.generateAnAsteroid = function (asteroidClass, coordinates) {
         center: coordinates,
         width: newWidth, height: newHeight,
         rotation: Random.nextGaussian(3, 2),
-        moveRate: Random.nextGaussian(100, 25),         // pixels per second
+        moveRate: speed,         // pixels per second
         rotateRate: Math.PI,   // Radians per second
         startVector: Random.nextCircleVector(),
         initialRotation: 0,
