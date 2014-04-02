@@ -3,17 +3,16 @@
 
 // Report all scores back to the requester.
 exports.all = function (request, response) {
-    scores = fs.readFileSync('./game/scores.json', 'utf-8');
+    scores = JSON.parse(fs.readFileSync('./game/scores.json', 'utf-8'));
 
     console.log('find all scores called');
     response.writeHead(200, { 'content-type': 'application/json' });
-    response.end(scores);
+    response.end(JSON.stringify(scores));
 };
 
 // Add a new score to the server data.
 exports.add = function (request, response) {
     console.log('add new score called');
-    console.log(request);
     console.log(request.body.name);
     console.log(request.body.score);
 
