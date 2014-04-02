@@ -124,7 +124,6 @@
             respawnTimer = 1000;
             console.log("setting up next life");
         }
-        console.log(respawnTimer);
     }
 
     return {
