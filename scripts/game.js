@@ -248,7 +248,20 @@ game.toggleGraph = function () {
 };
 
 game.generateAnAsteroid = function (asteroidClass, coordinates) {
-    var newWidth, newHeight, newPointValue, speed;
+    var newWidth, newHeight, newPointValue, speed,
+        imageSelection = Math.floor(Math.random()*3),
+        imagePicked;
+    switch (imageSelection) {
+        case 0:
+            imagePicked = game.images['images/spinning-asteroid-3.png'];
+            break;
+        case 1:
+            imagePicked = game.images['images/spinning-asteroid-6.png'];
+            break;
+        case 2:
+            imagePicked = game.images['images/spinning-asteroid-9.png'];
+            break;
+    }
 
     switch (asteroidClass) {
         case 1:
@@ -272,7 +285,7 @@ game.generateAnAsteroid = function (asteroidClass, coordinates) {
         default:
     }
     game.asteroidsInPlay.push(game.Graphics.Texture({
-        image: game.images['images/spinning-asteroid-8.png'],
+        image: imagePicked,
         center: coordinates,
         width: newWidth, height: newHeight,
         // rotation: Random.nextGaussian(.5, .25),

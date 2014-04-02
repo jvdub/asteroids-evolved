@@ -79,6 +79,7 @@
             }
 
             spaceship.teleport(game.findSafeLocation(false));
+            spaceship.velocityVector = {x : 0, y : 0};
             teleportTimer = 2000;
 
             game.particles.push(particleSystem({
