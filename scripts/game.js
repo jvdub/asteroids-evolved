@@ -22,6 +22,18 @@
     function init() {
         var screen = null;
 
+        $.ajax({
+            type: 'GET',
+            url: '/v1/controls',
+            success: function (rslt) {
+                game.controls = rslt;
+            },
+            error: function () {
+                // There was a connection error of some sort
+                console.log(this.status + this.statusText);
+            }
+        });
+
         for (screen in game.screens) {
             if (game.screens.hasOwnProperty(screen)) {
                 // console.log(screen);

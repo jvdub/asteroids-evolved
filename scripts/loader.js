@@ -16,8 +16,10 @@
     level: 1,
     lives: 3,
     teleports : 3,
-    lifeBonusCounter : 10000,
-    teleports: 3
+    lifeBonusCounter: 10000,
+    teleports: 3,
+    hasExploded: 1,
+    controls: {}
 };
 
 window.addEventListener('load', function () {

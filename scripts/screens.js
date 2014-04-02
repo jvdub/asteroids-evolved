@@ -9,15 +9,13 @@ game.screens['instructions'] = (function() {
 	}
 
 	function run() {
-		//
 		//maybe not necessary to have this function
 	}
 
 	return {
 		initialize : initialize,
 		run : run
-	}
-
+	};
 }());
 
 game.screens['high-scores'] = (function() {
@@ -70,30 +68,88 @@ game.screens['high-scores'] = (function() {
 	return {
 		initialize : initialize,
 		run : run
-	}
-
+	};
 }());
 
 game.screens['options'] = (function() {
 	'use strict';
 
+	var eles = {
+		accel: null,
+		right: null,
+		left: null,
+		fire: null,
+		tele: null,
+		safe: null,
+		save: null
+	};
+
+	function getKey(e) {
+		game.controls[e.target.id] = +e.keyCode;
+		eles[e.target.id].value = KeyCodes[e.keyCode];
+		e.stopPropagation();
+		e.preventDefault();
+	}
+
 	function initialize() {
+		eles.accel = document.getElementById('accel');
+		eles.right = document.getElementById('right');
+		eles.left = document.getElementById('left');
+		eles.fire = document.getElementById('fire');
+		eles.tele = document.getElementById('tele');
+		eles.safe = document.getElementById('safe');
+		eles.save = document.getElementById('controls-save');
+
+		eles.accel.addEventListener('keydown', getKey, false);
+		eles.right.addEventListener('keydown', getKey, false);
+		eles.left.addEventListener('keydown', getKey, false);
+		eles.fire.addEventListener('keydown', getKey, false);
+		eles.tele.addEventListener('keydown', getKey, false);
+		eles.safe.addEventListener('keydown', getKey, false);
+
+		eles.save.addEventListener('click', function () {
+			$.ajax({
+				type: 'POST',
+				url: '/v1/controls',
+				data: game.controls,
+				dataType: 'json'
+			});
+		},
+		false);
+
 		document.getElementById('id-options-back').addEventListener(
 			'click',
-			function() { game.game.showScreen('main-menu'); },
+			function() {
+				$.ajax({
+		            type: 'GET',
+		            url: '/v1/controls',
+		            success: function (rslt) {
+		                game.controls = rslt;
+		            },
+		            error: function () {
+		                // There was a connection error of some sort
+		                console.log(this.status + this.statusText);
+		            }
+		        });
+
+				game.game.showScreen('main-menu');
+			},
 			false);
 	}
 
 	function run() {
-		//
-		//maybe not necessary to have this function
+		eles.accel.value = KeyCodes[game.controls.accel];
+		eles.right.value = KeyCodes[game.controls.right];
+		eles.left.value = KeyCodes[game.controls.left];
+		eles.fire.value = KeyCodes[game.controls.fire];
+		eles.tele.value = KeyCodes[game.controls.tele];
+		eles.safe.value = KeyCodes[game.controls.safe];
 	}
 
 	return {
 		initialize : initialize,
 		run : run
-	}
-
+	};
 }());
 
 game.screens['about'] = (function() {

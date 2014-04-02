@@ -2,6 +2,7 @@
 	http = require('http'),
 	path = require('path'),
 	scores = require('./game/scores'),
+	controls = require('./game/controls'),
 	app = express();
 
 // all environments
@@ -32,6 +33,8 @@ app.get('/', function (request, response) {
 
 app.get('/v1/high-scores', scores.all);
 app.post('/v1/high-scores', scores.add);
+app.get('/v1/controls', controls.all);
+app.post('/v1/controls', controls.add);
 
 // Indicate any other api requests are not implemented
 app.all('/v1/*', function (request, response) {

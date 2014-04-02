@@ -56,7 +56,7 @@ game.screens['game-play'] = (function () {
                     }, game.Graphics)
                 );
                 for (var j = 0; j < (5 * game.asteroidsInPlay[i].asteroidClass); ++j) {
-                    game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
+                    game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 10));
                 }
             }
         }
@@ -112,8 +112,6 @@ game.screens['game-play'] = (function () {
                 for (i = 0; i < 20; ++i) {
                     game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
                 }
-
-                // game.spaceship.respawn(elapsedTime);
             }
             else {// Clear the board (reset game)
             game.bulletsInPlay.length = 0;
@@ -176,6 +174,28 @@ game.screens['game-play'] = (function () {
         }
     }
 
+    function attachHandlers() {
+        myKeyboard.clearHandlers();
+
+        // Create the keyboard input handler and register the keyboard commands
+        myKeyboard.registerCommand(game.controls.accel, function (time) {
+            game.spaceship.moveUp(time);
+            game.spaceship.generateParticles();
+        });
+        myKeyboard.registerCommand(game.controls.safe, game.toggleGraph);
+        myKeyboard.registerCommand(game.controls.tele, game.spaceship.teleport);
+        myKeyboard.registerCommand(game.controls.left, game.spaceship.rotateLeft);
+        myKeyboard.registerCommand(game.controls.right, game.spaceship.rotateRight);
+        myKeyboard.registerCommand(game.controls.fire, game.spaceship.fireMissile);
+        myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function () {
+            // Stop the game loop by canceling the request for the next animation frame
+            cancelNextRequest = true;
+
+            // Then, return to the main menu
+            game.game.showScreen('main-menu');
+        });
+    }
+
     function initialize() {
         canvas = document.getElementById('asteroids');
 
@@ -194,26 +214,7 @@ game.screens['game-play'] = (function () {
 
         for (var i = 0; i < numAsteroids; i++) {
             game.generateAnAsteroid(3, game.generateRandomAsteroidLocation());
-            // game.generateAnAsteroid(Math.floor(Math.random() * 3 + 1), game.generateRandomAsteroidLocation());
         }
-
-        // Create the keyboard input handler and register the keyboard commands
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_W, function (time) {
-            game.spaceship.moveUp(time);
-            game.spaceship.generateParticles();
-        });
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_P, game.toggleGraph);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_T, game.spaceship.teleport);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_A, game.spaceship.rotateLeft);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_D, game.spaceship.rotateRight);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_SPACE, game.spaceship.fireMissile);
-        myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function () {
-            // Stop the game loop by canceling the request for the next animation frame
-            cancelNextRequest = true;
-
-            // Then, return to the main menu
-            game.game.showScreen('main-menu');
-        });
 
         background = game.Graphics.Background({
             image: game.images['images/background1.jpg'],
@@ -238,6 +239,7 @@ game.screens['game-play'] = (function () {
     }
 
     function run() {
+        attachHandlers();
         start = performance.now();
         lastTime = start;
         cancelNextRequest = false;

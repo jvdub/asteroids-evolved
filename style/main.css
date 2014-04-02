@@ -46,11 +46,11 @@ ul.menu {
     list-style: none;
 }
 
-    ul.menu li {
+    ul.menu li, #options table button {
         margin: 0.8em 0;
     }
 
-        ul.menu li button {
+        ul.menu li button, #options table button {
             font-family: Arial, sans-serif;
             font-size: 0.6em;
             color: #CECEF6;
@@ -62,11 +62,11 @@ ul.menu {
             box-shadow: 0.2em 0.2em 0.3em rgb(0, 0, 0);
         }
 
-            ul.menu li button:hover {
+            ul.menu li button:hover, #options table button:hover {
                 background: #2E2EFE;
             }
 
-            ul.menu li button:active {
+            ul.menu li button:active, #options table button:active {
                 color: #CECEF6;
                 background: rgb(0, 0, 0);
             }
@@ -95,6 +95,11 @@ ul.menu {
     padding: 0;
     margin: 0;
     list-style: none;
+}
+
+#options table {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #game div p {
