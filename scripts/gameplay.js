@@ -100,6 +100,7 @@ game.screens['game-play'] = (function () {
             game.bulletsInPlay.length = 0;
             game.asteroidsInPlay.length = 0;
             game.spaceship.coordinates.toBeDeleted = false;
+            myKeyboard.clearQueue();
 
             game.spaceship.init({
                 image: game.images['images/battlecruiser2.png'],

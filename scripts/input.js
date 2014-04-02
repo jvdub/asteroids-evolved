@@ -109,6 +109,10 @@ game.input = (function () {
             }
         };
 
+        that.clearQueue = function () {
+            this.keys = {};
+        };
+
         // These are used to keep track of which keys are currently pressed
         window.addEventListener('keydown', keyPress.bind(that));
         window.addEventListener('keyup', keyRelease.bind(that));
