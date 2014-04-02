@@ -2,7 +2,8 @@
     var spaceship = null,
         particles = [],
         coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false},
-        teleportTimer = 1500;
+        teleportTimer = 1500,
+        respawnTimer = 1000;
 
     function moveUp(time) {
         spaceship.moveUp(time);
@@ -113,6 +114,19 @@
         }, game.Graphics));
     }
 
+    function respawn(elapsedTime) {
+        respawnTimer -= elapsedTime;
+        if(respawnTimer <= 0) {
+            coordinates.toBeDeleted = false;
+            spaceship.teleport(game.findSafeLocation(false));
+            spaceship.velocityVector = {x : 0, y : 0};
+            game.lives--
+            respawnTimer = 1000;
+            console.log("setting up next life");
+        }
+        console.log(respawnTimer);
+    }
+
     return {
         init: init,
         update: update,
@@ -123,6 +137,7 @@
         rotateRight: rotateRight,
         generateParticles: generateParticles,
         coordinates : coordinates,
-        teleport : teleport
+        teleport : teleport,
+        respawn : respawn
     };
 }());
