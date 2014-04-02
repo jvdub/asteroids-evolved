@@ -40,7 +40,7 @@
     function Texture(spec) {
         var that = {},
             i = 0, j = 0, renderSlowdown = 0,
-            slowDownFactor = Math.floor(Math.random()*2+2);
+            slowDownFactor = Math.floor(Math.random()*2+3);
 
         that.x = spec.center.x;
         that.y = spec.center.y;
@@ -168,7 +168,7 @@
                     if(j == 5) {
                         j = 0;
                         i++;
-                        if(i == 5) {
+                        if(i == spec.spriteDepth) {
                             i = 0;
                         }
                     }
