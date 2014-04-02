@@ -16,7 +16,8 @@
     level: 1,
     lives: 3,
     teleports : 3,
-    lifeBonusCounter : 7000
+    lifeBonusCounter : 7000,
+    teleports: 3
 };
 
 window.addEventListener('load', function () {
@@ -48,8 +49,9 @@ window.addEventListener('load', function () {
                 'preload!images/energyBallBlue.png',
                 'preload!images/energyBallYellowFlash.png',
                 'preload!sounds/laserGun.mp3',
-                'preload!sounds/blast.mp3'
-            ], 
+                'preload!sounds/blast.mp3',
+                'preload!images/explosion.png'
+            ],
             complete: function () {
             }
 		}
