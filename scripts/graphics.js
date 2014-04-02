@@ -41,7 +41,6 @@
         var that = {},
             i = 0, j = 0, renderSlowdown = 0,
             slowDownFactor = Math.floor(Math.random()*2+2);
-            console.log("Slow " + slowDownFactor);
 
         that.x = spec.center.x;
         that.y = spec.center.y;
