@@ -5,13 +5,10 @@ game.screens['attract-mode'] = (function () {
         lastTime = 0,
         canvas = null,
         background = null,
-        mouseCapture = false,
-        myMouse = null,
         elapsedTime = 0,
         start = 0,
         totalTime = 0,
         cancelNextRequest = false,
-        myKeyboard = game.input.Keyboard(),
         someTestAsteroids = {},
         numAsteroids = 5,
         graphics = game.Graphics('attract-asteroids'),
@@ -30,8 +27,6 @@ game.screens['attract-mode'] = (function () {
         totalTime = time - start;
 
         // Update universal variables
-        myKeyboard.update(elapsedTime);
-        myMouse.update(elapsedTime);
         spaceship.update(elapsedTime);
         game.bulletIntervalCountdown -= elapsedTime;
 
@@ -142,8 +137,18 @@ game.screens['attract-mode'] = (function () {
         spaceship.fireMissile(bulletsInPlay);
     }
 
+    function goToMenu() {
+    	document.getElementById('game').removeEventListener('keydown', goToMenu);
+        	document.getElementById('game').removeEventListener('mousedown', goToMenu);
+        //	document.getElementById('game').removeEventListener('mousemove', goToMenu);
+        	cancelNextRequest = true;
+        	game.game.showScreen('main-menu');
+    }
+
     function attachHandlers() {
-        
+        document.getElementById('game').addEventListener('keydown', goToMenu, false);
+        document.getElementById('game').addEventListener('mousedown', goToMenu, false);
+        // document.getElementById('game').addEventListener('mousemove', goToMenu, false);
     }
 
     function initialize() {
@@ -174,17 +179,6 @@ game.screens['attract-mode'] = (function () {
             },
             width: canvas.width,
             height: canvas.height
-        });
-
-        myMouse = game.input.Mouse();
-        myMouse.registerCommand('mousedown', function (e, elapsedTime) {
-            mouseCapture = true;
-        });
-        myMouse.registerCommand('mouseup', function (e, elapsedTime) {
-            mouseCapture = false;
-        });
-        myMouse.registerCommand('mousemove', function (e, elapsedTime) {
-
         });
     }
 
