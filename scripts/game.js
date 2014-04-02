@@ -254,7 +254,7 @@ game.generateAnAsteroid = function (asteroidClass, coordinates) {
         case 1:
             newWidth = 40;
             newHeight = 40;
-            newPointValue = 100;
+            newPointValue = 200;
             speed = Random.nextGaussian(150, 25);
             break;
         case 2:
@@ -266,7 +266,7 @@ game.generateAnAsteroid = function (asteroidClass, coordinates) {
         case 3:
             newWidth = 100;
             newHeight = 100;
-            newPointValue = 200;
+            newPointValue = 100;
             speed = Random.nextGaussian(50, 25);
             break;
         default:
