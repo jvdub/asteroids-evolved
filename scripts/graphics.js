@@ -21,7 +21,8 @@
         context.font = "50px Arial Bold";
         context.fillStyle = "white";
         context.fillText(game.score, 10, 1060);
-        context.fillText("Level: " + game.level, 10, 40);
+        context.font = "40px Arial Bold";
+        context.fillText("Level: " + game.level, 10, 30);
 
 
         var startX = 1920 - game.lives * 50;

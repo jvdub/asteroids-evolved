@@ -18,6 +18,7 @@ app.use('/views', express.static(__dirname + 'views'));
 app.use('/scripts', express.static(__dirname + '/scripts'));
 app.use('/style', express.static(__dirname + '/style'));
 app.use('/images', express.static(__dirname + '/images'));
+app.use('/sounds', express.static(__dirname + '/sounds'));
 
 //development only
 if ('development' === app.get('env')) {

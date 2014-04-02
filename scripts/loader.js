@@ -15,7 +15,8 @@
     displayDistances: false, //toggled when p is pressed.  Remove later
     level: 1,
     lives: 3,
-    teleports : 3
+    teleports : 3,
+    lifeBonusCounter : 7000
 };
 
 window.addEventListener('load', function () {
@@ -45,10 +46,11 @@ window.addEventListener('load', function () {
                 'preload!images/fireball.png',
                 'preload!images/hyperspace.png',
                 'preload!images/energyBallBlue.png',
-                'preload!images/energyBallYellowFlash.png'
-            ],
+                'preload!images/energyBallYellowFlash.png',
+                'preload!sounds/laserGun.mp3',
+                'preload!sounds/blast.mp3'
+            ], 
             complete: function () {
-
             }
 		}
     ]);

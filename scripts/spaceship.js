@@ -3,7 +3,8 @@
         particles = [],
         coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false},
         teleportTimer = 1500,
-        respawnTimer = 1000;
+        respawnTimer = 1000,
+        laser = new Audio('sounds/laserGun.mp3');
 
     function moveUp(time) {
         spaceship.moveUp(time);
@@ -41,7 +42,9 @@
     function fireMissile() {
         // Prevent a missile from firing if one has just been fired.
         if (game.bulletIntervalCountdown < 0 && !coordinates.toBeDeleted) {
-            // Reset the countdown
+            // laser = new Audio('sounds/laserGun.mp3');
+            laser.currentTime = 0;
+            laser.play();
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
             game.bulletsInPlay.push( game.Graphics.Texture({

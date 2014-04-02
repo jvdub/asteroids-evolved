@@ -23,6 +23,11 @@ game.deleteDeadObjects = function () {
         }
         else {
             game.score += game.asteroidsInPlay[i].pointValue;
+            game.lifeBonusCounter -= game.asteroidsInPlay[i].pointValue;
+            if (game.lifeBonusCounter < 0) {
+                game.lives++;
+                game.lifeBonusCounter = 7000;
+            }
             game.asteroidsInPlay[i].dyingFunction();
         }
     }
