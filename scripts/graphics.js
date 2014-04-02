@@ -168,7 +168,7 @@
                     if(j == 5) {
                         j = 0;
                         i++;
-                        if(i == 4) {
+                        if(i == spec.spriteDepth) {
                             i = 0;
                         }
                     }

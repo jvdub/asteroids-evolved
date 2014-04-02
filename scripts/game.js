@@ -249,18 +249,20 @@ game.toggleGraph = function () {
 
 game.generateAnAsteroid = function (asteroidClass, coordinates) {
     var newWidth, newHeight, newPointValue, speed,
-        imageSelection = Math.floor(Math.random()*3),
-        imagePicked;
+        imageSelection = Math.floor(Math.random()*2),
+        imagePicked, spriteDepth;
     switch (imageSelection) {
         case 0:
             imagePicked = game.images['images/spinning-asteroid-3.png'];
+            spriteDepth = 4;
             break;
         case 1:
-            imagePicked = game.images['images/spinning-asteroid-6.png'];
+            imagePicked = game.images['images/spinning-asteroid-8.png'];
+            spriteDepth = 5;
             break;
-        case 2:
-            imagePicked = game.images['images/spinning-asteroid-9.png'];
-            break;
+        // case 2:
+        //     imagePicked = game.images['images/spinning-asteroid-9.png'];
+        //     break;
     }
 
     switch (asteroidClass) {
@@ -296,6 +298,7 @@ game.generateAnAsteroid = function (asteroidClass, coordinates) {
         initialRotation: Math.random()*2*Math.PI,
         lifetime: null,
         pointValue: newPointValue,
-        asteroidClass: asteroidClass
+        asteroidClass: asteroidClass,
+        spriteDepth: spriteDepth
     }));
 };

@@ -55,7 +55,8 @@ window.addEventListener('load', function () {
                 'preload!sounds/blast.mp3',
                 'preload!images/spinning-asteroid-3.png',
                 'preload!images/spinning-asteroid-6.png',
-                'preload!images/spinning-asteroid-9.png'
+                'preload!images/spinning-asteroid-9.png',
+                'preload!images/spinning-asteroid-8.png'
             ],
             complete: function () {
             }
