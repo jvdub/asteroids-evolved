@@ -116,6 +116,7 @@ game.screens['game-play'] = (function () {
             else {// Clear the board (reset game)
             game.bulletsInPlay.length = 0;
             game.asteroidsInPlay.length = 0;
+            game.particles.length = 0;
             game.spaceship.coordinates.toBeDeleted = false;
             myKeyboard.clearQueue();
 

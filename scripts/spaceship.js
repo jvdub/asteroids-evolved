@@ -120,6 +120,8 @@
         // Create the ship image
         spaceship = game.Graphics.Texture(ship);
 
+        particles.length = 0;
+
         particles.push(particleSystem({
             image: game.images['images/smoke.png'],
             center: { x: spaceship.x - spaceship.directionVector.x * 79, y: spaceship.y },
