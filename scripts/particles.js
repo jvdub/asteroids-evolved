@@ -15,10 +15,10 @@
     };
 
     // This creates one new particle
-    that.create = function (x, y, direction) {
+    that.create = function (x, y, direction, size) {
         var p = {
             image: spec.image,
-            size: Random.nextGaussian(50, 25),
+            size: size ? size : Random.nextGaussian(50, 25),
             center: { x: x ? x : spec.center.x, y: y ? y : spec.center.y },
             direction: direction ? direction : spec.direction,
             speed: Random.nextGaussian(spec.speed.mean, spec.speed.stdev), // pixels per second

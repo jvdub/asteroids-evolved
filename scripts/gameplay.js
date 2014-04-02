@@ -43,8 +43,8 @@ game.screens['game-play'] = (function () {
                         lifetime: { mean: 1000, stdev: 50 },
                         direction: Random.nextDouble()
                     }, game.Graphics));
-                for (var j = 0; j < (7 * game.asteroidsInPlay[i].asteroidClass); ++j) {
-                    game.particles[game.particles.length - 1].create(false, false, Random.nextRange(-Math.PI, Math.PI));
+                for (var j = 0; j < (10 * game.asteroidsInPlay[i].asteroidClass); ++j) {
+                    game.particles[game.particles.length - 1].create(false, false, Random.nextRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
                 }
                 game.particles.push(
                     particleSystem({
@@ -55,8 +55,8 @@ game.screens['game-play'] = (function () {
                         direction: Random.nextDouble()
                     }, game.Graphics)
                 );
-                for (var j = 0; j < (4 * game.asteroidsInPlay[i].asteroidClass); ++j) {
-                    game.particles[game.particles.length - 1].create(false, false, Random.nextDouble(-Math.PI, Math.PI));
+                for (var j = 0; j < (5 * game.asteroidsInPlay[i].asteroidClass); ++j) {
+                    game.particles[game.particles.length - 1].create(false, false, Random.nextDouble(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
                 }
             }
         }

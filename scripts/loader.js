@@ -43,7 +43,9 @@ window.addEventListener('load', function () {
                 'preload!images/wizard-fire.png',
                 'preload!images/livesDisplay.png',
                 'preload!images/fireball.png',
-                'preload!images/hyperspace.png'
+                'preload!images/hyperspace.png',
+                'preload!images/energyBallBlue.png',
+                'preload!images/energyBallYellowFlash.png'
             ],
             complete: function () {
 

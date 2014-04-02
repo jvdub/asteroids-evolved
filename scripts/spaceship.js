@@ -18,7 +18,6 @@
     }
 
     function generateParticles() {
-        
         for (var i = 0; i < 5; ++i) {
             particles[1].create(
                 (spaceship.x - spaceship.directionVector.x * 71) + (18 * -spaceship.directionVector.y) ,
@@ -58,11 +57,37 @@
             }));
         } 
     }
+
     function teleport() {
         if (teleportTimer < 0 && game.teleports > 0) {
             game.teleports--;
+
+            game.particles.push(particleSystem({
+                    image: game.images['images/energyBallYellowFlash.png'],
+                    center: { x: spaceship.x, y: spaceship.y },
+                    speed: { mean: 0.5, stdev: 0.25 },
+                    lifetime: { mean: 1000, stdev: 50 },
+                    direction: Random.nextDouble()
+                }, game.Graphics));
+
+            for (var j = 0; j < 25; ++j) {
+                game.particles[game.particles.length - 1].create(false, false, Random.nextRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
+            }
+
             spaceship.teleport(game.findSafeLocation(false));
             teleportTimer = 2000;
+
+            game.particles.push(particleSystem({
+                    image: game.images['images/energyBallBlue.png'],
+                    center: { x: spaceship.x, y: spaceship.y },
+                    speed: { mean: 0.5, stdev: 0.25 },
+                    lifetime: { mean: 1000, stdev: 50 },
+                    direction: Random.nextDouble()
+                }, game.Graphics));
+
+            for (var j = 0; j < 50; ++j) {
+                game.particles[game.particles.length - 1].create(false, false, Random.nextRange(-Math.PI, Math.PI), Random.nextGaussian(20, 10));
+            }
         }
     }
 
