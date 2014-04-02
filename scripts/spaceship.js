@@ -41,15 +41,15 @@
     // Fires a missle from the front of the ship
     function fireMissile() {
         // Prevent a missile from firing if one has just been fired.
-        if (game.bulletIntervalCountdown < 0) {
+        if (game.bulletIntervalCountdown < 0 && !coordinates.toBeDeleted) {
             // Reset the countdown
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
             // Add the missile to the objects in the game
             game.bulletsInPlay.push( game.Graphics.Texture({
                 image: game.images['images/fireball.png'],
                 center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
-                width: 25, height: 25,
-                rotation: 0,
+                width: 40, height: 40,
+                rotation: 100,
                 moveRate: 500,         // pixels per second
                 rotateRate: Math.PI,   // Radians per second
                 startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y },
