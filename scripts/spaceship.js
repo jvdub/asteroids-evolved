@@ -40,10 +40,34 @@
     }
 
     // Fires a missle from the front of the ship
+    // function fireMissile(bulletsInPlay) {
+    //     // Prevent a missile from firing if one has just been fired.
+    //     if (game.bulletIntervalCountdown < 0 && !coordinates.toBeDeleted) {
+    //         // laser = new Audio('sounds/laserGun.mp3');
+    //         laser.currentTime = 0;
+    //         laser.play();
+    //         game.bulletIntervalCountdown = game.BULLET_INTERVAL;
+    //         // Add the missile to the objects in the game
+    //         bulletsInPlay.push( graphics.Texture({
+    //             image: game.images['images/fireball.png'],
+    //             center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
+    //             width: 40, height: 40,
+    //             rotation: 100,
+    //             moveRate: 500,         // pixels per second
+    //             rotateRate: Math.PI,   // Radians per second
+    //             startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y },
+    //             initialRotation: spaceship.rotation,
+    //             lifetime: 3000, 
+    //             asteroidClass : null
+    //         }));
+    //     } 
+    // }
+
     function fireMissile(bulletsInPlay) {
         // Prevent a missile from firing if one has just been fired.
         if (game.bulletIntervalCountdown < 0 && !coordinates.toBeDeleted) {
             // laser = new Audio('sounds/laserGun.mp3');
+            console.log(Math.sqrt(Math.pow(spaceship.velocityVector.x, 2) + Math.pow(spaceship.velocityVector.y, 2)));
             laser.currentTime = 0;
             laser.play();
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
@@ -53,9 +77,10 @@
                 center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
                 width: 40, height: 40,
                 rotation: 100,
-                moveRate: 500,         // pixels per second
+                // moveRate: 100,         // pixels per second
+                moveRate: 500+23*Math.sqrt(Math.pow(spaceship.velocityVector.x, 2) + Math.pow(spaceship.velocityVector.y, 2)),         // pixels per second
                 rotateRate: Math.PI,   // Radians per second
-                startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y },
+                startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y},
                 initialRotation: spaceship.rotation,
                 lifetime: 3000, 
                 asteroidClass : null
