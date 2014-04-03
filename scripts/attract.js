@@ -293,7 +293,7 @@ game.screens['attract-mode'] = (function () {
         saucerSmall.init({
             image: game.images['images/saucersquare.png'],
             center: {x: 0, y: 0},
-            width: 74, height: 63,
+            width: 55, height: 47,
             rotation: 0,
             moveRate: Random.nextGaussian(40, 10),         // pixels per second
             rotateRate: Math.PI,   // Radians per second
