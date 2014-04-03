@@ -17,16 +17,22 @@
     lives: 3,
     teleports : 3,
     lifeBonusCounter: 10000,
+    LIFE_BONUS_COUNTER_RESET : 10000,
     teleports: 3,
     hasExploded: 1,
     controls: {},
-    attractMode: false
+    attractMode: false,
+    saucerAppearCounter : 3000,
+    SAUCER_APPEAR_COUNTER_RESET : 3000,
+    putSaucerIntoPlay : false,
+    saucerInPlay : false
 };
 
 window.addEventListener('load', function () {
     window.Modernizr.load([
 		{
             load: [
+                'preload!scripts/saucer.js',
                 'preload!scripts/random.js',
                 'preload!scripts/graphics.js',
                 'preload!scripts/input.js',
@@ -52,13 +58,15 @@ window.addEventListener('load', function () {
                 'preload!images/hyperspace.png',
                 'preload!images/energyBallBlue.png',
                 'preload!images/energyBallYellowFlash.png',
+                'preload!images/energyBallYellow.png',
                 'preload!images/explosion.png',
                 'preload!sounds/laserGun.mp3',
                 'preload!sounds/blast.mp3',
                 'preload!images/spinning-asteroid-3.png',
                 'preload!images/spinning-asteroid-6.png',
                 'preload!images/spinning-asteroid-9.png',
-                'preload!images/spinning-asteroid-8.png'
+                'preload!images/spinning-asteroid-8.png',
+                'preload!images/saucersquare.png'
             ],
             complete: function () {
             }

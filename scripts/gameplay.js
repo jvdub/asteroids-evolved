@@ -13,11 +13,17 @@ game.screens['game-play'] = (function () {
         cancelNextRequest = false,
         myKeyboard = game.input.Keyboard(),
         someTestAsteroids = {},
-        numAsteroids = 5,
+        numAsteroids = 3,
         graphics = game.Graphics('asteroids'),
+        isAttractMode = false,
         spaceship = game.spaceship(),
+        saucerBig = game.saucer(),
+        saucerSmall = game.saucer(),
         asteroidsInPlay = [],
         bulletsInPlay = [],
+        alienBulletsInPlay = [],
+        alienFireTimer = 4000,
+        saucerToggle = 'big',
         hasRespawned = true;
 
     function gameLoop(time) {
@@ -35,9 +41,91 @@ game.screens['game-play'] = (function () {
         spaceship.update(elapsedTime);
         game.bulletIntervalCountdown -= elapsedTime;
 
-        // collisions
-        game.checkAllCollisions(spaceship, asteroidsInPlay, bulletsInPlay);
+        if (game.putSaucerIntoPlay) {
+            game.saucerInPlay = true;
+            game.putSaucerIntoPlay = false;
 
+            if (saucerToggle == 'small' || game.score >= 20000) {
+                saucerSmall.active = true;
+                saucerSmall.reset();
+                saucerToggle = 'big';
+            }
+            else {
+                saucerBig.active = true;
+                saucerBig.reset();
+                saucerToggle = 'small';
+            }
+            
+        }
+
+        //Big Saucer
+        if (saucerBig.active) {
+            alienFireTimer -= elapsedTime;
+            saucerBig.update(elapsedTime);
+            if ( alienFireTimer < 0 && saucerBig.active) {
+                alienFireTimer = 3000;
+                saucerBig.fireMissile(alienBulletsInPlay, Random.nextCircleVector());
+            }
+            //check if any bullets collided with the alienship.
+            for (var i = 0, l = bulletsInPlay.length; i < l; i++) {
+                if (game.detectCollision(saucerBig.coordinates, bulletsInPlay[i])) {
+                    saucerBig.coordinates.toBeDeleted = true;
+                    saucerBig.active  = false;
+                    bulletsInPlay[i].toBeDeleted = true;
+                    game.saucerInPlay = false;
+
+                    game.particles.push(
+                        particleSystem({
+                            image: game.images['images/explosion.png'],
+                            center: { x: saucerBig.coordinates.x, y: saucerBig.coordinates.y },
+                            speed: { mean: 1.25, stdev: 0.25 },
+                            lifetime: { mean: 1000, stdev: 50 },
+                            direction: Random.nextDouble()
+                        }, graphics)
+                    );
+                    for (i = 0; i < 50; ++i) {
+                        game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
+                    }
+                }
+            }
+        }
+        //small saucer
+        if (saucerSmall.active) {
+            alienFireTimer -= elapsedTime;
+            saucerSmall.update(elapsedTime);
+            if ( alienFireTimer < 0 && saucerSmall.active) {
+                alienFireTimer = 3000;
+                saucerSmall.fireMissile(alienBulletsInPlay, game.getFiringVector(saucerSmall.coordinates, spaceship.coordinates));
+            }
+            //check if any bullets collided with the alienship.
+            for (var i = 0, l = bulletsInPlay.length; i < l; i++) {
+                if (game.detectCollision(saucerSmall.coordinates, bulletsInPlay[i])) {
+                    saucerSmall.coordinates.toBeDeleted = true;
+                    saucerSmall.active  = false;
+                    bulletsInPlay[i].toBeDeleted = true;
+                    game.saucerInPlay = false;
+
+                    game.particles.push(
+                        particleSystem({
+                            image: game.images['images/explosion.png'],
+                            center: { x: saucerSmall.coordinates.x, y: saucerSmall.coordinates.y },
+                            speed: { mean: 1.25, stdev: 0.25 },
+                            lifetime: { mean: 1000, stdev: 50 },
+                            direction: Random.nextDouble()
+                        }, graphics)
+                    );
+                    for (i = 0; i < 50; ++i) {
+                        game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
+                    }
+                }
+            }
+        }
+        
+
+        // collisions
+        game.checkAllCollisions(spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay);
+
+        //particles for asteroid explosions
         for (i = 0, l = asteroidsInPlay.length; i < l; ++i) {
             if (asteroidsInPlay[i].toBeDeleted === true) {
                 game.particles.push(
@@ -67,24 +155,34 @@ game.screens['game-play'] = (function () {
         }
 
         // deleting items from arrays
-        game.deleteDeadObjects(spaceship, asteroidsInPlay, bulletsInPlay, false);
+        game.deleteDeadObjects(spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay, isAttractMode);
 
         // updating objects
+        //asteroids
         for (i = 0, l = asteroidsInPlay.length; i < l; i++) {
             asteroidsInPlay[i].update(elapsedTime);
         }
 
+        //bullets
         for (i = 0, l = bulletsInPlay.length; i < l; i++) {
             bulletsInPlay[i].update(elapsedTime);
         }
 
+        //particles
         for (i = 0, l = game.particles.length; i < l; ++i) {
             game.particles[i].update(elapsedTime);
         }
 
+        //alien bullets
+        for (i = 0, l = alienBulletsInPlay.length; i < l; i++) {
+            alienBulletsInPlay[i].update(elapsedTime);
+        }
+
+        // Drawing section
         graphics.clear();
         background.draw();
 
+        //particles
         for (i = 0, l = game.particles.length; i < l; ++i) {
             game.particles[i].render();
         }
@@ -96,6 +194,19 @@ game.screens['game-play'] = (function () {
         //drawing missiles
         for (i = 0, l = bulletsInPlay.length; i < l; i++) {
             bulletsInPlay[i].draw();
+        }
+        //drawing saucer
+        if (saucerBig.active) {
+            saucerBig.draw();    
+        }
+        if (saucerSmall.active) {
+            saucerSmall.draw();    
+        }
+
+        
+        //drawing saucer bullets
+        for(i = 0, l = alienBulletsInPlay.length; i < l; i++) {
+            alienBulletsInPlay[i].draw();
         }
         //draw spaceship
         if (!spaceship.coordinates.toBeDeleted) {
@@ -126,8 +237,12 @@ game.screens['game-play'] = (function () {
             else {// Clear the board (reset game)
                 bulletsInPlay.length = 0;
                 asteroidsInPlay.length = 0;
+                alienBulletsInPlay.length = 0;
                 game.particles.length = 0;
+
                 spaceship.coordinates.toBeDeleted = false;
+                spaceship.coordinates.x = 960;
+                spaceship.coordinates.y = 540;
                 myKeyboard.clearQueue();
 
                 spaceship.init({
@@ -143,8 +258,10 @@ game.screens['game-play'] = (function () {
                     asteroidClass: null
                 });
 
+                
+
                 for (i = 0; i < numAsteroids; i++) {
-                    game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), false, asteroidsInPlay);
+                    game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), isAttractMode, asteroidsInPlay);
                 }
 
                 var name = prompt('GAME OVER!!!\nScore: ' + game.score + '\nPlease enter your name:');
@@ -165,6 +282,11 @@ game.screens['game-play'] = (function () {
                 game.level = 1;
                 game.teleports = 3;
                 game.lives = 3;
+                game.saucerAppearCounter = game.SAUCER_APPEAR_COUNTER_RESET;
+                game.putSaucerIntoPlay = false;
+                game.saucerInPlay = false;
+                saucerSmall.active = false;
+                saucerBig.active = false;
 
                 game.game.showScreen('high-scores');
 
@@ -230,8 +352,36 @@ game.screens['game-play'] = (function () {
             asteroidClass: null
         });
 
+        saucerBig.init({
+            image: game.images['images/saucersquare.png'],
+            center: {x: 0, y: 0},
+            width: 111, height: 95,
+            rotation: 0,
+            moveRate: Random.nextGaussian(40, 10),         // pixels per second
+            rotateRate: Math.PI,   // Radians per second
+            startVector: {x: 0, y: 0},
+            initialRotation: 0,
+            lifetime: null,
+            pointValue: 100,
+            asteroidClass: null
+        });
+
+        saucerSmall.init({
+            image: game.images['images/saucersquare.png'],
+            center: {x: 0, y: 0},
+            width: 74, height: 63,
+            rotation: 0,
+            moveRate: Random.nextGaussian(40, 10),         // pixels per second
+            rotateRate: Math.PI,   // Radians per second
+            startVector: {x: 0, y: 0},
+            initialRotation: 0,
+            lifetime: null,
+            pointValue: 100,
+            asteroidClass: null
+        });
+
         for (var i = 0; i < numAsteroids; i++) {
-            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), false, asteroidsInPlay);
+            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), isAttractMode, asteroidsInPlay);
         }
 
         background = graphics.Background({

@@ -60,7 +60,6 @@
 
         that.dyingFunction = function (asteroidsInPlay, isAttractMode) {
             var blast = new Audio('sounds/blast.mp3');
-            // blast.currentTime = 0;
             blast.play();
             if (that.asteroidClass == 3) {
                 game.generateAnAsteroid(2, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
@@ -122,12 +121,20 @@
             }
         };
 
+        that.reset = function (x, y, dirVector) {
+            spec.center.x = x;
+            spec.center.y = y;
+            that.x = x;
+            that.y = y;
+            that.velocityVector = dirVector;
+        };
+
         that.teleport = function (coordinates) {
             that.x = coordinates.x;
             that.y = coordinates.y;
             spec.center.x = coordinates.x;
             spec.center.y = coordinates.y;
-        }
+        };
 
         that.rotateRight = function (elapsedTime) {
             that.rotation += spec.rotateRate * (elapsedTime / 1000);

@@ -271,19 +271,19 @@ game.generateAnAsteroid = function (asteroidClass, coordinates, isAttractMode, a
         case 1:
             newWidth = 40;
             newHeight = 40;
-            newPointValue = 200;
+            newPointValue = 100;
             speed = Random.nextGaussian(150, 25);
             break;
         case 2:
             newWidth = 75;
             newHeight = 75;
-            newPointValue = 150;
+            newPointValue = 50;
             speed = Random.nextGaussian(100, 25);
             break;
         case 3:
             newWidth = 100;
             newHeight = 100;
-            newPointValue = 100;
+            newPointValue = 20;
             speed = Random.nextGaussian(50, 25);
             break;
         default:
@@ -304,4 +304,16 @@ game.generateAnAsteroid = function (asteroidClass, coordinates, isAttractMode, a
         asteroidClass: asteroidClass,
         spriteDepth: spriteDepth
     }));
+    
 };
+
+game.getFiringVector = function (saucerCoordinates, spaceShipCoordinates) {
+    var x = spaceShipCoordinates.x - saucerCoordinates.x,
+        y = spaceShipCoordinates.y - saucerCoordinates.y,
+        mag = Math.sqrt( x*x + y*y );
+
+    return {
+        x: x/mag,
+        y: y/mag
+    }
+}

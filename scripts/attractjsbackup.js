@@ -10,17 +10,11 @@ game.screens['attract-mode'] = (function () {
         totalTime = 0,
         cancelNextRequest = false,
         someTestAsteroids = {},
-        numAsteroids = 3ww,
+        numAsteroids = 5,
         graphics = game.Graphics('attract-asteroids'),
-        isAttractMode = true,
         spaceship = game.spaceship(),
-        saucerBig = game.saucer(),
-        saucerSmall = game.saucer(),
         asteroidsInPlay = [],
         bulletsInPlay = [],
-        alienBulletsInPlay = [],
-        alienFireTimer = 4000,
-        saucerToggle = 'big',
         hasRespawned = true;
 
     function gameLoop(time) {
@@ -36,88 +30,8 @@ game.screens['attract-mode'] = (function () {
         spaceship.update(elapsedTime);
         game.bulletIntervalCountdown -= elapsedTime;
 
-        if (game.putSaucerIntoPlay) {
-            game.saucerInPlay = true;
-            game.putSaucerIntoPlay = false;
-
-            if (saucerToggle == 'small' || game.score >= 20000) {
-                saucerSmall.active = true;
-                saucerSmall.reset();
-                saucerToggle = 'big';
-            }
-            else {
-                saucerBig.active = true;
-                saucerBig.reset();
-                saucerToggle = 'small';
-            }
-            
-        }
-
-        //Big Saucer
-        if (saucerBig.active) {
-            alienFireTimer -= elapsedTime;
-            saucerBig.update(elapsedTime);
-            if ( alienFireTimer < 0 && saucerBig.active) {
-                alienFireTimer = 3000;
-                saucerBig.fireMissile(alienBulletsInPlay, Random.nextCircleVector());
-            }
-            //check if any bullets collided with the alienship.
-            for (var i = 0, l = bulletsInPlay.length; i < l; i++) {
-                if (game.detectCollision(saucerBig.coordinates, bulletsInPlay[i])) {
-                    saucerBig.coordinates.toBeDeleted = true;
-                    saucerBig.active  = false;
-                    bulletsInPlay[i].toBeDeleted = true;
-                    game.saucerInPlay = false;
-
-                    game.particles.push(
-                        particleSystem({
-                            image: game.images['images/explosion.png'],
-                            center: { x: saucerBig.coordinates.x, y: saucerBig.coordinates.y },
-                            speed: { mean: 1.25, stdev: 0.25 },
-                            lifetime: { mean: 1000, stdev: 50 },
-                            direction: Random.nextDouble()
-                        }, graphics)
-                    );
-                    for (i = 0; i < 50; ++i) {
-                        game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
-                    }
-                }
-            }
-        }
-        //small saucer
-        if (saucerSmall.active) {
-            alienFireTimer -= elapsedTime;
-            saucerSmall.update(elapsedTime);
-            if ( alienFireTimer < 0 && saucerSmall.active) {
-                alienFireTimer = 3000;
-                saucerSmall.fireMissile(alienBulletsInPlay, game.getFiringVector(saucerSmall.coordinates, spaceship.coordinates));
-            }
-            //check if any bullets collided with the alienship.
-            for (var i = 0, l = bulletsInPlay.length; i < l; i++) {
-                if (game.detectCollision(saucerSmall.coordinates, bulletsInPlay[i])) {
-                    saucerSmall.coordinates.toBeDeleted = true;
-                    saucerSmall.active  = false;
-                    bulletsInPlay[i].toBeDeleted = true;
-                    game.saucerInPlay = false;
-
-                    game.particles.push(
-                        particleSystem({
-                            image: game.images['images/explosion.png'],
-                            center: { x: saucerSmall.coordinates.x, y: saucerSmall.coordinates.y },
-                            speed: { mean: 1.25, stdev: 0.25 },
-                            lifetime: { mean: 1000, stdev: 50 },
-                            direction: Random.nextDouble()
-                        }, graphics)
-                    );
-                    for (i = 0; i < 50; ++i) {
-                        game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
-                    }
-                }
-            }
-        }
-
         // collisions
-        game.checkAllCollisions(spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay);
+        game.checkAllCollisions(spaceship, asteroidsInPlay, bulletsInPlay);
 
         for (i = 0, l = asteroidsInPlay.length; i < l; ++i) {
             if (asteroidsInPlay[i].toBeDeleted === true) {
@@ -148,33 +62,24 @@ game.screens['attract-mode'] = (function () {
         }
 
         // deleting items from arrays
-        game.deleteDeadObjects(spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay, isAttractMode);
+        game.deleteDeadObjects(spaceship, asteroidsInPlay, bulletsInPlay, isAttractMode);
 
         // updating objects
-        //asteroids
         for (i = 0, l = asteroidsInPlay.length; i < l; i++) {
             asteroidsInPlay[i].update(elapsedTime);
         }
 
-        //bullets
         for (i = 0, l = bulletsInPlay.length; i < l; i++) {
             bulletsInPlay[i].update(elapsedTime);
         }
 
-        //particles
         for (i = 0, l = game.particles.length; i < l; ++i) {
             game.particles[i].update(elapsedTime);
-        }
-
-        //alien bullets
-        for (i = 0, l = alienBulletsInPlay.length; i < l; i++) {
-            alienBulletsInPlay[i].update(elapsedTime);
         }
 
         graphics.clear();
         background.draw();
 
-        //particles
         for (i = 0, l = game.particles.length; i < l; ++i) {
             game.particles[i].render();
         }
@@ -187,20 +92,6 @@ game.screens['attract-mode'] = (function () {
         for (i = 0, l = bulletsInPlay.length; i < l; i++) {
             bulletsInPlay[i].draw();
         }
-
-        //drawing saucer
-        if (saucerBig.active) {
-            saucerBig.draw();    
-        }
-        if (saucerSmall.active) {
-            saucerSmall.draw();    
-        }
-
-        //drawing saucer bullets
-        for(i = 0, l = alienBulletsInPlay.length; i < l; i++) {
-            alienBulletsInPlay[i].draw();
-        }
-
         //draw spaceship
         if (!spaceship.coordinates.toBeDeleted) {
             spaceship.draw();
@@ -247,11 +138,11 @@ game.screens['attract-mode'] = (function () {
     }
 
     function goToMenu() {
-        document.getElementById('game').removeEventListener('keydown', goToMenu);
-            document.getElementById('game').removeEventListener('mousedown', goToMenu);
-        //  document.getElementById('game').removeEventListener('mousemove', goToMenu);
-            cancelNextRequest = true;
-            game.game.showScreen('main-menu');
+    	document.getElementById('game').removeEventListener('keydown', goToMenu);
+        	document.getElementById('game').removeEventListener('mousedown', goToMenu);
+        //	document.getElementById('game').removeEventListener('mousemove', goToMenu);
+        	cancelNextRequest = true;
+        	game.game.showScreen('main-menu');
     }
 
     function attachHandlers() {
@@ -274,38 +165,10 @@ game.screens['attract-mode'] = (function () {
             initialRotation: 0,
             lifetime: null,
             asteroidClass: null
-        }, isAttractMode);
-
-        saucerBig.init({
-            image: game.images['images/saucersquare.png'],
-            center: {x: 0, y: 0},
-            width: 111, height: 95,
-            rotation: 0,
-            moveRate: Random.nextGaussian(40, 10),         // pixels per second
-            rotateRate: Math.PI,   // Radians per second
-            startVector: {x: 0, y: 0},
-            initialRotation: 0,
-            lifetime: null,
-            pointValue: 100,
-            asteroidClass: null
-        }, isAttractMode);
-
-        saucerSmall.init({
-            image: game.images['images/saucersquare.png'],
-            center: {x: 0, y: 0},
-            width: 74, height: 63,
-            rotation: 0,
-            moveRate: Random.nextGaussian(40, 10),         // pixels per second
-            rotateRate: Math.PI,   // Radians per second
-            startVector: {x: 0, y: 0},
-            initialRotation: 0,
-            lifetime: null,
-            pointValue: 100,
-            asteroidClass: null
-        }, isAttractMode);
+        }, true);
 
         for (var i = 0; i < numAsteroids; i++) {
-            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), isAttractMode, asteroidsInPlay);
+            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), true, asteroidsInPlay);
         }
 
         background = graphics.Background({
