@@ -151,6 +151,11 @@
         that.moveUp = function (elapsedTime) {   
             that.velocityVector.x += that.directionVector.x * (that.thrustPerSecond * (elapsedTime/1000));
             that.velocityVector.y += that.directionVector.y * (that.thrustPerSecond * (elapsedTime/1000));
+
+            that.velocityVector.x = that.velocityVector.x > 40 ? 40 : that.velocityVector.x;
+            that.velocityVector.y = that.velocityVector.y > 40 ? 40 : that.velocityVector.y;
+            that.velocityVector.x = that.velocityVector.x < -40 ? -40 : that.velocityVector.x;
+            that.velocityVector.y = that.velocityVector.y < -40 ? -40 : that.velocityVector.y;
         };
 
         that.draw = function () {

@@ -21,7 +21,8 @@ game.screens['attract-mode'] = (function () {
         alienBulletsInPlay = [],
         alienFireTimer = 4000,
         saucerToggle = 'big',
-        hasRespawned = true;
+        hasRespawned = true,
+        lastMove = 0;
 
     function gameLoop(time) {
         var i = 0,
@@ -31,6 +32,14 @@ game.screens['attract-mode'] = (function () {
         elapsedTime = time - lastTime;
         lastTime = time;
         totalTime = time - start;
+
+        if (time - lastMove >= 500) {
+            spaceship.rotateLeft(elapsedTime);
+            spaceship.moveUp(elapsedTime);
+            spaceship.generateParticles();
+            fire();
+            lastMove = time;
+        }
 
         // Update universal variables
         spaceship.update(elapsedTime);
@@ -50,7 +59,6 @@ game.screens['attract-mode'] = (function () {
                 saucerBig.reset();
                 saucerToggle = 'small';
             }
-            
         }
 
         //Big Saucer
@@ -84,6 +92,7 @@ game.screens['attract-mode'] = (function () {
                 }
             }
         }
+
         //small saucer
         if (saucerSmall.active) {
             alienFireTimer -= elapsedTime;
@@ -238,6 +247,10 @@ game.screens['attract-mode'] = (function () {
         }
     }
 
+    function rotate() {
+
+    }
+
     function teleport() {
         spaceship.teleport(asteroidsInPlay);
     }
@@ -248,10 +261,10 @@ game.screens['attract-mode'] = (function () {
 
     function goToMenu() {
         document.getElementById('game').removeEventListener('keydown', goToMenu);
-            document.getElementById('game').removeEventListener('mousedown', goToMenu);
-        //  document.getElementById('game').removeEventListener('mousemove', goToMenu);
-            cancelNextRequest = true;
-            game.game.showScreen('main-menu');
+        document.getElementById('game').removeEventListener('mousedown', goToMenu);
+        // document.getElementById('game').removeEventListener('mousemove', goToMenu);
+        cancelNextRequest = true;
+        game.game.showScreen('main-menu');
     }
 
     function attachHandlers() {
@@ -261,7 +274,7 @@ game.screens['attract-mode'] = (function () {
     }
 
     function initialize() {
-        canvas = document.getElementById('asteroids');
+        canvas = document.getElementById('attract-asteroids');
 
         spaceship.init({
             image: game.images['images/battlecruiser2.png'],
@@ -322,6 +335,7 @@ game.screens['attract-mode'] = (function () {
     function run() {
         attachHandlers();
         start = performance.now();
+        lastMove = start;
         lastTime = start;
         cancelNextRequest = false;
         requestAnimationFrame(gameLoop);
