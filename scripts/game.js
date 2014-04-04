@@ -281,8 +281,8 @@ game.generateAnAsteroid = function (asteroidClass, coordinates, isAttractMode, a
             speed = Random.nextGaussian(100, 25);
             break;
         case 3:
-            newWidth = 100;
-            newHeight = 100;
+            newWidth = 150;
+            newHeight = 150;
             newPointValue = 20;
             speed = Random.nextGaussian(50, 25);
             break;

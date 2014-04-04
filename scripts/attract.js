@@ -58,21 +58,21 @@ game.screens['attract-mode'] = (function () {
                     rotateLeft = true;
             }
             //chooserotateDirection
-            if (rotateLeft) {
-                spaceship.rotateLeft(elapsedTime);
-                // console.log("Rotated left");
-            }
-            else {
-                spaceship.rotateRight(elapsedTime);
-                // console.log("Rotated right");
+            if (shipAngleToTarget > Math.PI/64) {
+                if (rotateLeft) {
+                    spaceship.rotateLeft(elapsedTime);
+                }
+                else {
+                    spaceship.rotateRight(elapsedTime);
+                }
             }
             var newShipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
-            if (newShipAngleToTarget < shipAngleToTarget) //improvement, keep current rotation
+            if (newShipAngleToTarget <= shipAngleToTarget) //improvement, keep current rotation
                 improvement = true;
             else
                 improvement = false;
             
-            if (currentTarget.distance < 500) {
+            if (currentTarget.distance < 800) {
                 // shoot at closest asteroid
                 fire();
             }
@@ -336,7 +336,7 @@ game.screens['attract-mode'] = (function () {
         spaceship.init({
             image: game.images['images/battlecruiser2.png'],
             center: { x: 960, y: 540 },
-            width: 127, height: 100,
+            width: game.shipWidth, height: game.shipHeight,
             rotation: 0,
             moveRate: 23,          // pixels per second
             rotateRate: Math.PI,   // Radians per second

@@ -254,7 +254,7 @@ game.screens['game-play'] = (function () {
                 spaceship.init({
                     image: game.images['images/battlecruiser2.png'],
                     center: { x: 960, y: 540 },
-                    width: 127, height: 100,
+                    width: game.shipWidth, height: game.shipHeight,
                     rotation: 0,
                     moveRate: 23,          // pixels per second
                     rotateRate: Math.PI,   // Radians per second
@@ -348,7 +348,7 @@ game.screens['game-play'] = (function () {
         spaceship.init({
             image: game.images['images/battlecruiser2.png'],
             center: { x: 960, y: 540 },
-            width: 127, height: 100,
+            width: game.shipWidth, height: game.shipHeight,
             rotation: 0,
             moveRate: 23,          // pixels per second
             rotateRate: Math.PI,   // Radians per second
