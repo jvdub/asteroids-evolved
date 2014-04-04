@@ -21,7 +21,7 @@ game.screens['main-menu'] = (function() {
         lastTime = time;
         totalTime = time - start;
 
-        if (totalTime > 1000) {
+        if (totalTime > 10000) {
             game.game.showScreen('attract-mode');
             cancelNextRequest = true;
             game.attractMode = true;
