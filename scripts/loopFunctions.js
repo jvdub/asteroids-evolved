@@ -35,6 +35,7 @@ game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, al
         }
         else {
             //delete an asteroid, get its point value, play a sound
+            game.asteroidsLeftToKill-= 1000;
             game.score += asteroidsInPlay[i].pointValue;
             game.lifeBonusCounter -= asteroidsInPlay[i].pointValue;
             if( !game.saucerInPlay ) {
@@ -80,4 +81,72 @@ game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, al
         }
     }
     alienBulletsInPlay.length = k;
+};
+
+game.findNearestTarget = function (asteroidsInPlay, saucerBig, saucerSmall, spaceship) {
+    var minDistance = 2300,
+        currentDistance,
+        currentTarget,
+        vectorToTarget;
+
+    for (var i = 0, l = asteroidsInPlay.length; i < l; i++) { //scan over the bullets
+
+        currentDistance = Math.sqrt(    (asteroidsInPlay[i].x - spaceship.coordinates.x) * (asteroidsInPlay[i].x - spaceship.coordinates.x) + 
+                                        (asteroidsInPlay[i].y - spaceship.coordinates.y) * (asteroidsInPlay[i].y - spaceship.coordinates.y)         );
+        if (currentDistance < minDistance) {
+            minDistance = currentDistance;
+            currentTarget = asteroidsInPlay[i];
+            // console.log("Dist: " + minDistance);
+            // console.log("currentTarget: " + currentTarget);
+            // console.log("asteroidsInPlay[i]: " + i ": " asteroidsInPlay[i]);
+        }
+
+    }
+
+    //saucers
+    if (saucerSmall.active) {
+        currentDistance = Math.sqrt(    (saucerSmall.coordinates.x - spaceship.coordinates.x) * (saucerSmall.coordinates.x - spaceship.coordinates.x) + 
+                                        (saucerSmall.coordinates.y - spaceship.coordinates.y) * (saucerSmall.coordinates.y - spaceship.coordinates.y)         );
+        if (currentDistance < minDistance) {
+            minDistance = currentDistance;
+            currentTarget = saucerSmall;
+        }
+    }
+    if (saucerBig.active) {
+        currentDistance = Math.sqrt(    (saucerBig.coordinates.x - spaceship.coordinates.x) * (saucerBig.coordinates.x - spaceship.coordinates.x) + 
+                                        (saucerBig.coordinates.y - spaceship.coordinates.y) * (saucerBig.coordinates.y - spaceship.coordinates.y)         );
+        if (currentDistance < minDistance) {
+            minDistance = currentDistance;
+            currentTarget = saucerBig;
+        }
+    }
+
+    if(currentTarget == saucerBig || currentTarget == saucerSmall) { //if the targest is a saucer, return the appropriately exposed coordinates
+        vectorToTarget = game.createUnitVector(currentTarget.coordinates, spaceship.coordinates);
+        return {
+            directionVector : vectorToTarget,
+            distance : minDistance
+        };
+    }
+    else {
+        // console.log(currentTarget);
+        vectorToTarget = game.createUnitVector(currentTarget, spaceship.coordinates);
+        return {
+            directionVector : vectorToTarget,
+            distance : minDistance
+        };
+    }
+};
+
+game.createUnitVector = function(targetCoordinates, shipCoordinates) {
+    var x = targetCoordinates.x - shipCoordinates.x,
+        y = targetCoordinates.y - shipCoordinates.y,
+        magnitude = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
+    // console.log(targetCoordinates.x);
+    // console.log(shipCoordinates.x);
+    return {
+        x : x/magnitude,
+        y : y/magnitude
+    };
 };

@@ -23,7 +23,16 @@ game.screens['attract-mode'] = (function () {
         saucerToggle = 'big',
         hasRespawned = true,
         lastMove = 0,
-        shipExplosion = new Audio('sounds/shipExplosion.mp3');
+        shipExplosion = new Audio('sounds/shipExplosion.mp3'),
+        // asteroidsLeftToKill = 48000,
+        timeToClearAsteroids = 60000,
+        currentTarget,
+        improvement = false,
+        rotateLeft = true;
+
+    function findNearestAsteroid() {
+
+    }
 
     function gameLoop(time) {
         var i = 0,
@@ -34,13 +43,57 @@ game.screens['attract-mode'] = (function () {
         lastTime = time;
         totalTime = time - start;
 
-        if (time - lastMove >= 500) {
-            spaceship.rotateLeft(elapsedTime);
-            spaceship.moveUp(elapsedTime);
-            spaceship.generateParticles();
-            fire();
-            lastMove = time;
+        
+        timeToClearAsteroids-= elapsedTime;
+        if (timeToClearAsteroids/game.asteroidsLeftToKill > 1.25) { //evade mode
+
         }
+        else { //hunt mode
+            currentTarget = game.findNearestTarget(asteroidsInPlay, saucerBig, saucerSmall, spaceship);
+            //get rotate angle
+            var shipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
+            if(!improvement) {  //toggle rotation if there wasn't an improvement
+                if (rotateLeft)
+                    rotateLeft = false;
+                else
+                    rotateLeft = true;
+            }
+            //chooserotateDirection
+            if (rotateLeft) {
+                spaceship.rotateLeft(elapsedTime);
+                // console.log("Rotated left");
+            }
+            else {
+                spaceship.rotateRight(elapsedTime);
+                // console.log("Rotated right");
+            }
+            var newShipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
+            if (newShipAngleToTarget < shipAngleToTarget) //improvement, keep current rotation
+                improvement = true;
+            else
+                improvement = false;
+            
+            // if (currentTarget.distance < 500) {
+                //shoot at closest asteroid
+                fire();
+            // }
+            // else {
+            //     //move towards asteroid until within 500 of it
+            // }
+
+        }
+        
+        
+
+        
+
+        // if (time - lastMove >= 500) {
+        //     spaceship.rotateLeft(elapsedTime);
+        //     spaceship.moveUp(elapsedTime);
+        //     spaceship.generateParticles();
+        //     fire();
+        //     lastMove = time;
+        // }
 
         // Update universal variables
         spaceship.update(elapsedTime);
@@ -187,6 +240,8 @@ game.screens['attract-mode'] = (function () {
 
         graphics.clear();
         background.draw();
+        /////////////////////////////////
+        // graphics.drawStuff(game.asteroidsLeftToKill);
 
         //particles
         for (i = 0, l = game.particles.length; i < l; ++i) {

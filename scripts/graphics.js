@@ -279,12 +279,19 @@
         context.restore();
     }
 
+    function drawStuff(distance) {
+        context.font = "50px Arial Bold";
+        context.fillStyle = "white";
+        context.fillText(distance, 960, 1040);
+    }
+
     return {
         clear: clear,
         Texture: Texture,
         Background: Background,
         Text: Text,
         drawImage: drawImage,
-        renderStats : renderStats
+        renderStats : renderStats,
+        drawStuff : drawStuff
     };
 };

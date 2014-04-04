@@ -25,7 +25,8 @@
     saucerAppearCounter : 3000,
     SAUCER_APPEAR_COUNTER_RESET : 3000,
     putSaucerIntoPlay : false,
-    saucerInPlay : false
+    saucerInPlay : false,
+    asteroidsLeftToKill : 48000
 };
 
 window.addEventListener('load', function () {

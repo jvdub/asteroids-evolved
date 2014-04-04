@@ -63,16 +63,16 @@
     //     } 
     // }
 
-    function fireMissile(bulletsInPlay) {
+    function fireMissile(bulletsInPlay) { //incorporates speed of the shipinto speed of the projectile
         // Prevent a missile from firing if one has just been fired.
         if (game.bulletIntervalCountdown < 0 && !coordinates.toBeDeleted) {
-            var directionMagnitude = Math.sqrt(Math.pow(spaceship.velocityVector.x, 2) + Math.pow(spaceship.velocityVector.y, 2))
+            var directionMagnitude = Math.sqrt(Math.pow(spaceship.velocityVector.x, 2) + Math.pow(spaceship.velocityVector.y, 2));
             var directionUnitX = spaceship.velocityVector.x / directionMagnitude,
                 directionUnitY = spaceship.velocityVector.y / directionMagnitude;
 
             var angleBetweenVectors = ( Math.acos(spaceship.directionVector.x*directionUnitX + spaceship.directionVector.y*directionUnitY));
             var momentumIncreaseFactor = (Math.PI/2 - angleBetweenVectors)/(Math.PI/2);
-            
+
             if(!momentumIncreaseFactor) {
                 momentumIncreaseFactor = 0;
             }
@@ -83,7 +83,7 @@
             bulletsInPlay.push( graphics.Texture({
                 image: game.images['images/fireball.png'],
                 center: { x: spaceship.x + spaceship.directionVector.x * 50, y: spaceship.y + spaceship.directionVector.y * 50 },
-                width: 40, height: 40,
+                width: 30, height: 30,
                 rotation: 100,
                 // moveRate: 100,         // pixels per second
                 moveRate: 500+23*directionMagnitude*momentumIncreaseFactor,         // pixels per second
@@ -205,6 +205,10 @@
         }
     }
 
+    function getShipAngleToTarget(target) {
+        return Math.acos(spaceship.directionVector.x*target.x + spaceship.directionVector.y*target.y);
+    }
+
     return {
         init: init,
         update: update,
@@ -216,6 +220,7 @@
         generateParticles: generateParticles,
         coordinates : coordinates,
         teleport : teleport,
-        respawn : respawn
+        respawn : respawn,
+        getShipAngleToTarget : getShipAngleToTarget
     };
 };
