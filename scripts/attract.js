@@ -22,7 +22,8 @@ game.screens['attract-mode'] = (function () {
         alienFireTimer = 4000,
         saucerToggle = 'big',
         hasRespawned = true,
-        lastMove = 0;
+        lastMove = 0,
+        shipExplosion = new Audio('sounds/shipExplosion.mp3');
 
     function gameLoop(time) {
         var i = 0,
@@ -76,6 +77,8 @@ game.screens['attract-mode'] = (function () {
                     saucerBig.active  = false;
                     bulletsInPlay[i].toBeDeleted = true;
                     game.saucerInPlay = false;
+                    shipExplosion.currentTime = 0;
+                    shipExplosion.play();
 
                     game.particles.push(
                         particleSystem({
@@ -108,6 +111,8 @@ game.screens['attract-mode'] = (function () {
                     saucerSmall.active  = false;
                     bulletsInPlay[i].toBeDeleted = true;
                     game.saucerInPlay = false;
+                    shipExplosion.currentTime = 0;
+                    shipExplosion.play();
 
                     game.particles.push(
                         particleSystem({
@@ -216,6 +221,7 @@ game.screens['attract-mode'] = (function () {
             hasRespawned = true;
         }
         else {
+            shipExplosion.play();
             spaceship.respawn(elapsedTime, asteroidsInPlay, hasRespawned);
             game.particles.push(
                     particleSystem({
