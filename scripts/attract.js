@@ -43,11 +43,11 @@ game.screens['attract-mode'] = (function () {
         lastTime = time;
         totalTime = time - start;
         
-        timeToClearAsteroids-= elapsedTime;
-        if (timeToClearAsteroids/game.asteroidsLeftToKill > 1.25) { //evade mode
+        // timeToClearAsteroids-= elapsedTime;
+        // if (timeToClearAsteroids/game.asteroidsLeftToKill > 1.25) { //evade mode
 
-        }
-        else { //hunt mode
+        // }
+        // else { //hunt mode
             currentTarget = game.findNearestTarget(asteroidsInPlay, saucerBig, saucerSmall, spaceship);
             //get rotate angle
             var shipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
@@ -79,7 +79,7 @@ game.screens['attract-mode'] = (function () {
             // else {
             //     //move towards asteroid until within 500 of it
             // }
-        }
+        // }
 
         
 
@@ -237,7 +237,7 @@ game.screens['attract-mode'] = (function () {
         graphics.clear();
         background.draw();
         /////////////////////////////////
-        graphics.drawStuff(game.asteroidsLeftToKill);
+        // graphics.drawStuff(game.asteroidsLeftToKill);
 
         //particles
         for (i = 0, l = game.particles.length; i < l; ++i) {
