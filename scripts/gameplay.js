@@ -97,7 +97,7 @@ game.screens['game-play'] = (function () {
             alienFireTimer -= elapsedTime;
             saucerSmall.update(elapsedTime);
             if ( alienFireTimer < 0 && saucerSmall.active) {
-                alienFireTimer = 3000;
+                alienFireTimer = 4000;
                 saucerSmall.fireMissile(alienBulletsInPlay, game.getFiringVector(saucerSmall.coordinates, spaceship.coordinates));
             }
             //check if any bullets collided with the alienship.

@@ -25,7 +25,7 @@ game.checkAllCollisions = function (spaceship, asteroidsInPlay, bulletsInPlay, a
     }
 };
 
-game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay, isAttractMode) {
+game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay, isAttractMode, asteroidsLeftToKill) {
     var k = 0;
     // shift array down over dead asteroids
     for (var i = 0; i < asteroidsInPlay.length; i++) {
@@ -35,6 +35,7 @@ game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, al
         }
         else {
             //delete an asteroid, get its point value, play a sound
+            asteroidsLeftToKill-= 1000;
             game.score += asteroidsInPlay[i].pointValue;
             game.lifeBonusCounter -= asteroidsInPlay[i].pointValue;
             if( !game.saucerInPlay ) {
@@ -81,3 +82,52 @@ game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, al
     }
     alienBulletsInPlay.length = k;
 };
+
+game.findNearestTarget = function (asteroidsInPlay, saucerBig, saucerSmall, spaceship) {
+    var minDistance = 2300,
+        currentDistance,
+        currentTarget;
+
+    for (var i = 0, l = asteroidsInPlay.length; i < l; i++) { //scan over the bullets
+
+        currentDistance = Math.sqrt(    (asteroidsInPlay[i].x - spaceship.coordinates.x) * (asteroidsInPlay[i].x - spaceship.coordinates.x) + 
+                                        (asteroidsInPlay[i].y - spaceship.coordinates.y) * (asteroidsInPlay[i].y - spaceship.coordinates.y)         );
+        if (currentDistance < minDistance) {
+            minDistance = currentDistance;
+            currentTarget = asteroidsInPlay[i];
+        }
+    }
+
+    if (saucerSmall.active) {
+        currentDistance = Math.sqrt(    (saucerSmall.coordinates.x - spaceship.coordinates.x) * (saucerSmall.coordinates.x - spaceship.coordinates.x) + 
+                                        (saucerSmall.coordinates.y - spaceship.coordinates.y) * (saucerSmall.coordinates.y - spaceship.coordinates.y)         );
+        if (currentDistance < minDistance) {
+            minDistance = currentDistance;
+            currentTarget = saucerSmall;
+        }
+    }
+    if (saucerBig.active) {
+        currentDistance = Math.sqrt(    (saucerBig.coordinates.x - spaceship.coordinates.x) * (saucerBig.coordinates.x - spaceship.coordinates.x) + 
+                                        (saucerBig.coordinates.y - spaceship.coordinates.y) * (saucerBig.coordinates.y - spaceship.coordinates.y)         );
+        if (currentDistance < minDistance) {
+            minDistance = currentDistance;
+            currentTarget = saucerBig;
+        }
+    }
+
+    if(currentTarget == saucerBig || currentTarget == saucerSmall) { //if the targest is a saucer, return the appropriately exposed coordinates
+        return {
+            coordinates : currentTarget.coordinates,
+            distance : currentDistance
+        }
+    }
+    else {
+        return {
+            coordinates : {
+                x : currentTarget.x,
+                y : currentTarget.y
+            },
+            distance : currentDistance
+        }
+    }
+}
