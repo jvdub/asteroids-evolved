@@ -86,7 +86,7 @@
                 width: 20, height: 20,
                 rotation: 100,
                 // moveRate: 100,         // pixels per second
-                moveRate: 1000+23*directionMagnitude*momentumIncreaseFactor,         // pixels per second
+                moveRate: 750+23*directionMagnitude*momentumIncreaseFactor,         // pixels per second
                 rotateRate: Math.PI,   // Radians per second
                 startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y},
                 initialRotation: spaceship.rotation,
