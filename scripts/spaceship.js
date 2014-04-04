@@ -66,8 +66,16 @@
     function fireMissile(bulletsInPlay) {
         // Prevent a missile from firing if one has just been fired.
         if (game.bulletIntervalCountdown < 0 && !coordinates.toBeDeleted) {
-            // laser = new Audio('sounds/laserGun.mp3');
-            console.log(Math.sqrt(Math.pow(spaceship.velocityVector.x, 2) + Math.pow(spaceship.velocityVector.y, 2)));
+            var directionMagnitude = Math.sqrt(Math.pow(spaceship.velocityVector.x, 2) + Math.pow(spaceship.velocityVector.y, 2))
+            var directionUnitX = spaceship.velocityVector.x / directionMagnitude,
+                directionUnitY = spaceship.velocityVector.y / directionMagnitude;
+
+            var angleBetweenVectors = ( Math.acos(spaceship.directionVector.x*directionUnitX + spaceship.directionVector.y*directionUnitY));
+            var momentumIncreaseFactor = (Math.PI/2 - angleBetweenVectors)/(Math.PI/2);
+            
+            if(!momentumIncreaseFactor) {
+                momentumIncreaseFactor = 0;
+            }
             laser.currentTime = 0;
             laser.play();
             game.bulletIntervalCountdown = game.BULLET_INTERVAL;
@@ -78,7 +86,7 @@
                 width: 40, height: 40,
                 rotation: 100,
                 // moveRate: 100,         // pixels per second
-                moveRate: 500+23*Math.sqrt(Math.pow(spaceship.velocityVector.x, 2) + Math.pow(spaceship.velocityVector.y, 2)),         // pixels per second
+                moveRate: 500+23*directionMagnitude*momentumIncreaseFactor,         // pixels per second
                 rotateRate: Math.PI,   // Radians per second
                 startVector: { x: spaceship.directionVector.x, y: spaceship.directionVector.y},
                 initialRotation: spaceship.rotation,
