@@ -43,8 +43,9 @@ game.screens['attract-mode'] = (function () {
         lastTime = time;
         totalTime = time - start;
         
-        // timeToClearAsteroids-= elapsedTime;
-        // if (timeToClearAsteroids/game.asteroidsLeftToKill > 1.25) { //evade mode
+        timeToClearAsteroids-= elapsedTime;
+
+        // if (timeToClearAsteroids/game.asteroidsLeftToKill >= 1.25) { //evade mode
 
         // }
         // else { //hunt mode
@@ -72,16 +73,20 @@ game.screens['attract-mode'] = (function () {
             else
                 improvement = false;
             
-            if (currentTarget.distance < 800) {
+            if (currentTarget.distance < 600) {
                 // shoot at closest asteroid
                 fire();
             }
-            // else {
-            //     //move towards asteroid until within 500 of it
-            // }
+            else {
+                //move towards asteroid until within 500 of it
+                if (time - lastMove >= 100) {
+                    spaceship.moveUp(elapsedTime);
+                    spaceship.generateParticles();
+                    // fire();
+                    lastMove = time;
+                }
+            }
         // }
-
-        
 
         // Update universal variables
         spaceship.update(elapsedTime);

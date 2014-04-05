@@ -103,10 +103,11 @@ game.findNearestTarget = function (asteroidsInPlay, saucerBig, saucerSmall, spac
     if (saucerSmall.active) {
         currentDistance = Math.sqrt(    (saucerSmall.coordinates.x - spaceship.coordinates.x) * (saucerSmall.coordinates.x - spaceship.coordinates.x) + 
                                         (saucerSmall.coordinates.y - spaceship.coordinates.y) * (saucerSmall.coordinates.y - spaceship.coordinates.y)         );
-        if (currentDistance < minDistance) {
-            minDistance = currentDistance;
-            currentTarget = saucerSmall;
-        }
+        vectorToTarget = game.createUnitVector(currentTarget.coordinates, spaceship.coordinates);
+        return {
+            directionVector : vectorToTarget,
+            distance : currentDistance
+        };
     }
     if (saucerBig.active) {
         currentDistance = Math.sqrt(    (saucerBig.coordinates.x - spaceship.coordinates.x) * (saucerBig.coordinates.x - spaceship.coordinates.x) + 

@@ -181,8 +181,17 @@ game.findSafeLocation = function (draw, spaceship, asteroidsInPlay) {
 
 game.generateRandomAsteroidLocation = function (spaceship) {
     var coordinates = {
-        x: Math.random() * 1920,
-        y: Math.random() * 1080
+        x: 0,
+        y: 0
+    };
+    var side = Math.floor(Math.random()*2);  //pick a side for the saucer to appear on
+    if (side == 0) {  //     left/right
+        coordinates.x = 0 - 75;
+        coordinates.y = Math.floor(Math.random()*1080);
+    }
+    else {             //    top/bottom
+        coordinates.y = 0 - 75;
+        coordinates.x = Math.floor(Math.random()*1920);
     }
 
     var radius = 500;
@@ -191,8 +200,15 @@ game.generateRandomAsteroidLocation = function (spaceship) {
            (coordinates.x - spaceship.coordinates.x) +
            (coordinates.y - spaceship.coordinates.y) *
            (coordinates.y - spaceship.coordinates.y)) < (radius * radius)) {
-        coordinates.x = Math.random() * 1920;
-        coordinates.y = Math.random() * 1080;
+        side = Math.floor(Math.random()*2);  //pick a side for the saucer to appear on
+        if (side == 0) {  //     left/right
+            coordinates.x = 0 - 75;
+            coordinates.y = Math.floor(Math.random()*1080);
+        }
+        else {             //    top/bottom
+            coordinates.y = 0 - 75;
+            coordinates.x = Math.floor(Math.random()*1920);
+        }
     }
 
     return coordinates;
