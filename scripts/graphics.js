@@ -39,7 +39,8 @@
     function Texture(spec) {
         var that = {},
             i = 0, j = 0, renderSlowdown = 0,
-            slowDownFactor = Math.floor(Math.random()*2+3);
+            slowDownFactor = Math.floor(Math.random()*2+3),
+            maxSpeed;
             // blast = new Audio('sounds/blast.mp3');
 
         that.x = spec.center.x;
@@ -152,10 +153,15 @@
             that.velocityVector.x += that.directionVector.x * (that.thrustPerSecond * (elapsedTime/1000));
             that.velocityVector.y += that.directionVector.y * (that.thrustPerSecond * (elapsedTime/1000));
 
-            that.velocityVector.x = that.velocityVector.x > 40 ? 40 : that.velocityVector.x;
-            that.velocityVector.y = that.velocityVector.y > 40 ? 40 : that.velocityVector.y;
-            that.velocityVector.x = that.velocityVector.x < -40 ? -40 : that.velocityVector.x;
-            that.velocityVector.y = that.velocityVector.y < -40 ? -40 : that.velocityVector.y;
+            if(id == 'asteroids')
+                maxSpeed = 40;
+            else
+                maxSpeed = 20;
+
+            that.velocityVector.x = that.velocityVector.x > maxSpeed ? maxSpeed : that.velocityVector.x;
+            that.velocityVector.y = that.velocityVector.y > maxSpeed ? maxSpeed : that.velocityVector.y;
+            that.velocityVector.x = that.velocityVector.x < -maxSpeed ? -maxSpeed : that.velocityVector.x;
+            that.velocityVector.y = that.velocityVector.y < -maxSpeed ? -maxSpeed : that.velocityVector.y;
         };
 
         that.draw = function () {

@@ -129,7 +129,7 @@ game.findNearestTarget = function (asteroidsInPlay, saucerBig, saucerSmall, spac
         };
     }
     else {
-        
+        //calculate some coordinates that are adjusted for the speed of the asteroid
         var newCoordinates = {  x: currentTarget.x + currentTarget.velocityVector.x*((currentTarget.thrustPerSecond)/2),
                                 y: currentTarget.y + currentTarget.velocityVector.y*((currentTarget.thrustPerSecond)/2)  };
         // console.log("x: " + currentTarget.x + " y: " + currentTarget.y + " nX: " + newCoordinates.x + " nY: " + newCoordinates.y + " Speed: " + currentTarget.thrustPerSecond + " Dist: " +  minDistance);

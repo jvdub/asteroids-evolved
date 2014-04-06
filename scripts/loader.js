@@ -26,7 +26,7 @@
     SAUCER_APPEAR_COUNTER_RESET : 4000,
     putSaucerIntoPlay : false,
     saucerInPlay : false,
-    asteroidsLeftToKill : 48000,
+    asteroidsLeftToKill : 80000,
     shipWidth : 84,
     shipHeight : 67
 };
