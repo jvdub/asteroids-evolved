@@ -278,9 +278,6 @@ game.generateAnAsteroid = function (asteroidClass, coordinates, isAttractMode, a
             imagePicked = game.images['images/spinning-asteroid-8.png'];
             spriteDepth = 5;
             break;
-        // case 2:
-        //     imagePicked = game.images['images/spinning-asteroid-9.png'];
-        //     break;
     }
 
     switch (asteroidClass) {

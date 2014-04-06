@@ -1,7 +1,7 @@
 game.saucer = function () {
     var saucer = null,
         particles = [],
-        coordinates = {x : 0, y: 0, radius : 63.5, toBeDeleted : false},
+        coordinates = {x : 0, y: 0, radius : 63.5, toBeDeleted : false, velocityVector: {x:0,y:0}},
         graphics = null,
         active = false;
 
@@ -38,6 +38,7 @@ game.saucer = function () {
         saucer.update(time);
         coordinates.x = saucer.x;
         coordinates.y = saucer.y;
+        coordinates.velocityVector = saucer.velocityVector;
         coordinates.radius = saucer.radius;
     }
 

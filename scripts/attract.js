@@ -45,7 +45,7 @@ game.screens['attract-mode'] = (function () {
         
         timeToClearAsteroids-= elapsedTime;
 
-        currentTarget = game.findNearestTarget(asteroidsInPlay, saucerBig, saucerSmall, spaceship);
+        currentTarget = game.findNearestTarget(asteroidsInPlay, saucerBig, saucerSmall, spaceship, elapsedTime);
             //get rotate angle
         var shipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
         var runAwayAngle = Math.PI - shipAngleToTarget;
@@ -72,7 +72,7 @@ game.screens['attract-mode'] = (function () {
                 if (time - lastMove >= 100) {
                     spaceship.moveUp(elapsedTime);
                     spaceship.generateParticles();
-                    // fire();
+                    fire();
                     lastMove = time;
                 }
             }
