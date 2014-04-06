@@ -45,34 +45,24 @@ game.screens['attract-mode'] = (function () {
         
         timeToClearAsteroids-= elapsedTime;
 
+        currentTarget = game.findNearestTarget(asteroidsInPlay, saucerBig, saucerSmall, spaceship);
+            //get rotate angle
+        var shipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
+        var runAwayAngle = Math.PI - shipAngleToTarget;
+        var angleToUse;
+
         // if (timeToClearAsteroids/game.asteroidsLeftToKill >= 1.25) { //evade mode
+        //     angleToUse = runAwayAngle;
+        //     if (time - lastMove >= 500) {
+        //         spaceship.moveUp(elapsedTime);
+        //         spaceship.generateParticles();
+        //         // fire();
+        //         lastMove = time;
+        //     }
 
         // }
         // else { //hunt mode
-            currentTarget = game.findNearestTarget(asteroidsInPlay, saucerBig, saucerSmall, spaceship);
-            //get rotate angle
-            var shipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
-            if(!improvement) {  //toggle rotation if there wasn't an improvement
-                if (rotateLeft)
-                    rotateLeft = false;
-                else
-                    rotateLeft = true;
-            }
-            //chooserotateDirection
-            if (shipAngleToTarget > Math.PI/64) {
-                if (rotateLeft) {
-                    spaceship.rotateLeft(elapsedTime);
-                }
-                else {
-                    spaceship.rotateRight(elapsedTime);
-                }
-            }
-            var newShipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
-            if (newShipAngleToTarget <= shipAngleToTarget) //improvement, keep current rotation
-                improvement = true;
-            else
-                improvement = false;
-            
+            angleToUse = shipAngleToTarget;
             if (currentTarget.distance < 600) {
                 // shoot at closest asteroid
                 fire();
@@ -87,6 +77,28 @@ game.screens['attract-mode'] = (function () {
                 }
             }
         // }
+        if(!improvement) {  //toggle rotation if there wasn't an improvement
+            if (rotateLeft)
+                rotateLeft = false;
+            else
+                rotateLeft = true;
+        }
+        //chooserotateDirection
+        if (angleToUse > Math.PI/64) {
+            if (rotateLeft) {
+                spaceship.rotateLeft(elapsedTime);
+            }
+            else {
+                spaceship.rotateRight(elapsedTime);
+            }
+        }
+        var newShipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
+        if (newShipAngleToTarget <= angleToUse) //improvement, keep current rotation
+            improvement = true;
+        else
+            improvement = false;
+        //
+        
 
         // Update universal variables
         spaceship.update(elapsedTime);
