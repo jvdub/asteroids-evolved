@@ -52,7 +52,7 @@ game.screens['attract-mode'] = (function () {
 
         if (timeToClearAsteroids/game.asteroidsLeftToKill >= .75  && game.asteroidsLeftToKill > 0) { //evade mode
             angleToUse = Math.PI - shipAngleToTarget;
-            if (time - lastMove >= 500) {
+            if (time - lastMove >= 200) {
                 spaceship.moveUp(elapsedTime);
                 spaceship.generateParticles();
                 lastMove = time;
@@ -91,7 +91,7 @@ game.screens['attract-mode'] = (function () {
             }
         }
         var newShipAngleToTarget = spaceship.getShipAngleToTarget(currentTarget.directionVector);
-        if (timeToClearAsteroids/game.asteroidsLeftToKill >= 1.25)
+        if (timeToClearAsteroids/game.asteroidsLeftToKill >= .75)
             newShipAngleToTarget = Math.PI - newShipAngleToTarget;
 
         if (newShipAngleToTarget <= angleToUse) //improvement, keep current rotation
@@ -291,23 +291,66 @@ game.screens['attract-mode'] = (function () {
         }
         else {
             shipExplosion.play();
-            spaceship.respawn(elapsedTime, asteroidsInPlay, hasRespawned);
-            game.particles.push(
-                    particleSystem({
-                        image: game.images['images/explosion.png'],
-                        center: { x: spaceship.coordinates.x, y: spaceship.coordinates.y },
-                        speed: { mean: 1.25, stdev: 0.25 },
-                        lifetime: { mean: 1000, stdev: 50 },
-                        direction: Random.nextDouble()
-                    }, graphics)
-                );
+            if (game.lives > 0 || timeToClearAsteroids > 0) {
+                spaceship.respawn(elapsedTime, asteroidsInPlay, hasRespawned);
+                game.particles.push(
+                        particleSystem({
+                            image: game.images['images/explosion.png'],
+                            center: { x: spaceship.coordinates.x, y: spaceship.coordinates.y },
+                            speed: { mean: 1.25, stdev: 0.25 },
+                            lifetime: { mean: 1000, stdev: 50 },
+                            direction: Random.nextDouble()
+                        }, graphics)
+                    );
 
-            if (hasRespawned) {
-                hasRespawned = false;
+                if (hasRespawned) {
+                    hasRespawned = false;
 
-                for (i = 0; i < 100; ++i) {
-                    game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
+                    for (i = 0; i < 100; ++i) {
+                        game.particles[game.particles.length - 1].create(false, false, Random.nextDoubleRange(-Math.PI, Math.PI), Random.nextGaussian(30, 15));
+                    }
                 }
+            }
+            else {
+                bulletsInPlay.length = 0;
+                asteroidsInPlay.length = 0;
+                alienBulletsInPlay.length = 0;
+                game.particles.length = 0;
+
+                spaceship.coordinates.toBeDeleted = false;
+                spaceship.coordinates.x = 960;
+                spaceship.coordinates.y = 540;
+
+                spaceship.init({
+                    image: game.images['images/battlecruiser2.png'],
+                    center: { x: 960, y: 540 },
+                    width: game.shipWidth, height: game.shipHeight,
+                    rotation: 0,
+                    moveRate: 23,          // pixels per second
+                    rotateRate: Math.PI,   // Radians per second
+                    startVector: { x: 0, y: 0 },
+                    initialRotation: 0,
+                    lifetime: null,
+                    asteroidClass: null
+                }, isAttractMode);
+
+                for (i = 0; i < numAsteroids; i++) {
+                    game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), isAttractMode, asteroidsInPlay);
+                }
+                game.score = 0;
+                game.level = 1;
+                game.teleports = 3;
+                game.lives = 3;
+                game.saucerAppearCounter = game.SAUCER_APPEAR_COUNTER_RESET;
+                game.putSaucerIntoPlay = false;
+                game.saucerInPlay = false;
+                saucerSmall.active = false;
+                saucerBig.active = false;
+
+                game.game.showScreen('main-menu');
+
+                // Stop the game loop
+                cancelNextRequest = true;
             }
         }
 
