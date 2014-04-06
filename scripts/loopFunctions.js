@@ -105,6 +105,7 @@ game.findNearestTarget = function (asteroidsInPlay, saucerBig, saucerSmall, spac
                                         (saucerSmall.coordinates.y - spaceship.coordinates.y) * (saucerSmall.coordinates.y - spaceship.coordinates.y)         );
         console.log("small saucer found in play");
         vectorToTarget = game.createUnitVector(currentTarget.coordinates, spaceship.coordinates);
+        console.log("created unit vector towards small saucer");
         return {
             directionVector : vectorToTarget,
             distance : currentDistance
