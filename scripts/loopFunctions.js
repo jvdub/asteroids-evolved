@@ -25,7 +25,7 @@ game.checkAllCollisions = function (spaceship, asteroidsInPlay, bulletsInPlay, a
     }
 };
 
-game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay, isAttractMode) {
+game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay, canvas) {
     var k = 0;
     // shift array down over dead asteroids
     for (var i = 0; i < asteroidsInPlay.length; i++) {
@@ -49,7 +49,7 @@ game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, al
                 game.putSaucerIntoPlay = true;
                 game.saucerAppearCounter = game.SAUCER_APPEAR_COUNTER_RESET;
             }
-            asteroidsInPlay[i].dyingFunction(asteroidsInPlay, isAttractMode);
+            asteroidsInPlay[i].dyingFunction(asteroidsInPlay, canvas);
         }
     }
     asteroidsInPlay.length = k;      
@@ -58,7 +58,7 @@ game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, al
     if (asteroidsInPlay.length == 0) {
         game.level++;
         for (var i = 0; i < 3 + game.level ; i++) {
-            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), isAttractMode, asteroidsInPlay);
+            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), canvas, asteroidsInPlay);
         }
     }
 

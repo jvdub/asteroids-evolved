@@ -1,6 +1,8 @@
 ﻿game.game = (function () {
     'use strict';
 
+    var canvas = null;
+
     function showScreen(id) {
         var screen = 0,
             screens = null;
@@ -21,6 +23,7 @@
 
     function init() {
         var screen = null;
+        canvas = document.getElementById('menu-canvas');
 
         $.ajax({
             type: 'GET',
@@ -263,11 +266,11 @@ game.toggleGraph = function () {
     }
 };
 
-game.generateAnAsteroid = function (asteroidClass, coordinates, isAttractMode, asteroidsInPlay) {
+game.generateAnAsteroid = function (asteroidClass, coordinates, canvas, asteroidsInPlay) {
     var newWidth, newHeight, newPointValue, speed,
         imageSelection = Math.floor(Math.random()*2),
         imagePicked, spriteDepth,
-        graphics = isAttractMode === true ? game.Graphics('attract-asteroids') : game.Graphics('asteroids');
+        graphics = game.Graphics(canvas);
 
     switch (imageSelection) {
         case 0:

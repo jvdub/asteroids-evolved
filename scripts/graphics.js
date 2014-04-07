@@ -59,19 +59,19 @@
         that.pointValue = spec.pointValue;
         that.asteroidClass = spec.asteroidClass;
 
-        that.dyingFunction = function (asteroidsInPlay, isAttractMode) {
+        that.dyingFunction = function (asteroidsInPlay, canvas) {
             var blast = new Audio('sounds/blast.mp3');
             blast.play();
             if (that.asteroidClass == 3) {
-                game.generateAnAsteroid(2, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
-                game.generateAnAsteroid(2, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
-                game.generateAnAsteroid(2, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
+                game.generateAnAsteroid(2, {x: that.x, y: that.y}, canvas, asteroidsInPlay);
+                game.generateAnAsteroid(2, {x: that.x, y: that.y}, canvas, asteroidsInPlay);
+                game.generateAnAsteroid(2, {x: that.x, y: that.y}, canvas, asteroidsInPlay);
             }
             else if (that.asteroidClass == 2) {
-                game.generateAnAsteroid(1, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
-                game.generateAnAsteroid(1, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
-                game.generateAnAsteroid(1, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
-                game.generateAnAsteroid(1, {x: that.x, y: that.y}, isAttractMode, asteroidsInPlay);
+                game.generateAnAsteroid(1, {x: that.x, y: that.y}, canvas, asteroidsInPlay);
+                game.generateAnAsteroid(1, {x: that.x, y: that.y}, canvas, asteroidsInPlay);
+                game.generateAnAsteroid(1, {x: that.x, y: that.y}, canvas, asteroidsInPlay);
+                game.generateAnAsteroid(1, {x: that.x, y: that.y}, canvas, asteroidsInPlay);
             }
         }
 

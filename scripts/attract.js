@@ -229,7 +229,7 @@ game.screens['attract-mode'] = (function () {
         }
 
         // deleting items from arrays
-        game.deleteDeadObjects(spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay, isAttractMode);
+        game.deleteDeadObjects(spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay, 'attract-asteroids');
 
         // updating objects
         //asteroids
@@ -335,7 +335,7 @@ game.screens['attract-mode'] = (function () {
                 }, isAttractMode);
 
                 for (i = 0; i < numAsteroids; i++) {
-                    game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), isAttractMode, asteroidsInPlay);
+                    game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), 'attract-asteroids', asteroidsInPlay);
                 }
                 game.score = 0;
                 game.level = 1;
@@ -436,7 +436,7 @@ game.screens['attract-mode'] = (function () {
         }, isAttractMode);
 
         for (var i = 0; i < numAsteroids; i++) {
-            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), isAttractMode, asteroidsInPlay);
+            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), 'attract-asteroids', asteroidsInPlay);
         }
 
         background = graphics.Background({

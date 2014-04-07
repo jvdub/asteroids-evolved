@@ -10,13 +10,17 @@
 <body>
     <div id="game">
         <div id="main-menu" class="screen">
-            <ul class="menu">
-                <li><button id="id-new-game">New&nbsp;Game</button></li>
-                <li><button id="id-instructions">Instructions</button></li>
-                <li><button id="id-high-scores">High&nbsp;Scores</button></li>
-                <li><button id="id-options">Options</button></li>
-                <li><button id="id-about">About</button></li>
-            </ul>
+            <canvas id="menu-canvas" width="1920" height="1080"></canvas>
+            <div id="menu-wrap">
+                <h1>Asteroids Evolved</h1>
+                <ul class="menu">
+                    <li><button id="id-new-game">New&nbsp;Game</button></li>
+                    <li><button id="id-instructions">Instructions</button></li>
+                    <li><button id="id-high-scores">High&nbsp;Scores</button></li>
+                    <li><button id="id-options">Options</button></li>
+                    <li><button id="id-about">About</button></li>
+                </ul>
+            </div>
         </div>
         <div id="game-play" class="screen">
             <canvas id="asteroids" width="1920" height="1080"></canvas>

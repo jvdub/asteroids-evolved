@@ -1,6 +1,4 @@
-﻿/*jslint browser: true, white: true, plusplus: true */
-/*global game */
-game.screens['main-menu'] = (function() {
+﻿game.screens['main-menu'] = (function() {
     'use strict';
     
     var self = this,
@@ -10,7 +8,14 @@ game.screens['main-menu'] = (function() {
         elapsedTime = 0,
         start = 0,
         totalTime = 0,
-        cancelNextRequest = false;
+        cancelNextRequest = false,
+        someTestAsteroids = {},
+        numAsteroids = 5,
+        graphics = game.Graphics('menu-canvas'),
+        isAttractMode = false,
+        asteroidsInPlay = [],
+        bulletsInPlay = [],
+        canvas = null;
 
     function gameLoop(time) {
         var i = 0,
@@ -27,12 +32,28 @@ game.screens['main-menu'] = (function() {
             game.attractMode = true;
         }
 
+        // Drawing section
+        graphics.clear();
+        background.draw();
+
         if (cancelNextRequest === false) {
             requestAnimationFrame(gameLoop);
         }
     }
 
     function initialize() {
+        canvas = document.getElementById('menu-canvas');
+
+        background = graphics.Background({
+            image: game.images['images/background1.jpg'],
+            center: {
+                x: Math.floor(canvas.width / 2),
+                y: Math.floor(canvas.height / 2)
+            },
+            width: canvas.width,
+            height: canvas.height
+        });
+
         // Setup each of menu events for the screens
         document.getElementById('id-new-game').addEventListener(
             'click',
