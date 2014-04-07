@@ -120,15 +120,7 @@ game.screens['attract-mode'] = (function () {
                 saucerToggle = 'small';
             }
         }
-
-        // if (time - lastMove >= 500) {
-        //     spaceship.rotateLeft(elapsedTime);
-        //     spaceship.moveUp(elapsedTime);
-        //     spaceship.generateParticles();
-        //     fire();
-        //     lastMove = time;
-        // }
-
+        
         //Big Saucer
         if (saucerBig.active) {
             alienFireTimer -= elapsedTime;
@@ -378,17 +370,17 @@ game.screens['attract-mode'] = (function () {
     }
 
     function goToMenu() {
-        document.getElementById('game').removeEventListener('keydown', goToMenu);
-        document.getElementById('game').removeEventListener('mousedown', goToMenu);
-        // document.getElementById('game').removeEventListener('mousemove', goToMenu);
+        document.getElementById('attract-asteroids').removeEventListener('keydown', goToMenu);
+        document.getElementById('attract-asteroids').removeEventListener('mousedown', goToMenu);
+        document.getElementById('attract-asteroids').removeEventListener('mousemove', goToMenu);
         cancelNextRequest = true;
         game.game.showScreen('main-menu');
     }
 
     function attachHandlers() {
-        document.getElementById('game').addEventListener('keydown', goToMenu, false);
-        document.getElementById('game').addEventListener('mousedown', goToMenu, false);
-        // document.getElementById('game').addEventListener('mousemove', goToMenu, false);
+        document.getElementById('attract-asteroids').addEventListener('keydown', goToMenu, false);
+        document.getElementById('attract-asteroids').addEventListener('mousedown', goToMenu, false);
+        document.getElementById('attract-asteroids').addEventListener('mousemove', goToMenu, false);
     }
 
     function initialize() {
