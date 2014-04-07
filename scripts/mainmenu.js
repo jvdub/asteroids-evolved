@@ -32,9 +32,20 @@
             game.attractMode = true;
         }
 
+        // updating objects
+        //asteroids
+        for (i = 0, l = asteroidsInPlay.length; i < l; i++) {
+            asteroidsInPlay[i].update(elapsedTime);
+        }
+
         // Drawing section
         graphics.clear();
         background.draw();
+
+        //drawing asteroids
+        for (i = 0, l = asteroidsInPlay.length; i < l; i++) {
+            asteroidsInPlay[i].draw();
+        }
 
         if (cancelNextRequest === false) {
             requestAnimationFrame(gameLoop);
@@ -53,6 +64,10 @@
             width: canvas.width,
             height: canvas.height
         });
+
+        for (var i = 0; i < numAsteroids; ++i) {
+            game.generateAnAsteroid(3, game.generateRandomAsteroidLocation({ coordinates: { x:0, y:0 } }), 'menu-canvas', asteroidsInPlay);
+        }
 
         // Setup each of menu events for the screens
         document.getElementById('id-new-game').addEventListener(
