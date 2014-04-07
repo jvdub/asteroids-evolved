@@ -67,18 +67,18 @@ ul.menu {
             color: #CECEF6;
             width: 10em;
             height: 1.5em;
-            background: #0404B4;
+            background: #151515;
             border: 0.1em solid rgb(255, 0, 0);
             border-radius: 0.5em;
             box-shadow: 0.2em 0.2em 0.3em rgb(0, 0, 0);
         }
 
             ul.menu li button:hover, #options table button:hover {
-                background: #2E2EFE;
+                background: #90908F;
             }
 
             ul.menu li button:active, #options table button:active {
-                color: #CECEF6;
+                color: #C4C4C4;
                 background: rgb(0, 0, 0);
             }
 
