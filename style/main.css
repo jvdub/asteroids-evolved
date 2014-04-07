@@ -96,9 +96,16 @@ ul.menu {
 
 #instructions ul {
     text-align: center;
+    font-size:0.75em;
     padding: 0;
     margin: 0;
     list-style: none;
+}
+
+#instructions p {
+    margin: auto;
+    width: 50%;
+
 }
 
 #options p {
