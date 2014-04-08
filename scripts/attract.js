@@ -267,7 +267,7 @@ game.screens['attract-mode'] = (function () {
         }
         else {
             shipExplosion.play();
-            if (game.lives > 0 || timeToClearAsteroids > 0) {
+            if (game.lives > 0 || game.level == 1) {
                 spaceship.respawn(elapsedTime, asteroidsInPlay, hasRespawned);
                 game.particles.push(
                         particleSystem({
