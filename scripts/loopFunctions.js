@@ -35,7 +35,6 @@ game.deleteDeadObjects = function (spaceship, asteroidsInPlay, bulletsInPlay, al
         }
         else {
             //delete an asteroid, get its point value, play a sound
-            game.asteroidsLeftToKill-= 1000;
             game.score += asteroidsInPlay[i].pointValue;
             game.lifeBonusCounter -= asteroidsInPlay[i].pointValue;
             if( !game.saucerInPlay ) {
