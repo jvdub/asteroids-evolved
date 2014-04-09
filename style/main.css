@@ -5,7 +5,7 @@
     background: #90908F;
 }
 
-#asteroids, #attract-asteroids, #menu-canvas {
+/*#asteroids, #attract-asteroids, #menu-canvas {
     position: absolute;
     top: 0;
     left: 0;
@@ -16,6 +16,14 @@
     height: 56.25vw;
     max-height: 100vh;
     max-width: 177.78vh;
+}*/
+
+#asteroids, #attract-asteroids, #menu-canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    margin: auto;
 }
 
 #menu-canvas {
@@ -26,13 +34,27 @@
     font-size: 40px;
 }
 
-    #game .screen {
+    /*#game .screen {
         position: absolute;
         width: 100%;
         height: 100%;
         display: none;
         z-index: 10;
-        margin: 0;
+        margin: auto;
+    }*/
+
+    #game .screen {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 100vw;
+        height: 56.25vw;
+        max-height: 100vh;
+        max-width: 177.78vh;
     }
 
         #game .screen.active {
