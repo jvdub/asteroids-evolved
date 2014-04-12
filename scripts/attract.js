@@ -228,6 +228,8 @@ game.screens['attract-mode'] = (function () {
             alienBulletsInPlay[i].update(elapsedTime);
         }
 
+        spaceship.updateTeleportTimer(elapsedTime);
+
         graphics.clear();
         background.draw();
         /////////////////////////////////
@@ -331,6 +333,7 @@ game.screens['attract-mode'] = (function () {
         }
 
         graphics.renderStats();
+        spaceship.drawTeleportRecharge();
 
         if (game.displayDistances) {
             game.findSafeLocation(true, spaceship, asteroidsInPlay);

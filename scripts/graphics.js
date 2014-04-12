@@ -29,12 +29,9 @@
         for (var i = 0; i < game.lives; i++) {
             context.drawImage(game.images['images/livesDisplay.png'], startX + i*50, 1025, 42, 49);
         }
-        startX = 1920 - game.teleports * 41;
-        for (var i = 0; i < game.teleports; i++) {
-            context.drawImage(game.images['images/hyperspace.png'], startX + i*41, 5, 40, 40);
-        }
-
     }
+
+    
 
     function Texture(spec) {
         var that = {},
@@ -58,6 +55,24 @@
         that.rotation = spec.initialRotation;
         that.pointValue = spec.pointValue;
         that.asteroidClass = spec.asteroidClass;
+
+        that.drawTeleportRechargeBar = function (rechargeRatio) {
+            context.beginPath();
+            context.rect(1800, 10, 100, 20);
+            context.fillStyle = 'blue';
+            context.fill();
+            context.lineWidth = 3;
+            context.strokeStyle = 'black';
+            context.stroke();
+
+            context.beginPath();
+            context.rect(1800, 10, 100 * rechargeRatio, 20);
+            context.fillStyle = 'red';
+            context.fill();
+            context.lineWidth = 3;
+            context.strokeStyle = 'black';
+            context.stroke();
+        }
 
         that.dyingFunction = function (asteroidsInPlay, canvas) {
             var blast = new Audio('sounds/blast.mp3');

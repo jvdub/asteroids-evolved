@@ -18,7 +18,6 @@
     teleports : 3,
     lifeBonusCounter: 10000,
     LIFE_BONUS_COUNTER_RESET : 10000,
-    teleports: 3,
     hasExploded: 1,
     controls: {},
     attractMode: false,

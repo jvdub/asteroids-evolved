@@ -180,6 +180,8 @@ game.screens['game-play'] = (function () {
             alienBulletsInPlay[i].update(elapsedTime);
         }
 
+        spaceship.updateTeleportTimer(elapsedTime);
+
         // Drawing section
         graphics.clear();
         background.draw();
@@ -299,6 +301,7 @@ game.screens['game-play'] = (function () {
         }
 
         graphics.renderStats();
+        spaceship.drawTeleportRecharge();
 
         if (game.displayDistances) {
             game.findSafeLocation(true, spaceship, asteroidsInPlay);

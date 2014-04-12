@@ -2,10 +2,12 @@
     var spaceship = null,
         particles = [],
         coordinates = {x : 960, y: 540, radius : 63.5, toBeDeleted : false},
-        teleportTimer = 1500,
         respawnTimer = 1000,
         laser = new Audio('sounds/laserGun.mp3'),
-        graphics = null;
+        graphics = null,
+        teleportTimer = 4000,
+        teleportTimerReset = 4000,
+        rechargeRatio = 0;
 
     function moveUp(time) {
         spaceship.moveUp(time);
@@ -73,8 +75,9 @@
     }
 
     function teleport(asteroidsInPlay) {
-        if (teleportTimer < 0 && game.teleports > 0) {
-            game.teleports--;
+        if (rechargeRatio == 1) {
+            teleportTimerReset += 4000;
+            teleportTimer = teleportTimerReset;
 
             game.particles.push(particleSystem({
                     image: game.images['images/energyBallYellowFlash.png'],
@@ -90,7 +93,6 @@
 
             spaceship.teleport(game.findSafeLocation(false, { coordinates: coordinates }, asteroidsInPlay));
             spaceship.velocityVector = {x : 0, y : 0};
-            teleportTimer = 2000;
 
             game.particles.push(particleSystem({
                     image: game.images['images/energyBallBlue.png'],
@@ -116,6 +118,21 @@
         coordinates.y = spaceship.y;
         coordinates.radius = spaceship.radius;
         teleportTimer -= time;
+    }
+
+    function updateTeleportTimer (elapsedTime) {
+        teleportTimer -= elapsedTime;
+
+        if (teleportTimer < 0) {
+            rechargeRatio = 1;
+        }
+        else {
+            rechargeRatio = (teleportTimerReset - teleportTimer)/teleportTimerReset;    
+        }
+        console.log("timer: " + teleportTimer + " reset: " + teleportTimerReset + " ratio: " + rechargeRatio);
+    }
+    function drawTeleportRecharge() {
+        spaceship.drawTeleportRechargeBar(rechargeRatio);
     }
 
     // Renders the ship to the canvas
@@ -197,6 +214,8 @@
         coordinates : coordinates,
         teleport : teleport,
         respawn : respawn,
-        getShipAngleToTarget : getShipAngleToTarget
+        getShipAngleToTarget : getShipAngleToTarget,
+        updateTeleportTimer : updateTeleportTimer,
+        drawTeleportRecharge : drawTeleportRecharge
     };
 };
