@@ -15,18 +15,22 @@
     displayDistances: false, //toggled when p is pressed.  Remove later
     level: 1,
     lives: 3,
-    teleports : 3,
+    teleports: 3,
     lifeBonusCounter: 10000,
-    LIFE_BONUS_COUNTER_RESET : 10000,
+    LIFE_BONUS_COUNTER_RESET: 10000,
     hasExploded: 1,
     controls: {},
     attractMode: false,
-    saucerAppearCounter : 4000,
-    SAUCER_APPEAR_COUNTER_RESET : 4000,
-    putSaucerIntoPlay : false,
-    saucerInPlay : false,
-    shipWidth : 84,
-    shipHeight : 67
+    saucerAppearCounter: 4000,
+    SAUCER_APPEAR_COUNTER_RESET: 4000,
+    putSaucerIntoPlay: false,
+    saucerInPlay: false,
+    shipWidth: 84,
+    shipHeight: 67,
+    shield: {
+        count: 2, // Set to 2 when 'S' is pressed.
+        time: 0 // Set to the time when 'S' is pressed.
+    }
 };
 
 window.addEventListener('load', function () {
@@ -68,7 +72,8 @@ window.addEventListener('load', function () {
                 'preload!images/spinning-asteroid-6.png',
                 'preload!images/spinning-asteroid-9.png',
                 'preload!images/spinning-asteroid-8.png',
-                'preload!images/saucersquare.png'
+                'preload!images/saucersquare.png',
+                'preload!images/shield_field.png'
             ],
             complete: function () {
             }

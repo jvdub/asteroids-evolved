@@ -31,8 +31,6 @@
         }
     }
 
-    
-
     function Texture(spec) {
         var that = {},
             i = 0, j = 0, renderSlowdown = 0,
@@ -45,6 +43,7 @@
         that.width = spec.width;
         that.height = spec.height;
         that.radius = spec.width > spec.height ? spec.width / 2 : spec.height / 2;
+        that.rotation = spec.rotation;
         that.drawn = false;
         that.velocityVector = {x : spec.startVector.x, y : spec.startVector.y};
         that.directionVector = {x : 1, y : 0};
@@ -178,6 +177,15 @@
             that.velocityVector.x = that.velocityVector.x < -maxSpeed ? -maxSpeed : that.velocityVector.x;
             that.velocityVector.y = that.velocityVector.y < -maxSpeed ? -maxSpeed : that.velocityVector.y;
         };
+
+        that.setCoordinates = function (x, y) {
+            spec.center.x = x;
+            spec.center.y = y;
+        };
+
+        that.setRotation = function (rad) {
+            that.rotation = rad;
+        }
 
         that.draw = function () {
             context.save();

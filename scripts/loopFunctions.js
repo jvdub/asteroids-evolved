@@ -14,8 +14,6 @@ game.checkAllCollisions = function (spaceship, asteroidsInPlay, bulletsInPlay, a
         }
     }
 
-    
-
     //check if any alien bullets hit the spaceship
     for (var i = 0, l = alienBulletsInPlay.length; i < l; i++) {
         if (game.detectCollision(spaceship.coordinates, alienBulletsInPlay[i])) {

@@ -80,6 +80,7 @@ game.screens['options'] = (function() {
 		left: null,
 		fire: null,
 		tele: null,
+		shield: null,
 		safe: null,
 		save: null
 	};
@@ -97,6 +98,7 @@ game.screens['options'] = (function() {
 		eles.left = document.getElementById('left');
 		eles.fire = document.getElementById('fire');
 		eles.tele = document.getElementById('tele');
+		eles.shield = document.getElementById('shield');
 		eles.safe = document.getElementById('safe');
 		eles.save = document.getElementById('controls-save');
 
@@ -105,6 +107,7 @@ game.screens['options'] = (function() {
 		eles.left.addEventListener('keydown', getKey, false);
 		eles.fire.addEventListener('keydown', getKey, false);
 		eles.tele.addEventListener('keydown', getKey, false);
+		eles.shield.addEventListener('keydown', getKey, false);
 		eles.safe.addEventListener('keydown', getKey, false);
 
 		eles.save.addEventListener('click', function () {
@@ -143,6 +146,7 @@ game.screens['options'] = (function() {
 		eles.left.value = KeyCodes[game.controls.left];
 		eles.fire.value = KeyCodes[game.controls.fire];
 		eles.tele.value = KeyCodes[game.controls.tele];
+		eles.shield.value = KeyCodes[game.controls.shield];
 		eles.safe.value = KeyCodes[game.controls.safe];
 	}
 

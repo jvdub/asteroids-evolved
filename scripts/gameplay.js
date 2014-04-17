@@ -23,7 +23,8 @@ game.screens['game-play'] = (function () {
         alienFireTimer = 4000,
         saucerToggle = 'big',
         hasRespawned = true,
-        shipExplosion = new Audio('sounds/shipExplosion.mp3');
+        shipExplosion = new Audio('sounds/shipExplosion.mp3'),
+        shield = null;
 
     function gameLoop(time) {
         var i = 0,
@@ -53,7 +54,6 @@ game.screens['game-play'] = (function () {
                 saucerBig.reset();
                 saucerToggle = 'small';
             }
-            
         }
 
         //Big Saucer
@@ -122,8 +122,14 @@ game.screens['game-play'] = (function () {
                 }
             }
         }
-        
 
+        // Update the shield time
+        if (game.shield.count > 0 && game.shield.time > 0) {
+            game.shield.time -= elapsedTime;
+            shield.setCoordinates(spaceship.coordinates.x, spaceship.coordinates.y);
+            shield.setRotation(spaceship.rotation());
+        }
+        
         // collisions
         game.checkAllCollisions(spaceship, asteroidsInPlay, bulletsInPlay, alienBulletsInPlay);
 
@@ -206,16 +212,24 @@ game.screens['game-play'] = (function () {
         if (saucerSmall.active) {
             saucerSmall.draw();    
         }
-
         
         //drawing saucer bullets
         for(i = 0, l = alienBulletsInPlay.length; i < l; i++) {
             alienBulletsInPlay[i].draw();
         }
+
+        if(spaceship.coordinates.toBeDeleted === true && game.shield.count > 0 && game.shield.time > 0) {
+            spaceship.coordinates.toBeDeleted = false;
+        }
+        
         //draw spaceship
         if (!spaceship.coordinates.toBeDeleted) {
             spaceship.draw();
             hasRespawned = true;
+
+            if (game.shield.count > 0 && game.shield.time > 0) {
+                shield.draw();
+            }
         }
         else {
             shipExplosion.play();
@@ -262,8 +276,6 @@ game.screens['game-play'] = (function () {
                     lifetime: null,
                     asteroidClass: null
                 });
-
-                
 
                 for (i = 0; i < numAsteroids; i++) {
                     game.generateAnAsteroid(3, game.generateRandomAsteroidLocation(spaceship), 'asteroids', asteroidsInPlay);
@@ -320,6 +332,11 @@ game.screens['game-play'] = (function () {
         spaceship.fireMissile(bulletsInPlay);
     }
 
+    function activateShield() {
+        game.shield.count = 2;
+        game.shield.time = 10000 + elapsedTime;
+    }
+
     function attachHandlers() {
         myKeyboard.clearHandlers();
 
@@ -333,6 +350,7 @@ game.screens['game-play'] = (function () {
         myKeyboard.registerCommand(game.controls.left, spaceship.rotateLeft);
         myKeyboard.registerCommand(game.controls.right, spaceship.rotateRight);
         myKeyboard.registerCommand(game.controls.fire, fire);
+        myKeyboard.registerCommand(game.controls.shield, activateShield);
         myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function () {
             // Stop the game loop by canceling the request for the next animation frame
             cancelNextRequest = true;
@@ -398,6 +416,20 @@ game.screens['game-play'] = (function () {
             },
             width: canvas.width,
             height: canvas.height
+        });
+
+        shield = graphics.Texture({
+            image: game.images['images/shield_field.png'],
+            center: { x: spaceship.coordinates.x, y: spaceship.coordinates.y },
+            width: 151, height: 142,
+            rotation: 0,
+            moveRate: Random.nextGaussian(40, 10), // pixels per second
+            rotateRate: Math.PI, // Radians per second
+            startVector: {x: 0, y: 0},
+            initialRotation: 0,
+            lifetime: null,
+            pointValue: 0,
+            asteroidClass: null
         });
     }
 

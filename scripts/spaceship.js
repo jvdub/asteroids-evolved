@@ -129,7 +129,7 @@
         else {
             rechargeRatio = (teleportTimerReset - teleportTimer)/teleportTimerReset;    
         }
-        console.log("timer: " + teleportTimer + " reset: " + teleportTimerReset + " ratio: " + rechargeRatio);
+        //console.log("timer: " + teleportTimer + " reset: " + teleportTimerReset + " ratio: " + rechargeRatio);
     }
     function drawTeleportRecharge() {
         spaceship.drawTeleportRechargeBar(rechargeRatio);
@@ -202,6 +202,10 @@
         return Math.acos(spaceship.directionVector.x*target.x + spaceship.directionVector.y*target.y);
     }
 
+    function getRotation() {
+        return spaceship.rotation;
+    }
+
     return {
         init: init,
         update: update,
@@ -211,11 +215,12 @@
         rotateLeft: rotateLeft,
         rotateRight: rotateRight,
         generateParticles: generateParticles,
-        coordinates : coordinates,
-        teleport : teleport,
-        respawn : respawn,
-        getShipAngleToTarget : getShipAngleToTarget,
-        updateTeleportTimer : updateTeleportTimer,
-        drawTeleportRecharge : drawTeleportRecharge
+        coordinates: coordinates,
+        rotation: getRotation,
+        teleport: teleport,
+        respawn: respawn,
+        getShipAngleToTarget: getShipAngleToTarget,
+        updateTeleportTimer: updateTeleportTimer,
+        drawTeleportRecharge: drawTeleportRecharge
     };
 };
