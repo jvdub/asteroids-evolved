@@ -10,15 +10,27 @@ game.checkAllCollisions = function (spaceship, asteroidsInPlay, bulletsInPlay, a
 
         //check if ship collided with any asteroid
         if (game.detectCollision(spaceship.coordinates, asteroidsInPlay[i])) {
-            spaceship.coordinates.toBeDeleted = true;
+            if (game.shield.count > 0 && game.shield.time > 0) {
+                asteroidsInPlay[i].toBeDeleted = true;
+                --game.shield.count;
+            }
+            else {
+                spaceship.coordinates.toBeDeleted = true;
+            }
         }
     }
 
     //check if any alien bullets hit the spaceship
     for (var i = 0, l = alienBulletsInPlay.length; i < l; i++) {
         if (game.detectCollision(spaceship.coordinates, alienBulletsInPlay[i])) {
-            spaceship.coordinates.toBeDeleted = true;
-            alienBulletsInPlay[i].toBeDeleted = true;
+            if (game.shield.count > 0 && game.shield.time > 0) {
+                alienBulletsInPlay[i].toBeDeleted = true;
+                --game.shield.count;
+            }
+            else {
+                spaceship.coordinates.toBeDeleted = true;
+                alienBulletsInPlay[i].toBeDeleted = true;
+            }
         }
     }
 };

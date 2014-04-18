@@ -218,9 +218,10 @@ game.screens['game-play'] = (function () {
             alienBulletsInPlay[i].draw();
         }
 
-        if(spaceship.coordinates.toBeDeleted === true && game.shield.count > 0 && game.shield.time > 0) {
-            spaceship.coordinates.toBeDeleted = false;
-        }
+        // if(spaceship.coordinates.toBeDeleted === true && game.shield.count > 0 && game.shield.time > 0) {
+        //     spaceship.coordinates.toBeDeleted = false;
+        //     --game.shield.count;
+        // }
         
         //draw spaceship
         if (!spaceship.coordinates.toBeDeleted) {
