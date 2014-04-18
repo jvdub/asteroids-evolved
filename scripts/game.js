@@ -103,9 +103,9 @@ game.findSafeLocation = function (draw, spaceship, asteroidsInPlay) {
 
             //count ship as an asteroid as well
             //may weight its influence as well
-            cellScores[i][j] += game.modifiedDistance(
-                                        i * boxSize + boxSize / 2, j * boxSize + boxSize / 2,
-                                        spaceship.coordinates.x, spaceship.coordinates.y) * 2;
+            // cellScores[i][j] += game.modifiedDistance(
+            //                             i * boxSize + boxSize / 2, j * boxSize + boxSize / 2,
+            //                             spaceship.coordinates.x, spaceship.coordinates.y) * 2;
 
             //keep track of max value as we go through the game
             if (cellScores[i][j] > max) {
