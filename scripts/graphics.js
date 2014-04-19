@@ -17,6 +17,28 @@
         context.clear();
     }
 
+    function drawSheildRecharge(rechargeRatio) {
+
+
+        context.drawImage(game.images['images/shield_field.png'], 1750, 30, 42, 42);
+
+        context.beginPath();
+        context.rect(1800, 40, 100, 20);
+        context.fillStyle = 'red';
+        context.fill();
+        context.lineWidth = 3;
+        context.strokeStyle = 'black';
+        context.stroke();
+
+        context.beginPath();
+        context.rect(1800, 40, 100 * rechargeRatio, 20);
+        context.fillStyle = 'blue';
+        context.fill();
+        context.lineWidth = 3;
+        context.strokeStyle = 'black';
+        context.stroke();
+    }
+
     function renderStats () {
         context.font = "50px Arial Bold";
         context.fillStyle = "white";
@@ -56,9 +78,11 @@
         that.asteroidClass = spec.asteroidClass;
 
         that.drawTeleportRechargeBar = function (rechargeRatio) {
+            context.drawImage(game.images['images/hyperspace.png'], 1750, 5, 42, 42)
+
             context.beginPath();
             context.rect(1800, 10, 100, 20);
-            context.fillStyle = 'blue';
+            context.fillStyle = 'red';
             context.fill();
             context.lineWidth = 3;
             context.strokeStyle = 'black';
@@ -66,7 +90,7 @@
 
             context.beginPath();
             context.rect(1800, 10, 100 * rechargeRatio, 20);
-            context.fillStyle = 'red';
+            context.fillStyle = 'blue';
             context.fill();
             context.lineWidth = 3;
             context.strokeStyle = 'black';
@@ -321,6 +345,7 @@
         Text: Text,
         drawImage: drawImage,
         renderStats : renderStats,
-        drawStuff : drawStuff
+        drawStuff : drawStuff,
+        drawSheildRecharge : drawSheildRecharge
     };
 };

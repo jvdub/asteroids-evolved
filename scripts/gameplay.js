@@ -24,7 +24,9 @@ game.screens['game-play'] = (function () {
         saucerToggle = 'big',
         hasRespawned = true,
         shipExplosion = new Audio('sounds/shipExplosion.mp3'),
-        shield = null;
+        shield = null,
+        sheildTimer = 10000,
+        rechargeRatio = 0;
 
     function gameLoop(time) {
         var i = 0,
@@ -128,6 +130,9 @@ game.screens['game-play'] = (function () {
             game.shield.time -= elapsedTime;
             shield.setCoordinates(spaceship.coordinates.x, spaceship.coordinates.y);
             shield.setRotation(spaceship.rotation());
+        }
+        else {
+            sheildTimer -= elapsedTime;
         }
         
         // collisions
@@ -316,6 +321,15 @@ game.screens['game-play'] = (function () {
         graphics.renderStats();
         spaceship.drawTeleportRecharge();
 
+        if (sheildTimer < 0) {
+            rechargeRatio = 1;
+        }
+        else {
+            rechargeRatio = (10000 - sheildTimer)/10000;    
+        }
+
+        graphics.drawSheildRecharge(rechargeRatio);
+
         if (game.displayDistances) {
             game.findSafeLocation(true, spaceship, asteroidsInPlay);
         }
@@ -334,8 +348,11 @@ game.screens['game-play'] = (function () {
     }
 
     function activateShield() {
-        game.shield.count = 2;
-        game.shield.time = 10000 + elapsedTime;
+        if(sheildTimer < 0) {
+            sheildTimer = 10000;
+            game.shield.count = 2;
+            game.shield.time = 10000 + elapsedTime;
+        }
     }
 
     function attachHandlers() {

@@ -76,7 +76,7 @@
 
     function teleport(asteroidsInPlay) {
         if (rechargeRatio == 1) {
-            teleportTimerReset += 4000;
+            teleportTimerReset += 2000;
             teleportTimer = teleportTimerReset;
 
             game.particles.push(particleSystem({
