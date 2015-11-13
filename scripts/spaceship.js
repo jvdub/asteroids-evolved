@@ -183,7 +183,7 @@
             spaceship.teleport(game.findSafeLocation(false, { coordinates: coordinates }, asteroidsInPlay));
             game.lives--
             respawnTimer = 1000;
-            console.log("setting up next life");
+            // console.log("setting up next life");
             game.particles.push(particleSystem({
                     image: game.images['images/energyBallBlue.png'],
                     center: { x: spaceship.x, y: spaceship.y },

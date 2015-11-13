@@ -33,7 +33,7 @@
             },
             error: function () {
                 // There was a connection error of some sort
-                console.log(this.status + this.statusText);
+                // console.log(this.status + this.statusText);
             }
         });
 

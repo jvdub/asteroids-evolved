@@ -82,7 +82,7 @@ window.addEventListener('load', function () {
 }, false);
 
 yepnope.addPrefix('preload', function (resource) {
-    console.log('preloading: ' + resource.url);
+    // console.log('preloading: ' + resource.url);
 
     game.status.preloadRequest += 1;
     var isImage = /.+\.(jpg|png|gif)$/i.test(resource.url);
@@ -97,7 +97,7 @@ yepnope.addPrefix('preload', function (resource) {
 
         // When everything has finished preloading, go ahead and start the game
         if (game.status.preloadComplete === game.status.preloadRequest) {
-            console.log('Preloading complete!');
+            // console.log('Preloading complete!');
             game.game.init();
         }
     };
@@ -106,7 +106,7 @@ yepnope.addPrefix('preload', function (resource) {
 });
 
 yepnope.addPrefix('preload-noexec', function (resource) {
-    console.log('preloading-noexec: ' + resource.url);
+    // console.log('preloading-noexec: ' + resource.url);
     resource.noexec = true;
     return resource;
 });

@@ -54,12 +54,12 @@ game.screens['high-scores'] = (function() {
 	    	url: '/v1/high-scores',
 	    	type: 'GET',
 	    	success: function (rslt) {
-	    		console.log(rslt);
+	    		// console.log(rslt);
 	            showScores(rslt);
 	    	},
 	    	error: function () {
 		        // There was a connection error of some sort
-		        console.log(this.status + this.statusText);
+		        // console.log(this.status + this.statusText);
 	    	},
 	    	dataType: 'json'
 	    });
@@ -131,7 +131,7 @@ game.screens['options'] = (function() {
 		            },
 		            error: function () {
 		                // There was a connection error of some sort
-		                console.log(this.status + this.statusText);
+		                // console.log(this.status + this.statusText);
 		            }
 		        });
 
