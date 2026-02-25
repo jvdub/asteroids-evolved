@@ -5,7 +5,6 @@ const projectRoot = process.cwd();
 
 const sourceTargets = [
   "index.html",
-  "views/index.html",
   "src",
   "scripts",
   "package.json",

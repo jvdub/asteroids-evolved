@@ -11,7 +11,6 @@ Production build + local preview:
 
 Notes:
 - No Express process is required for normal usage.
-- `app.js` and `game/` server modules are legacy artifacts and are not part of the primary runtime path.
 - Controls and high scores persist client-side.
 
 Offline/PWA behavior:
