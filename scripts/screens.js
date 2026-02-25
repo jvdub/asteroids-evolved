@@ -80,6 +80,15 @@ game.screens["high-scores"] = (function () {
 game.screens["options"] = (function () {
   "use strict";
 
+  var controlNames = [
+    "accel",
+    "right",
+    "left",
+    "fire",
+    "tele",
+    "shield",
+    "safe",
+  ];
   var eles = {
     accel: null,
     right: null,
@@ -88,12 +97,73 @@ game.screens["options"] = (function () {
     tele: null,
     shield: null,
     safe: null,
-    save: null,
+    bind: {},
   };
+  var activeControl = null;
 
-  function getKey(e) {
-    game.controls[e.target.id] = +e.keyCode;
-    eles[e.target.id].value = KeyCodes[e.keyCode];
+  function getKeyLabel(keyCode) {
+    return KeyCodes[keyCode] || "Key " + keyCode;
+  }
+
+  function updateControlLabels() {
+    var i = 0;
+
+    for (i = 0; i < controlNames.length; i++) {
+      eles[controlNames[i]].value = getKeyLabel(game.controls[controlNames[i]]);
+    }
+  }
+
+  function stopCapture() {
+    if (!activeControl) {
+      return;
+    }
+
+    eles.bind[activeControl].textContent = "Bind";
+    eles.bind[activeControl].classList.remove("is-capturing");
+    eles.bind[activeControl].removeAttribute("aria-pressed");
+    eles.bind[activeControl].removeAttribute("aria-live");
+    window.removeEventListener("keydown", captureKeyPress, true);
+    activeControl = null;
+  }
+
+  function captureKeyPress(e) {
+    var keyCode = +(e.keyCode || e.which);
+
+    if (!activeControl || !keyCode) {
+      return;
+    }
+
+    game.controls[activeControl] = keyCode;
+    eles[activeControl].value = getKeyLabel(keyCode);
+    game.storage.saveControls(game.controls).catch(function () {
+      // There was a local storage error of some sort
+      // console.log('Could not save controls');
+    });
+
+    e.stopPropagation();
+    e.preventDefault();
+
+    stopCapture();
+  }
+
+  function beginCapture(controlName) {
+    stopCapture();
+    activeControl = controlName;
+    eles.bind[controlName].textContent = "Press key";
+    eles.bind[controlName].classList.add("is-capturing");
+    eles.bind[controlName].setAttribute("aria-pressed", "true");
+    eles.bind[controlName].setAttribute("aria-live", "polite");
+    window.addEventListener("keydown", captureKeyPress, true);
+  }
+
+  function onBindButtonClick(e) {
+    var controlName = e.currentTarget.getAttribute("data-control");
+
+    if (!controlName) {
+      return;
+    }
+
+    beginCapture(controlName);
     e.stopPropagation();
     e.preventDefault();
   }
@@ -106,30 +176,35 @@ game.screens["options"] = (function () {
     eles.tele = document.getElementById("tele");
     eles.shield = document.getElementById("shield");
     eles.safe = document.getElementById("safe");
-    eles.save = document.getElementById("controls-save");
 
-    eles.accel.addEventListener("keydown", getKey, false);
-    eles.right.addEventListener("keydown", getKey, false);
-    eles.left.addEventListener("keydown", getKey, false);
-    eles.fire.addEventListener("keydown", getKey, false);
-    eles.tele.addEventListener("keydown", getKey, false);
-    eles.shield.addEventListener("keydown", getKey, false);
-    eles.safe.addEventListener("keydown", getKey, false);
+    eles.bind.accel = document.getElementById("bind-accel");
+    eles.bind.right = document.getElementById("bind-right");
+    eles.bind.left = document.getElementById("bind-left");
+    eles.bind.fire = document.getElementById("bind-fire");
+    eles.bind.tele = document.getElementById("bind-tele");
+    eles.bind.shield = document.getElementById("bind-shield");
+    eles.bind.safe = document.getElementById("bind-safe");
 
-    eles.save.addEventListener(
-      "click",
-      function () {
-        game.storage.saveControls(game.controls).catch(function () {
-          // There was a local storage error of some sort
-          // console.log('Could not save controls');
-        });
-      },
-      false,
-    );
+    eles.bind.accel.setAttribute("data-control", "accel");
+    eles.bind.right.setAttribute("data-control", "right");
+    eles.bind.left.setAttribute("data-control", "left");
+    eles.bind.fire.setAttribute("data-control", "fire");
+    eles.bind.tele.setAttribute("data-control", "tele");
+    eles.bind.shield.setAttribute("data-control", "shield");
+    eles.bind.safe.setAttribute("data-control", "safe");
+
+    eles.bind.accel.addEventListener("click", onBindButtonClick, false);
+    eles.bind.right.addEventListener("click", onBindButtonClick, false);
+    eles.bind.left.addEventListener("click", onBindButtonClick, false);
+    eles.bind.fire.addEventListener("click", onBindButtonClick, false);
+    eles.bind.tele.addEventListener("click", onBindButtonClick, false);
+    eles.bind.shield.addEventListener("click", onBindButtonClick, false);
+    eles.bind.safe.addEventListener("click", onBindButtonClick, false);
 
     document.getElementById("id-options-back").addEventListener(
       "click",
       function () {
+        stopCapture();
         game.storage
           .getControls()
           .then(function (rslt) {
@@ -147,13 +222,8 @@ game.screens["options"] = (function () {
   }
 
   function run() {
-    eles.accel.value = KeyCodes[game.controls.accel];
-    eles.right.value = KeyCodes[game.controls.right];
-    eles.left.value = KeyCodes[game.controls.left];
-    eles.fire.value = KeyCodes[game.controls.fire];
-    eles.tele.value = KeyCodes[game.controls.tele];
-    eles.shield.value = KeyCodes[game.controls.shield];
-    eles.safe.value = KeyCodes[game.controls.safe];
+    stopCapture();
+    updateControlLabels();
   }
 
   return {

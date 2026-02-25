@@ -8,6 +8,7 @@
         elapsedTime = 0,
         start = 0,
         totalTime = 0,
+        isRunning = false,
         cancelNextRequest = false,
         someTestAsteroids = {},
         numAsteroids = 5,
@@ -15,6 +16,7 @@
         isAttractMode = false,
         asteroidsInPlay = [],
         bulletsInPlay = [],
+        continueButton = null,
         canvas = null;
 
     function gameLoop(time) {
@@ -26,7 +28,7 @@
         lastTime = time;
         totalTime = time - start;
 
-        if (totalTime > 10000) {
+        if (document.getElementById('main-menu').classList.contains('active') && totalTime > 10000) {
             game.game.showScreen('attract-mode');
             cancelNextRequest = true;
             game.attractMode = true;
@@ -49,11 +51,14 @@
 
         if (cancelNextRequest === false) {
             requestAnimationFrame(gameLoop);
+        } else {
+            isRunning = false;
         }
     }
 
     function initialize() {
         canvas = document.getElementById('menu-canvas');
+        continueButton = document.getElementById('id-continue-game');
 
         background = graphics.Background({
             image: game.images['images/background1.jpg'],
@@ -70,36 +75,61 @@
         }
 
         // Setup each of menu events for the screens
+        document.getElementById('id-continue-game').addEventListener(
+            'click',
+            function() {
+                if (!game.hasPausedGame) {
+                    return;
+                }
+                game.resumeGameplay = true;
+                cancelNextRequest = true;
+                game.game.showScreen('game-play');
+            },
+            false);
+
         document.getElementById('id-new-game').addEventListener(
             'click',
-            function() { cancelNextRequest = true; game.game.showScreen('game-play'); },
+            function() {
+                game.hasPausedGame = false;
+                game.resumeGameplay = false;
+                cancelNextRequest = true;
+                game.game.showScreen('game-play');
+            },
             false);
 
         document.getElementById('id-instructions').addEventListener(
             'click',
-            function() { cancelNextRequest = true; game.game.showScreen('instructions'); },
+            function() { game.game.showScreen('instructions'); },
             false);
 
         document.getElementById('id-high-scores').addEventListener(
             'click',
-            function() { cancelNextRequest = true; game.game.showScreen('high-scores'); },
+            function() { game.game.showScreen('high-scores'); },
             false);
         
         document.getElementById('id-options').addEventListener(
             'click',
-            function() { cancelNextRequest = true; game.game.showScreen('options'); },
+            function() { game.game.showScreen('options'); },
             false);
         
         document.getElementById('id-about').addEventListener(
             'click',
-            function() { cancelNextRequest = true; game.game.showScreen('about'); },
+            function() { game.game.showScreen('about'); },
             false);
     }
     
     function run() {
+        if (continueButton) {
+            continueButton.hidden = !game.hasPausedGame;
+        }
+
+        if (isRunning) {
+            return;
+        }
         start = performance.now();
         lastTime = start;
         cancelNextRequest = false;
+        isRunning = true;
         requestAnimationFrame(gameLoop);
     }
     

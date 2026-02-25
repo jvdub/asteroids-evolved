@@ -1,79 +1,42 @@
-# Asteroids Evolved Modernization Plan
+# PLAN: Cinematic UI Modernization (Option 4 + Option 2/3 blend)
 
-## Goals
+## Goal
 
-1. Modernize the 2014-era project without changing core gameplay feel.
-2. Remove server-side state dependencies and keep all state on the client.
-3. Make the game deployable as a static site.
-4. Support offline play via PWA/service worker caching.
-5. Improve maintainability by reducing duplicate gameplay logic.
-6. Reduce asset weight and improve load performance.
-7. Keep architecture static-host compatible (no runtime server dependencies).
-8. Apply baseline client-side security hardening appropriate for public hosting.
+Redesign the app shell and menus to feel premium, cinematic, and modern while keeping gameplay mechanics, static-site architecture, offline behavior, and local-only state unchanged.
 
-## Keep vs Refactor Summary
+## Design Direction
 
-### Keep (with minimal API-level changes)
-- Core game math and utilities in `scripts/game.js`, `scripts/loopFunctions.js`, `scripts/random.js`.
-- Core entity logic in `scripts/spaceship.js`, `scripts/saucer.js`, `scripts/particles.js`, `scripts/graphics.js`.
-- Existing game screens and UX flow in `views/index.html` + `scripts/screens.js`.
+- Cinematic Space UI foundation (depth, atmosphere, polished shell)
+- Neon arcade accents for interactivity and personality
+- Professional dashboard-grade spacing/typography/readability
 
-### Refactor/Replace
-- Replace legacy loader stack (`modernizr.js`, yepnope usage in `scripts/loader.js`) with modern ES module startup.
-- Replace jQuery AJAX calls with `fetch`-based APIs.
-- Replace server-backed controls/scores APIs with client storage (IndexedDB/localStorage fallback).
-- Replace Express 3 boot path with Vite static build + preview workflow.
-- Add service worker + manifest to support offline play.
-- Reduce duplication between `scripts/gameplay.js` and `scripts/attract.js` by extracting shared loop/session logic.
+## Constraints
 
-## Proposed Package Choices
+- Preserve static-only architecture (no runtime server-state dependencies)
+- Preserve CSP-safe implementation (no unsafe inline scripts)
+- Keep controls/high scores local-only state
+- Do not alter gameplay mechanics or canvas simulation logic
+- Prefer CSS/DOM structure changes over broad JS rewrites
 
-- `vite` for build/dev server and static output.
-- `vite-plugin-pwa` for offline support and precaching.
-- `idb-keyval` for simple IndexedDB persistence.
-- `howler` for robust audio playback (optional but recommended).
-- Optional asset pipeline tools as needed (`sharp`, `svgo`, `imagemin` variants).
+## Delivery Phases
 
-## Architecture Guardrails
+1. Define visual tokens and global shell style primitives
+2. Redesign main menu and shared screen framing
+3. Unify non-gameplay screens into a coherent card/panel system
+4. Polish options UX and binding affordances
+5. Add tasteful motion/ambient effects with accessibility fallbacks
+6. Run QA regression and document the new UI system
 
-### Offline-first requirements
-- No gameplay-critical runtime network calls after first successful install/load.
-- Service worker must precache all assets required to launch and play a full session.
-- Runtime cache rules must avoid unbounded growth and include cache versioning.
-- Service worker update behavior must be documented (when updates apply, how to bust cache).
+## Quality Gates
 
-### Static-site requirements
-- Build output must be pure static files (`dist/`) compatible with Netlify, Vercel static, GitHub Pages, Cloudflare Pages.
-- No dependency on Node/Express routes for controls, scores, or content.
-- Asset paths must work under non-root base paths (e.g., GitHub Pages project site).
-
-### Local state requirements
-- Controls and high scores stored locally with schema versioning.
-- Corrupt data recovery path must reset to defaults safely.
-- High score storage must be bounded (max entries retained) to avoid uncontrolled growth.
-
-### Security requirements
-- Eliminate DOM injection risks in score/name rendering by using safe DOM APIs (no unsanitized `innerHTML`).
-- Validate and constrain user-provided name input (length/character policy) before persistence.
-- Set security headers for static host behavior via HTML meta / host config guidance (CSP, Referrer-Policy, X-Content-Type-Options equivalent where supported).
-- Keep dependency footprint minimal and remove obsolete libraries not needed at runtime.
-
-## Execution Order
-
-1. Set up modern build/runtime scaffolding (Vite + ES module entry).
-2. Decouple from backend API by moving controls/scores to client storage.
-3. Add offline support and static deployment documentation.
-4. Refactor shared gameplay/attract loop internals.
-5. Add security hardening pass for input handling and rendering.
-6. Optimize assets and selectively introduce SVGs where appropriate.
+- `npm run build` passes
+- `npm run check:static-arch` passes
+- Controls/high scores still persist locally
+- No obvious readability regressions on primary screens
 
 ## Definition of Done
 
-- Game runs via Vite in dev and builds to static output.
-- No runtime dependency on Express APIs for game state.
-- Controls and high scores persist locally across reloads.
-- App is installable/runnable offline after first load.
-- All score/name rendering paths are safe from script/HTML injection.
-- Local persistence is versioned, bounded, and recoverable.
-- Core gameplay behavior remains intact.
-- Planning tasks completed and documented.
+- New UI language is consistently applied across menu/options/high-scores/instructions/about
+- Visual quality is clearly improved from baseline
+- Architecture/security/offline constraints remain intact
+- Docs reflect new UI implementation and verification steps

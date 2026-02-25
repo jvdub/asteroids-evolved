@@ -75,6 +75,8 @@ window.game = {
   SAUCER_APPEAR_COUNTER_RESET: 4000,
   putSaucerIntoPlay: false,
   saucerInPlay: false,
+  hasPausedGame: false,
+  resumeGameplay: false,
   shipWidth: 84,
   shipHeight: 67,
   shield: {

@@ -3,12 +3,9 @@ const path = require("path");
 
 const projectRoot = process.cwd();
 
-const sourceTargets = [
-  "index.html",
-  "src",
-  "scripts",
-  "package.json",
-].map((target) => path.join(projectRoot, target));
+const sourceTargets = ["index.html", "src", "scripts", "package.json"].map(
+  (target) => path.join(projectRoot, target),
+);
 
 const forbiddenSourcePatterns = [
   /\/v1\/high-scores/g,

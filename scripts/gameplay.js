@@ -196,6 +196,8 @@ game.screens["game-play"] = (function () {
         game.saucerAppearCounter = game.SAUCER_APPEAR_COUNTER_RESET;
         game.putSaucerIntoPlay = false;
         game.saucerInPlay = false;
+        game.hasPausedGame = false;
+        game.resumeGameplay = false;
         saucerSmall.active = false;
         saucerBig.active = false;
 
@@ -259,6 +261,8 @@ game.screens["game-play"] = (function () {
     myKeyboard.registerCommand(KeyEvent.DOM_VK_ESCAPE, function () {
       // Stop the game loop by canceling the request for the next animation frame
       cancelNextRequest = true;
+      game.hasPausedGame = true;
+      game.resumeGameplay = false;
 
       // Then, return to the main menu
       game.game.showScreen("main-menu");
@@ -358,8 +362,60 @@ game.screens["game-play"] = (function () {
     });
   }
 
+  function resetSessionState() {
+    var i = 0;
+
+    bulletsInPlay.length = 0;
+    asteroidsInPlay.length = 0;
+    alienBulletsInPlay.length = 0;
+    game.particles.length = 0;
+
+    game.score = 0;
+    game.level = 1;
+    game.teleports = 3;
+    game.lives = 3;
+    game.saucerAppearCounter = game.SAUCER_APPEAR_COUNTER_RESET;
+    game.putSaucerIntoPlay = false;
+    game.saucerInPlay = false;
+    game.hasExploded = 1;
+
+    game.shield.count = 2;
+    game.shield.time = 0;
+    sheildTimer = 10000;
+    rechargeRatio = 0;
+    alienFireTimer = 4000;
+    saucerToggle = "big";
+    hasRespawned = true;
+
+    saucerSmall.active = false;
+    saucerBig.active = false;
+
+    initializeSpaceship();
+
+    for (i = 0; i < numAsteroids; i++) {
+      game.generateAnAsteroid(
+        3,
+        game.generateRandomAsteroidLocation(spaceship),
+        "asteroids",
+        asteroidsInPlay,
+      );
+    }
+  }
+
   function run() {
+    var shouldResume = game.hasPausedGame === true && game.resumeGameplay === true;
+
     attachHandlers();
+    myKeyboard.clearQueue();
+
+    if (shouldResume) {
+      game.resumeGameplay = false;
+    } else {
+      game.hasPausedGame = false;
+      game.resumeGameplay = false;
+      resetSessionState();
+    }
+
     start = performance.now();
     lastTime = start;
     cancelNextRequest = false;
