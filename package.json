@@ -1,13 +1,24 @@
 {
-	"name": "Asteroids-Evovled",
-	"description": "A modern take on the Asteroids classic",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "node app.js"
-	},
-	"dependencies": {
-		"express": "3.4.8",
-		"ejs": "*"
-	}
+  "name": "Asteroids-Evovled",
+  "description": "A modern take on the Asteroids classic",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "vite preview",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check:static-arch": "node tools/check-static-arch.js",
+    "assets:report": "node tools/report-asset-sizes.js",
+    "deps:audit": "npm audit --omit=dev",
+    "deps:outdated": "npm outdated || true"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11",
+    "vite-plugin-pwa": "^1.2.0"
+  },
+  "dependencies": {
+    "howler": "^2.2.4",
+    "idb-keyval": "^6.2.2"
+  }
 }

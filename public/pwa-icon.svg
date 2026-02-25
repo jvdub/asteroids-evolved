@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Asteroids Evolved icon">
+  <rect width="512" height="512" fill="#000" />
+  <circle cx="256" cy="256" r="180" fill="#0f172a" stroke="#93c5fd" stroke-width="18" />
+  <polygon points="256,100 332,280 256,246 180,280" fill="#e2e8f0" />
+  <circle cx="256" cy="342" r="26" fill="#f59e0b" />
+</svg>

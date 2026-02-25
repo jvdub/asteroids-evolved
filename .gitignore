@@ -1,2 +1,6 @@
 sounds/Desktop.ini
 node_modules/
+dist/
+.vite/
+*.log
+.DS_Store
